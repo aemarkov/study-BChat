@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QCameraViewfinder" name="viewFinder" native="true"/>
+     <widget class="VideoViewer" name="MyCameraViewer" native="true"/>
     </item>
     <item>
      <widget class="QPushButton" name="ButtonCameraToggle">
@@ -73,9 +73,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>QCameraViewfinder</class>
+   <class>VideoViewer</class>
    <extends>QWidget</extends>
-   <header>qcameraviewfinder.h</header>
+   <header>webcam/videoviewer.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -9,6 +9,8 @@
 #include <QCameraInfo>
 #include <QMediaMetaData>
 
+#include "webcam/cameraframegrabber.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -23,25 +25,51 @@ public:
 
 public slots:
 
-    //Изменения состояния камеры
+    /*!
+     * \brief Событие изменения состояния камеры
+     * \param state новое состояние
+     */
     void UpdateCameraState(const QCamera::State state);
 
-    //Нажатие кнопки вкл\выкл камеры
+    /*!
+     * \brief событие нажатия на кнопку вкл\выкл камеры
+     */
     void ButtonCameraToggle_clicked();
+
+    /*!
+     * \brief Событие выбора камеры в пункте меню
+     * \param action пункт меню
+     */
+    void CameraSelected(QAction *action);
+
+    /*!
+     * \brief Событие получения кадра с камеры
+     * \param frame полученный кадр
+     */
+    void HandleFrame(const QVideoFrame & frame);
 
 private:
     Ui::MainWindow *ui;
 
-    //Отображет список камер
+    /*!
+     * \brief Получает все доступные камеры и
+     *        отображает их в соотв. пункте меню
+     */
     void UpdateCameras();
 
-    //Выбирает камеру
+    /*!
+     * \brief Включает выбранную камеру
+     * \param info объект QCameraInfo, представляющий выбранную камеру
+     */
     void SetCamera(const QCameraInfo & info);
 
 
     QCamera *camera;
     QCameraImageCapture *imageCapture;
     QMediaRecorder* mediaRecorder;
+
+    //Используется для завхвата кадров с камеры
+    CameraFrameGrabber* _cameraFrameGrabber;
 
     bool _isCameraActive;
 

@@ -13,9 +13,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+        webcam/cameraframegrabber.cpp \
+    webcam/videoviewer.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    webcam/cameraframegrabber.h \
+    webcam/videoviewer.h
 
 FORMS    += mainwindow.ui
 
