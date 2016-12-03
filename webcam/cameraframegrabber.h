@@ -26,7 +26,12 @@ public:
     bool present(const QVideoFrame &frame);
 
 signals:
-    void FrameAvailable(const QVideoFrame &frame);
+
+    /*!
+     * \brief Выдает очреедной полученный от камеры кадр
+     * \param frame кадр
+     */
+    void FrameOutput(const QVideoFrame &frame);
 
 public slots:
 

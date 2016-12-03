@@ -7,18 +7,17 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     camera(0),
-    imageCapture(0),
-    mediaRecorder(0)
+    _frameConverter(QImage::Format_RGB16)
 {
     qRegisterMetaType<QCameraInfo>();
     ui->setupUi(this);
 
-    _cameraFrameGrabber = new CameraFrameGrabber();
 
     //Слоты
     connect(ui->ButtonCameraToggle, SIGNAL(clicked(bool)),this, SLOT(ButtonCameraToggle_clicked()));
-    connect(_cameraFrameGrabber, SIGNAL(FrameAvailable(const QVideoFrame&)), this, SLOT(HandleFrame(const QVideoFrame&)));
-    connect(_cameraFrameGrabber, SIGNAL(FrameAvailable(const QVideoFrame&)), ui->MyCameraViewer, SLOT(FrameAvailable(const QVideoFrame&)));
+    connect(&_cameraFrameGrabber, SIGNAL(FrameOutput(QVideoFrame)), &_frameConverter, SLOT(FrameInput(QVideoFrame)));
+    connect(&_frameConverter, SIGNAL(FrameOutput(QImage)), ui->MyCameraViewer, SLOT(FrameInput(QImage)));
+    connect(&_frameConverter, SIGNAL(FrameOutput(QImage)), this, SLOT(HandleFrame(QImage)));
 
     //Настройка камеры
     UpdateCameras();
@@ -58,16 +57,10 @@ void MainWindow::UpdateCameras()
 //Выбирает камеру
 void MainWindow::SetCamera(const QCameraInfo & info)
 {
-    delete imageCapture;
-    delete mediaRecorder;
     delete camera;
 
     camera = new QCamera(info);
-    mediaRecorder = new QMediaRecorder(camera);
-    imageCapture = new QCameraImageCapture(camera);
-    mediaRecorder->setMetaData(QMediaMetaData::Title, QVariant(QLatin1String("Test Title")));
-
-    camera->setViewfinder(_cameraFrameGrabber);
+    camera->setViewfinder(&_cameraFrameGrabber);
 
     //Сигналы камеры
     connect(camera, SIGNAL(stateChanged(QCamera::State)), this, SLOT(UpdateCameraState(QCamera::State)));
@@ -115,7 +108,8 @@ void MainWindow::CameraSelected(QAction* action)
 }
 
 //Событие получения кадра с камеры
-void MainWindow::HandleFrame(const QVideoFrame & frame)
+void MainWindow::HandleFrame(const QImage & image)
 {
-
+    ///int count =  image.byteCount();
+    //qDebug()<<count;
 }

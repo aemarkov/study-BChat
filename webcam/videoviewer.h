@@ -9,9 +9,9 @@
 /*!
  * \brief Визуализация QVideoFrame
  *
- * Этот виджет служит для непосредственной визуализации QVideoFrame,
- * инкопсулирует всю работу по преобразованию QVideoFrame в
- * QImage и дальнейшую отрисовку.
+ * Этот виджет служит для визуализации QImage.
+ * Можно было прямо в форме, ничего сложного нет,
+ * но сделано ради использования слотов, так удобнее.
  */
 class VideoViewer : public QLabel
 {
@@ -19,11 +19,14 @@ class VideoViewer : public QLabel
 public:
     VideoViewer();
     VideoViewer(QWidget *parent=nullptr, Qt::WindowFlags f=0);
-    //VideoViewer(QWidget *parent=nullptr, const char* s=nullptr);
     VideoViewer(const QString & text, QWidget* parent=nullptr, Qt::WindowFlags f=0);
 
 public slots:
-    void FrameAvailable(const QVideoFrame&);
+
+    /*!
+     * \brief FrameInput Получает кадр для отображения
+     */
+    void FrameInput(const QImage&);
 };
 
 #endif // VIDEOVIEWER_H

@@ -10,6 +10,7 @@
 #include <QMediaMetaData>
 
 #include "webcam/cameraframegrabber.h"
+#include "webcam/frameconverter.h"
 
 namespace Ui {
 class MainWindow;
@@ -46,7 +47,7 @@ public slots:
      * \brief Событие получения кадра с камеры
      * \param frame полученный кадр
      */
-    void HandleFrame(const QVideoFrame & frame);
+    void HandleFrame(const QImage &image);
 
 private:
     Ui::MainWindow *ui;
@@ -65,11 +66,10 @@ private:
 
 
     QCamera *camera;
-    QCameraImageCapture *imageCapture;
-    QMediaRecorder* mediaRecorder;
 
     //Используется для завхвата кадров с камеры
-    CameraFrameGrabber* _cameraFrameGrabber;
+    CameraFrameGrabber _cameraFrameGrabber;
+    FrameConverter _frameConverter;
 
     bool _isCameraActive;
 
