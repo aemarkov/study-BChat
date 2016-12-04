@@ -1,4 +1,4 @@
-#include "videoviewer.h"
+#include "VideoViewer.h"
 
 VideoViewer::VideoViewer():QLabel()
 {

@@ -75,7 +75,7 @@
   <customwidget>
    <class>VideoViewer</class>
    <extends>QWidget</extends>
-   <header>webcam/videoviewer.h</header>
+   <header>webcam/VideoViewer/VideoViewer.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

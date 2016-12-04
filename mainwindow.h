@@ -9,8 +9,8 @@
 #include <QCameraInfo>
 #include <QMediaMetaData>
 
-#include "webcam/cameraframegrabber.h"
-#include "webcam/frameconverter.h"
+#include "webcam/CameraFrameGrabber/CameraFrameGrabber.h"
+#include "webcam/FrameConverter/FrameConverter.h"
 
 namespace Ui {
 class MainWindow;

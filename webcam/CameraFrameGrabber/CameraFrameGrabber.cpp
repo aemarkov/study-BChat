@@ -1,4 +1,4 @@
-#include "cameraframegrabber.h"
+#include "CameraFramegrabber.h"
 
 CameraFrameGrabber::CameraFrameGrabber(QObject *parent) :
     QAbstractVideoSurface(parent)
