@@ -172,6 +172,7 @@
   <ItemGroup>
     <ClInclude Include="common\Exceptions.h" />
     <ClInclude Include="CryptoExceptions.h" />
+    <ClInclude Include="crypto\WinapiSimpleDeleters.h" />
     <ClInclude Include="GeneratedFiles\ui_mainwindow.h" />
     <ClInclude Include="crypto\cryptoapi.h" />
     <ClInclude Include="libs\CryptoPro\include\CryptoPro\cpdrvlib.h" />
@@ -181,7 +182,8 @@
     <ClInclude Include="libs\CryptoPro\include\CryptoPro\WinCryptEx.h" />
     <ClInclude Include="libs\CryptoPro\include\CryptoPro\wincsp.h" />
     <ClInclude Include="libs\CryptoPro\include\CryptoPro\wincspc.h" />
-    <ClInclude Include="util\SmartPointer\SmartPointerDeleter.h" />
+    <ClInclude Include="util\Deleters\SimpleDeleter.h" />
+    <ClInclude Include="util\Deleters\SmartPointerDeleter.h" />
     <ClInclude Include="WinapiDeleters.h" />
     <CustomBuild Include="mainwindow.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

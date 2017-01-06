@@ -1,7 +1,7 @@
 #ifndef __WINAPIDELETERS_H__
 #define __WINAPIDELETERS_H__
 
-#include "util\SmartPointer\SmartPointerDeleter.h"
+#include "util\Deleters\SmartPointerDeleter.h"
 #include "CryptoExceptions.h"
 #include <wincrypt.h>
 
@@ -18,6 +18,8 @@ namespace Crypto
 				{
 					//throw "Cant' close crypto provider";
 				}
+
+			delete pointer;
 		}
 	};
 
@@ -33,6 +35,8 @@ namespace Crypto
 
 					//throw "Cant' destroy key";
 				}
+
+			delete pointer;
 		}
 	};
 
@@ -46,6 +50,8 @@ namespace Crypto
 				{
 					//throw CryptoException("Can't close certificate store");
 				}
+
+			delete pointer;
 		}
 	};
 
@@ -56,6 +62,8 @@ namespace Crypto
 		{
 			if (pointer != NULL && *pointer != NULL)
 				CertFreeCertificateContext(*pointer);
+
+			delete pointer;
 		}
 	};
 

@@ -1,7 +1,7 @@
 #ifndef __CRYPTOEXCEPTIONS_H__
 #define __CRYPTOEXCEPTIONS_H__
 
-#include <string>
+#include <qstring.h>
 #include "common\Exceptions.h"
 
 namespace Crypto
@@ -15,7 +15,7 @@ namespace Crypto
 	public:
 
 		CryptoException() :Exception() {}
-		CryptoException(std::string message) :Exception(message) {}
+		CryptoException(QString message) :Exception(message) {}
 	};
 }
 

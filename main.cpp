@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 	{
 		Crypto::CryptoAPI api("TestCertContainer");
 		api.CreateSessionKey();
-		api.ExportSessionKeyForUser("Garrus Vakarian");
+		api.ExportSessionKeyForUser("Markov Alexey", "Garrus Vakarian");
 	}
 	catch (Crypto::CryptoException ex)
 	{

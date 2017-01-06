@@ -4,15 +4,10 @@ using namespace Crypto;
 
 CryptoAPI::CryptoAPI(const char* containerName):_sessionKeyMutex()
 {
-	_hCryptProv = nullptr;
-	_hSessionKey = nullptr;
-
-	HCRYPTPROV hCryptProv;
-	HCRYPTKEY hCryptKey;
 
 	//Получаем провайдер
 	if (!CryptAcquireContextA(
-		&hCryptProv,
+		&*_hCryptProv,
 		containerName,			//Имя контейнера
 		NULL,					//Не указываем провайдера?
 		PROV_GOST_2012_256,
@@ -34,19 +29,13 @@ CryptoAPI::CryptoAPI(const char* containerName):_sessionKeyMutex()
 		 
 		 */
 
-
-		throw CryptoException(std::string("Cryptographic context with container \"")
-			+ std::string(containerName)
-			+ std::string(+"\" couldn't be accured"));
+		throw CryptoException(QString("Cryptographic context with container \"%1\" couldn't be accured").arg(containerName));
 	}
-
-	_hCryptProv = std::unique_ptr<HCRYPTPROV, HCRYPTPROV_Deleter>(&hCryptProv);
 }
 
 
 CryptoAPI::~CryptoAPI()
 {
-	CleanUp();
 }
 
 
@@ -59,11 +48,9 @@ CryptoAPI::~CryptoAPI()
 //Генерирует сессионный ключ
 bool CryptoAPI::CreateSessionKey()
 {	
-	HCRYPTKEY hSessionKey;
 
 	_sessionKeyMutex.lock();
-	bool result =  CryptGenKey(*_hCryptProv, CALG_G28147, CRYPT_EXPORTABLE, &hSessionKey);
-	_hSessionKey = std::unique_ptr<HCRYPTKEY, HCRYPTKEY_Deleter>(&hSessionKey);
+	bool result =  CryptGenKey(*_hCryptProv, CALG_G28147, CRYPT_EXPORTABLE, &*_hSessionKey);
 	_sessionKeyMutex.unlock();
 
 	return result;
@@ -72,77 +59,110 @@ bool CryptoAPI::CreateSessionKey()
 
 //Экспортирует сессионный ключ и шифрует открытым ключом
 //соответствующего пользователя
-bool CryptoAPI::ExportSessionKeyForUser(std::string certSerialNumber)
+bool CryptoAPI::ExportSessionKeyForUser(std::string myCertSubjectString, std::string responderCertSubjectString)
 {
-	if (_hCryptProv == nullptr)
-		throw CryptoException("Crypto provider is not initialized");
+	PCCERT_CONTEXT_SimpleDeleter hMyCert;
+	PCCERT_CONTEXT_SimpleDeleter hResponderCert;
 
-	if (_hSessionKey == nullptr)
-		throw CryptoException("Session key does not exists");
+	HCRYPTPROV_SimpleDeleter hProvSender;
+	HCRYPTKEY_SimpleDeleter hMyPrivateKey;
+	DWORD dwKeySpecSender;
 
-	//Открываем хранилище сертификатов других пользователей
-	HCERTSTORE _hCertStore = OpenCertStore(CERT_OTHERS_STORE);
-	std::unique_ptr<HCERTSTORE, HCERTSTORE_Deleter> hOtherStore(&_hCertStore);
+	HCRYPTKEY_SimpleDeleter hPublicKey;
+	DWORD dwPublicKeyBlobLen;
+	BYTE* publicKeyBlob;
 
-	if (*hOtherStore == NULL)
+	HCRYPTKEY_SimpleDeleter hAgreeKey;
+
+	BYTE* sessionKeyBlob;
+	DWORD dwSessionKeyBlobLen;
+
+	//Получаем свой сертификт
+	
+	*hMyCert =  FindCertificate(CERT_PERSONAL_STORE, myCertSubjectString);
+
+	// Получение дескриптора CSP, включая доступ к связанному с ним ключевому
+	// контейнеру для контекста сертификата pCertSender.
+	if (!CryptAcquireCertificatePrivateKey(
+		*hMyCert,
+		0,
+		NULL,
+		&*hProvSender,
+		&dwKeySpecSender,
+		NULL
+	))
 	{
-		throw CryptoException("Can't open certificate store");
+		throw new CryptoException("Can't accuire certificate private key");
+	}
+
+	//Получение дескриптора закрытого ключа получателя
+	if (!CryptGetUserKey(
+		*hProvSender,
+		dwKeySpecSender,
+		&*hMyPrivateKey
+	))
+	{
+		throw new CryptoException("Can't get own private key");
 	}
 
 	//Ищем сертификат получателя
-	PCCERT_CONTEXT _certContext = CertFindCertificateInStore(*hOtherStore, _dwCertEncodingType, 0, CERT_FIND_SUBJECT_STR, certSerialNumber.c_str(), NULL);
-	std::unique_ptr<PCCERT_CONTEXT, PCCERT_CONTEXT_Deleter> certContext(&_certContext);
-	if (certContext == NULL)
-	{
-		throw CryptoException("User's certificate not found");
-	}
-
-	HCRYPTPROV prov = *_hCryptProv;
 	
-	//Получаем ключ
-	HCRYPTKEY  _hPublicKey;
-	if (!CryptImportPublicKeyInfo(
-		prov,
+	*hResponderCert = FindCertificate(CERT_OTHERS_STORE, responderCertSubjectString);
+
+	//Получаем публичный ключ получателя
+	if (!CryptImportPublicKeyInfoEx(
+		*_hCryptProv,
 		_dwCertEncodingType,
-		&_certContext->pCertInfo->SubjectPublicKeyInfo,
-		&_hPublicKey))
+		&(*hResponderCert)->pCertInfo->SubjectPublicKeyInfo,
+		0,
+		0,
+		NULL,
+		&*hPublicKey))
 	{
 		throw CryptoException("Can't import public key from certificate");
 	}
-	std::unique_ptr<HCRYPTKEY, HCRYPTKEY_Deleter> hPublicKey(&_hPublicKey);
 
-	//Экспортируем наш сеансовый ключ, шифруя его открытым ключом получателя
-	DWORD dwBlobLen;
-	BYTE* sessionKeyBlob;
 
-	//Сначала - размер, потом сам ключ
-	if (!CryptExportKey(
-		*_hSessionKey,
-		NULL,
-		PLAINTEXTKEYBLOB,
-		0,
-		NULL,
-		&dwBlobLen
-	))
-	{
-		throw CryptoException("Can't export session key");
-	}
+	//Экспортируем публичный ключ получателя
 
-	//Выделяем память под BLOB сессионного ключа
-	sessionKeyBlob = new BYTE[dwBlobLen];
-
-	//Экспортируем сам ключ
-	if (!CryptExportKey(
-		*_hSessionKey,
+	
+	if (!ExportKey(
 		*hPublicKey,
-		SIMPLEBLOB,
-		0,
-		sessionKeyBlob,
-		&dwBlobLen
+		NULL,
+		PUBLICKEYBLOB,
+		&publicKeyBlob,
+		&dwPublicKeyBlobLen
 	))
 	{
-		throw CryptoException("Can't export session key");
+		throw new CryptoException("Can't export responder public key");
 	}
+
+	//Получаем ключ согласования
+	if (!CryptImportKey(
+		*hProvSender,
+		publicKeyBlob,
+		dwPublicKeyBlobLen,
+		*hMyPrivateKey,
+		0,
+		&*hAgreeKey
+	))
+	{
+		throw new CryptoException("Can't get agree key");
+	}
+
+	//Экспортируем наш сеансовый ключ, шифруя его ключом согласования (???)
+
+	if (!(ExportKey(
+		*_hSessionKey,
+		*hAgreeKey,
+		SIMPLEBLOB,
+		&sessionKeyBlob,
+		&dwSessionKeyBlobLen
+	)))
+	{
+		throw new CryptoException("Can't export session key");
+	}
+	
 }
 
 //Импортирует сессионный ключ, зашифрованный собственным
@@ -170,21 +190,12 @@ bool CryptoAPI::Decrypt(uint8_t* data, uint32_t size)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-//Закрывает и очищает все дескрипторы
-void CryptoAPI::CleanUp()
-{
-
-	/*if (_hCryptProv)
-	if (!CryptReleaseContext(_hCryptProv, NULL))
-	throw new CryptoException("Cant' close crypto provider");*/
-}
-
 
 //Открывает хранилище сертификатов
 HCERTSTORE CryptoAPI::OpenCertStore(std::string storeName)
 {
-	if (_hCryptProv == nullptr)
-		throw CryptoException("Crypto provider is not initialized");
+	/*if (!_hCryptProv.IsValid())
+		throw CryptoException("Crypto provider is not initialized");*/
 
 	HCERTSTORE hCertStore = CertOpenSystemStoreA(*_hCryptProv, storeName.c_str());
 	if (!hCertStore)
@@ -203,4 +214,101 @@ void CryptoAPI::CloseCertStore(HCERTSTORE hCertStore)
 		if (!CertCloseStore(hCertStore, CERT_CLOSE_STORE_CHECK_FLAG))
 			throw CryptoException("Can't close certificate store");
 
+}
+
+
+//Получает сертификат из хранилища
+PCCERT_CONTEXT Crypto::CryptoAPI::FindCertificate(std::string storeName, std::string certName)
+{
+	//Открытие личного хранилища сертификатов
+	HCERTSTORE_SimpleDeleter hStore;
+	*hStore = OpenCertStore(storeName);
+
+	if (*hStore == NULL)
+		throw CryptoException("Can't open certificate store");
+
+	PCCERT_CONTEXT hCert;
+	hCert = CertFindCertificateInStore(
+		*hStore,
+		_dwCertEncodingType,
+		0,
+		CERT_FIND_SUBJECT_STR,
+		certName.c_str(),
+		NULL
+	);
+
+	if (hCert == NULL)
+		throw new CryptoException(QString("Sertificate \"%1\" not found").arg(certName.c_str()));
+
+	return hCert;
+
+}
+
+/*!
+* \brief Экспортирует ключ
+*
+* param[in] keyToExport ключ, который экспортируется
+* param[in] keyToEncode ключ, используемый для шифрования ключа (или NULL)
+* param[in] blobType    тип блоба для экспорта
+* param[out] keyBlob    буфер с ключем
+* param[out] keySize    размер буфера
+*
+* \return успех операции
+*/
+bool CryptoAPI::ExportKey(HCRYPTKEY keyToExport, HCRYPTKEY keyToEncode, DWORD blobType, BYTE** keyBlob, DWORD* keySize)
+{
+	if (!CryptExportKey(
+		keyToExport,
+		keyToEncode,
+		blobType,
+		NULL,
+		NULL,
+		keySize
+	))
+		return false;
+	
+	*keyBlob = new BYTE[*keySize];
+
+	if (!CryptExportKey(
+		keyToExport,
+		keyToEncode,
+		blobType,
+		NULL,
+		*keyBlob,
+		keySize
+	))
+	{
+		*keySize = -1;
+		keyBlob = NULL;
+		return false;
+	}
+
+	return true;
+}
+
+std::string CryptoAPI::ErrorToString(DWORD error)
+{
+	if (error)
+	{
+		LPVOID lpMsgBuf;
+		DWORD bufLen = FormatMessage(
+			FORMAT_MESSAGE_ALLOCATE_BUFFER |
+			FORMAT_MESSAGE_FROM_SYSTEM |
+			FORMAT_MESSAGE_IGNORE_INSERTS,
+			NULL,
+			error,
+			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+			(LPTSTR)&lpMsgBuf,
+			0, NULL);
+		if (bufLen)
+		{
+			LPCSTR lpMsgStr = (LPCSTR)lpMsgBuf;
+			std::string result(lpMsgStr, lpMsgStr + bufLen);
+
+			LocalFree(lpMsgBuf);
+
+			return result;
+		}
+	}
+	return std::string();
 }

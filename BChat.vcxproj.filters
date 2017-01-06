@@ -84,7 +84,7 @@
     <Filter Include="util">
       <UniqueIdentifier>{b48941db-43b2-4fae-b717-208f7be8a76e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="util\SmartPointer">
+    <Filter Include="util\Deleters">
       <UniqueIdentifier>{5149b0b4-5d2e-479b-ac5d-a684fdd0c4af}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -169,8 +169,14 @@
     <ClInclude Include="WinapiDeleters.h">
       <Filter>crypto</Filter>
     </ClInclude>
-    <ClInclude Include="util\SmartPointer\SmartPointerDeleter.h">
-      <Filter>util\SmartPointer</Filter>
+    <ClInclude Include="util\Deleters\SmartPointerDeleter.h">
+      <Filter>util\Deleters</Filter>
+    </ClInclude>
+    <ClInclude Include="util\Deleters\SimpleDeleter.h">
+      <Filter>util\Deleters</Filter>
+    </ClInclude>
+    <ClInclude Include="crypto\WinapiSimpleDeleters.h">
+      <Filter>crypto</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

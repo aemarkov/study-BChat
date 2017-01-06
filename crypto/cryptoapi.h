@@ -25,10 +25,12 @@
 #include <windows.h>
 #include <wincrypt.h>
 #include <CryptoPro\WinCryptEx.h>
+#include <qstring.h>
 
 #include "CryptoExceptions.h"
 #include "common\Exceptions.h"
-#include "WinapiDeleters.h"
+#include "WinapiSimpleDeleters.h"
+#include <winerror.h>
 
 namespace Crypto
 {
@@ -50,7 +52,7 @@ namespace Crypto
 		 * Экспортирует сессионный ключ и шифрует открытым ключом
 		 * соответствующего пользователя
 		 */
-		bool ExportSessionKeyForUser(std::string certSerialNumber);
+		bool ExportSessionKeyForUser(std::string myCertSubjectString, std::string responderCertSubjectString);
 
 		/*!
 		 *  \brief Импортирует сессионный ключ
@@ -78,8 +80,8 @@ namespace Crypto
 		std::string CERT_OTHERS_STORE = "AddressBook";
 
 		//Криптографические объекты
-		std::unique_ptr<HCRYPTPROV, HCRYPTPROV_Deleter> _hCryptProv;				//Дескриптор криптопровайдера
-		std::unique_ptr<HCRYPTKEY, HCRYPTKEY_Deleter> _hSessionKey;					//Дескриптор сессионного ключа
+		HCRYPTPROV_SimpleDeleter _hCryptProv;										//Дескриптор криптопровайдера
+		HCRYPTKEY_SimpleDeleter _hSessionKey;										//Дескриптор сессионного ключа
 
 		DWORD _dwCertEncodingType = PKCS_7_ASN_ENCODING | X509_ASN_ENCODING;		//Типы обрабатываемых сертификатов
 
@@ -88,14 +90,30 @@ namespace Crypto
 
 		//................................................................................................
 
-		//Закрывает и очищает все дескрипторы
-		void CleanUp();
-
 		//Открывает хранилище сертификатов
 		HCERTSTORE OpenCertStore(std::string storeName);
 
 		//Закрывает хранилище сертификатов
 		void CloseCertStore(HCERTSTORE hCertStore);
+
+		//Получает сертификат из хранилища
+		PCCERT_CONTEXT FindCertificate(std::string storeName, std::string certName);
+
+		/*!
+		 * \brief Экспортирует ключ
+		 * 
+		 * param[in] keyToExport ключ, который экспортируется
+		 * param[in] keyToEncode ключ, используемый для шифрования ключа (или NULL)
+		 * param[in] blobType    тип блоба для экспорта
+		 * param[out] keyBlob    буфер с ключем
+		 * param[out] keySize    размер буфера
+		 *
+		 * \return успех операции
+		 */
+		bool ExportKey(HCRYPTKEY keyToExport, HCRYPTKEY keyToEncode, DWORD blobType, BYTE** keyBlob, DWORD* keySize);
+
+		//Получает текстовое представление ошибки
+		std::string ErrorToString(DWORD error);
 	};
 
 }
