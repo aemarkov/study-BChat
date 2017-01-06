@@ -11,8 +11,21 @@ int main(int argc, char *argv[])
 
     //return a.exec();
 
-	CryptoAPI api("TestCertContainer");
-	api.ExportSessionKeyForUser("Garrus Vakarian");
+	try
+	{
+		Crypto::CryptoAPI api("TestCertContainer");
+		api.CreateSessionKey();
+		api.ExportSessionKeyForUser("Garrus Vakarian");
+	}
+	catch (Crypto::CryptoException ex)
+	{
+
+	}
+	catch (...)
+	{
+
+	}
+	
 
 	return 0;
 }

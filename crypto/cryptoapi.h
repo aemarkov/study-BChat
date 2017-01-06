@@ -30,76 +30,74 @@
 #include "common\Exceptions.h"
 #include "WinapiDeleters.h"
 
-class CryptoAPI
+namespace Crypto
 {
-public:
-    CryptoAPI(const char* containerName);
-	~CryptoAPI();
 
-	/*!
-	 * \brief Генерирует сессионный ключ
-	 */
-	bool CreateSessionKey();
+	class CryptoAPI
+	{
+	public:
+		CryptoAPI(const char* containerName);
+		~CryptoAPI();
 
-	/*!
-	 * \brief Экспортирует сессионный ключ
-	 *
-	 * Экспортирует сессионный ключ и шифрует открытым ключом
-	 * соответствующего пользователя
-	 */
-	bool ExportSessionKeyForUser(std::string certSerialNumber);
+		/*!
+		 * \brief Генерирует сессионный ключ
+		 */
+		bool CreateSessionKey();
 
-	/*!
- 	 *  \brief Импортирует сессионный ключ
-	 * 
-	 * Импортирует сессионный ключ, зашифрованный собственным
-	 * (нашим) открытым ключом
-     */
-	bool ImportSessionKey(uint8_t* key, uint32_t keySize);
+		/*!
+		 * \brief Экспортирует сессионный ключ
+		 *
+		 * Экспортирует сессионный ключ и шифрует открытым ключом
+		 * соответствующего пользователя
+		 */
+		bool ExportSessionKeyForUser(std::string certSerialNumber);
 
-	
-	/*!
-	 * \brief Шифрует данные с использованием сессионного ключа
-	 */
-	bool Encrypt(uint8_t* data, uint32_t size);
-
-	/*!
-	 * \brief Расшифровывает данные с использованием сессионного ключа
-	 */
-	bool Decrypt(uint8_t* data, uint32_t size);
+		/*!
+		 *  \brief Импортирует сессионный ключ
+		 *
+		 * Импортирует сессионный ключ, зашифрованный собственным
+		 * (нашим) открытым ключом
+		 */
+		bool ImportSessionKey(uint8_t* key, uint32_t keySize);
 
 
-private:
+		/*!
+		 * \brief Шифрует данные с использованием сессионного ключа
+		 */
+		bool Encrypt(uint8_t* data, uint32_t size);
 
-	std::string CERT_PERSONAL_STORE = "MY";
-	std::string CERT_OTHERS_STORE = "AddressBook";
-
-	//Криптографические объекты
-	HCRYPTPROV _hCryptProv;														//Дескриптор криптопровайдера
-	HCRYPTKEY _hSessionKey;														//Дескриптор сессионного ключа
-	DWORD _dwCertEncodingType = PKCS_7_ASN_ENCODING | X509_ASN_ENCODING;		//Типы обрабатываемых сертификатов
-
-	//Объекты синхронизации
-	std::mutex _sessionKeyMutex;	//Мьютекс для глобальных операций с сессионным ключом
-
-	//................................................................................................
-
-	//Закрывает и очищает все дескрипторы
-	void CleanUp();
-
-	//Открывает хранилище сертификатов
-	HCERTSTORE OpenCertStore(std::string storeName);
-
-	//Закрывает хранилище сертификатов
-	void CloseCertStore(HCERTSTORE hCertStore);
+		/*!
+		 * \brief Расшифровывает данные с использованием сессионного ключа
+		 */
+		bool Decrypt(uint8_t* data, uint32_t size);
 
 
-	//....................... ФУНКЦИИ ЗАКРЫТИЯ ОЪЕКТОВ WINAPI ........................................
+	private:
 
-	static void CloseCyrptoProv(HCRYPTPROV* hCryptProv);
-	static void CloseKey(HCRYPTKEY* hKey);
-	static void CloseCertStore(HCERTSTORE* hCertStore);
+		std::string CERT_PERSONAL_STORE = "MY";
+		std::string CERT_OTHERS_STORE = "AddressBook";
 
-};
+		//Криптографические объекты
+		std::unique_ptr<HCRYPTPROV, HCRYPTPROV_Deleter> _hCryptProv;				//Дескриптор криптопровайдера
+		std::unique_ptr<HCRYPTKEY, HCRYPTKEY_Deleter> _hSessionKey;					//Дескриптор сессионного ключа
+
+		DWORD _dwCertEncodingType = PKCS_7_ASN_ENCODING | X509_ASN_ENCODING;		//Типы обрабатываемых сертификатов
+
+		//Объекты синхронизации
+		std::mutex _sessionKeyMutex;	//Мьютекс для глобальных операций с сессионным ключом
+
+		//................................................................................................
+
+		//Закрывает и очищает все дескрипторы
+		void CleanUp();
+
+		//Открывает хранилище сертификатов
+		HCERTSTORE OpenCertStore(std::string storeName);
+
+		//Закрывает хранилище сертификатов
+		void CloseCertStore(HCERTSTORE hCertStore);
+	};
+
+}
 
 #endif // CRYPTOAPI_H
