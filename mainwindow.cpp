@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "Logger.h"
+#include "Logger\Logger.h"
+
 #include <iostream>
 using namespace std;
 Q_DECLARE_METATYPE(QCameraInfo)

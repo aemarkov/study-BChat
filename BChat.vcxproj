@@ -153,7 +153,7 @@
     <ClCompile Include="Debug\moc_VideoViewer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="Logger\Logger.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="Network\Network.cpp" />
     <ClCompile Include="Network\TcpClient.cpp" />
@@ -187,7 +187,7 @@
     <ClInclude Include="CryptoPro\include\cspmm.h" />
     <ClInclude Include="CryptoPro\include\cspvtable.h" />
     <ClInclude Include="CryptoPro\include\lfmm.h" />
-    <CustomBuild Include="Logger.h">
+    <CustomBuild Include="Logger\Logger.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing Logger.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
