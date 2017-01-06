@@ -90,6 +90,9 @@
     <Filter Include="Network">
       <UniqueIdentifier>{2d6ece4f-44e9-4f4d-8eee-0fbad0be0043}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Logger">
+      <UniqueIdentifier>{6df652ea-a7b3-416a-9402-f6456515ce2d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -142,6 +145,15 @@
     </ClCompile>
     <ClCompile Include="Network\TcpListener.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_Logger.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_Logger.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Logger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -200,6 +212,9 @@
     </CustomBuild>
     <CustomBuild Include="mainwindow.h">
       <Filter>Forms\MainWindow</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Logger.h">
+      <Filter>Logger</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

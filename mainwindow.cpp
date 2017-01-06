@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
+#include "Logger.h"
+#include <iostream>
+using namespace std;
 Q_DECLARE_METATYPE(QCameraInfo)
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -18,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&_cameraFrameGrabber, SIGNAL(FrameOutput(QVideoFrame)), &_frameConverter, SLOT(FrameInput(QVideoFrame)));
     connect(&_frameConverter, SIGNAL(FrameOutput(QImage)), ui->MyCameraViewer, SLOT(FrameInput(QImage)));
     connect(&_frameConverter, SIGNAL(FrameOutput(QImage)), this, SLOT(HandleFrame(QImage)));
-
+	
     //Настройка камеры
     UpdateCameras();
     SetCamera(QCameraInfo::defaultCamera());
