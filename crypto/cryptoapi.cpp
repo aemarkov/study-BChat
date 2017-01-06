@@ -31,6 +31,10 @@ CryptoAPI::CryptoAPI(const char* containerName):_sessionKeyMutex()
 
 		throw CryptoException(QString("Cryptographic context with container \"%1\" couldn't be accured").arg(containerName));
 	}
+
+	//Обнуляем параметры. Они должны быть одинаковые при шифровании и расшифровке
+	//Размер - BlockSizeBits/8. Для ГОСТ-8147 размер блока наверное 64 бит
+	memset(_keyParams, 0, 64 / 8);
 }
 
 
@@ -58,7 +62,7 @@ bool CryptoAPI::CreateSessionKey()
 
 //Экспортирует сессионный ключ и шифрует открытым ключом
 //соответствующего пользователя
-bool CryptoAPI::ExportSessionKeyForUser(std::string myCertSubjectString, std::string responderCertSubjectString, uint8_t** publicKeyBlob, uint32_t* blobSize)
+void CryptoAPI::ExportSessionKeyForUser(std::string myCertSubjectString, std::string responderCertSubjectString, uint8_t** publicKeyBlob, uint32_t* blobSize)
 {
 	HCRYPTPROV_SimpleDeleter hProvSender;
 	HCRYPTKEY_SimpleDeleter hAgreeKey;
@@ -66,23 +70,16 @@ bool CryptoAPI::ExportSessionKeyForUser(std::string myCertSubjectString, std::st
 	CreateAgreeKey(myCertSubjectString, responderCertSubjectString, &*hProvSender, &*hAgreeKey);
 
 	//Экспортируем наш сеансовый ключ, шифруя его ключом согласования (???)
-	if (!(ExportKey(
-		*_hSessionKey,
-		*hAgreeKey,
-		SIMPLEBLOB,
-		publicKeyBlob,
-		(DWORD*)blobSize
-	)))
+	if (!(ExportKey(*_hSessionKey,	*hAgreeKey, SIMPLEBLOB, publicKeyBlob, (DWORD*)blobSize)))
 	{
 		throw new CryptoException("Can't export session key");
 	}
 	
-	return true;
 }
 
 //Импортирует сессионный ключ, зашифрованный собственным
 //(нашим) открытым ключом
-bool CryptoAPI::ImportSessionKey(uint8_t* key, uint32_t keySize, std::string myCertSubjectString, std::string senderCertSubjectString)
+void CryptoAPI::ImportSessionKey(uint8_t* key, uint32_t keySize, std::string myCertSubjectString, std::string senderCertSubjectString)
 {
 	HCRYPTPROV_SimpleDeleter hProv;
 	HCRYPTKEY_SimpleDeleter hAgreeKey;
@@ -91,14 +88,7 @@ bool CryptoAPI::ImportSessionKey(uint8_t* key, uint32_t keySize, std::string myC
 
 	_sessionKeyMutex.lock();
 
-	if (!CryptImportKey(
-		*hProv,
-		key,
-		keySize,
-		*hAgreeKey,
-		0,
-		&*_hSessionKey
-	))
+	if (!CryptImportKey(*hProv, key, keySize, *hAgreeKey, 0,&*_hSessionKey))
 	{
 		_sessionKeyMutex.unlock();
 		throw new CryptoException("Can't import session key");
@@ -110,16 +100,41 @@ bool CryptoAPI::ImportSessionKey(uint8_t* key, uint32_t keySize, std::string myC
 
 
 //Шифрует данные с использованием сессионного ключа
-bool CryptoAPI::Encrypt(uint8_t* data, uint32_t size)
+void CryptoAPI::Encrypt(uint8_t* data, uint32_t size)
 {
-	throw NotImplementedException();
+	DWORD dataLen = size;
+
+	if (!CryptSetKeyParam(*_hSessionKey, KP_IV, (const BYTE*)_keyParams, 0))
+	{
+		DWORD error = GetLastError();
+		throw new CryptoException(QString("Can't set key params. Error: %1").arg(error, 0, 16));
+	}
+
+	if (!CryptEncrypt(*_hSessionKey, NULL, true, NULL, data, &dataLen, size))
+	{
+		DWORD error = GetLastError();
+		throw new CryptoException(QString("Can't encrypt data. Error: %1").arg(error, 0, 16));
+	}
 }
 
 //Расшифровывает данные с использованием сессионного ключа
 
-bool CryptoAPI::Decrypt(uint8_t* data, uint32_t size)
+void CryptoAPI::Decrypt(uint8_t* data, uint32_t size)
 {
-	throw NotImplementedException();
+	DWORD dataLen = size;
+
+	if (!CryptSetKeyParam(*_hSessionKey, KP_IV, (const BYTE*)_keyParams, 0))
+	{
+		DWORD error = GetLastError();
+		throw new CryptoException(QString("Can't set key params. Error: %1").arg(error,0,16));
+	}
+
+	if (!CryptDecrypt(*_hSessionKey, NULL, true, NULL, data, &dataLen))
+	{
+		DWORD error = GetLastError();
+		throw new CryptoException(QString("Can't decrypt data. Error: %1").arg(error, 0, 16));
+	}
+
 }
 
 
@@ -307,7 +322,7 @@ void CryptoAPI::CreateAgreeKey(std::string myCertSubjectString, std::string othe
 		&dwPublicKeyBlobLen
 	))
 	{
-		throw new CryptoException("Can't export responder public key");
+		throw new CryptoException("Can't export other's public key");
 	}
 
 	//Получаем ключ согласования

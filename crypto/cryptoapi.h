@@ -52,7 +52,7 @@ namespace Crypto
 		 * Экспортирует сессионный ключ и шифрует открытым ключом
 		 * соответствующего пользователя
 		 */
-		bool ExportSessionKeyForUser(std::string myCertSubjectString, std::string responderCertSubjectString, uint8_t** publicKeyBlob, uint32_t* blobSize);
+		void ExportSessionKeyForUser(std::string myCertSubjectString, std::string responderCertSubjectString, uint8_t** publicKeyBlob, uint32_t* blobSize);
 
 		/*!
 		 *  \brief Импортирует сессионный ключ
@@ -60,18 +60,18 @@ namespace Crypto
 		 * Импортирует сессионный ключ, зашифрованный собственным
 		 * (нашим) открытым ключом
 		 */
-		bool ImportSessionKey(uint8_t* key, uint32_t keySize, std::string myCertSybjectString, std::string senderCertSubjectString);
+		void ImportSessionKey(uint8_t* key, uint32_t keySize, std::string myCertSybjectString, std::string senderCertSubjectString);
 
 
 		/*!
 		 * \brief Шифрует данные с использованием сессионного ключа
 		 */
-		bool Encrypt(uint8_t* data, uint32_t size);
+		void Encrypt(uint8_t* data, uint32_t size);
 
 		/*!
 		 * \brief Расшифровывает данные с использованием сессионного ключа
 		 */
-		bool Decrypt(uint8_t* data, uint32_t size);
+		void Decrypt(uint8_t* data, uint32_t size);
 
 
 	private:
@@ -82,6 +82,7 @@ namespace Crypto
 		//Криптографические объекты
 		HCRYPTPROV_SimpleDeleter _hCryptProv;										//Дескриптор криптопровайдера
 		HCRYPTKEY_SimpleDeleter _hSessionKey;										//Дескриптор сессионного ключа
+		BYTE _keyParams[64 / 8];													//Магические параметры ключа, без которых расшифровывается не то, что было
 
 		DWORD _dwCertEncodingType = PKCS_7_ASN_ENCODING | X509_ASN_ENCODING;		//Типы обрабатываемых сертификатов
 
