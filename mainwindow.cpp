@@ -1,18 +1,26 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
+#include "Logger.h"
+#include <iostream>
+using namespace std;
 Q_DECLARE_METATYPE(QCameraInfo)
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    camera(0),
+    _frameConverter(QImage::Format_RGB16)
 {
     qRegisterMetaType<QCameraInfo>();
     ui->setupUi(this);
 
+
     //Слоты
     connect(ui->ButtonCameraToggle, SIGNAL(clicked(bool)),this, SLOT(ButtonCameraToggle_clicked()));
-
+    connect(&_cameraFrameGrabber, SIGNAL(FrameOutput(QVideoFrame)), &_frameConverter, SLOT(FrameInput(QVideoFrame)));
+    connect(&_frameConverter, SIGNAL(FrameOutput(QImage)), ui->MyCameraViewer, SLOT(FrameInput(QImage)));
+    connect(&_frameConverter, SIGNAL(FrameOutput(QImage)), this, SLOT(HandleFrame(QImage)));
+	
     //Настройка камеры
     UpdateCameras();
     SetCamera(QCameraInfo::defaultCamera());
@@ -42,25 +50,24 @@ void MainWindow::UpdateCameras()
         ui->MenuSelectCamera->addAction(action);
         group->addAction(action);
     }
+
+    //Подключаем обработчик выбора камеры
+    connect(group, SIGNAL(triggered(QAction*)), this, SLOT(CameraSelected(QAction*)));
 }
 
 //Включает\выключает камеру
 //Выбирает камеру
 void MainWindow::SetCamera(const QCameraInfo & info)
 {
-    delete imageCapture;
-    delete mediaRecorder;
     delete camera;
 
     camera = new QCamera(info);
-    mediaRecorder = new QMediaRecorder(camera);
-    imageCapture = new QCameraImageCapture(camera);
-    mediaRecorder->setMetaData(QMediaMetaData::Title, QVariant(QLatin1String("Test Title")));
-
-    camera->setViewfinder(ui->viewFinder);
+    camera->setViewfinder(&_cameraFrameGrabber);
 
     //Сигналы камеры
     connect(camera, SIGNAL(stateChanged(QCamera::State)), this, SLOT(UpdateCameraState(QCamera::State)));
+
+    UpdateCameraState(camera->state());
 
     camera->start();
 }
@@ -94,4 +101,17 @@ void MainWindow::ButtonCameraToggle_clicked()
     {
         camera->start();
     }
+}
+
+//Событие выбора другой камеры
+void MainWindow::CameraSelected(QAction* action)
+{
+    SetCamera(qvariant_cast<QCameraInfo>(action->data()));
+}
+
+//Событие получения кадра с камеры
+void MainWindow::HandleFrame(const QImage & image)
+{
+    ///int count =  image.byteCount();
+    //qDebug()<<count;
 }

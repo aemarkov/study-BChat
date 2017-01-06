@@ -13,9 +13,25 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+        webcam/cameraframegrabber.cpp \
+        webcam/videoviewer.cpp \
+        webcam/frameconverter.cpp \
+        crypto/cryptoapi.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+            webcam/cameraframegrabber.h \
+            webcam/videoviewer.h \
+            webcam/frameconverter.h \
+            crypto/cryptoapi.h \
+            CryptoPro/include/cpdrvlib.h \
+            CryptoPro/include/cspmm.h \
+            CryptoPro/include/cspvtable.h \
+            CryptoPro/include/lfmm.h \
+            CryptoPro/include/WinCryptEx.h \
+            CryptoPro/include/wincsp.h \
+            CryptoPro/include/wincspc.h \
+
 
 FORMS    += mainwindow.ui
 
