@@ -2,32 +2,31 @@
 #include <QApplication>
 
 #include <fstream>
-#include "crypto\cryptoapi.h"
 
 int main(int argc, char *argv[])
 {
-    //QApplication a(argc, argv);
-    //MainWindow w;
-    //w.show();
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
 
-    //return a.exec();
+    return a.exec();
 
-	try
+	/*try
 	{
 		uint8_t* keyBlob;
 		uint32_t size;
 
-		/*uint32_t dataSize = 1000;
+		uint32_t dataSize = 1000;
 		uint8_t* data = new uint8_t[dataSize];
 		uint8_t* data2 = new uint8_t[dataSize];
 
 		for (int i = 0; i < dataSize; i++)
 			data[i] = '0' + i % 10;
 		
-		memcpy(data2, data, dataSize);*/
+		memcpy(data2, data, dataSize);
 
-		Crypto::CryptoAPI api("TestCertContainer");
-		api.CreateSessionKey();
+		//Crypto::CryptoAPI api("TestCertContainer");
+		//api.CreateSessionKey();
 		//api.ExportSessionKeyForUser("Markov Alexey", "Garrus Vakarian", &keyBlob, &size);
 
 		Crypto::CryptoAPI api2("TestCertContainer");
@@ -37,7 +36,7 @@ int main(int argc, char *argv[])
 		//api.Decrypt(data, dataSize);
 
 		//Check
-		/*bool isOk = true;
+		bool isOk = true;
 		for (int i = 0; i < dataSize; i++)
 		{
 			if (data[i] != data2[i])
@@ -45,7 +44,7 @@ int main(int argc, char *argv[])
 				isOk = false;
 				break;
 			}
-		}*/
+		}
 
 		api.ExportMyCertificate("Garrus Vakarian", &keyBlob, &size);
 
@@ -61,7 +60,7 @@ int main(int argc, char *argv[])
 	catch (...)
 	{
 
-	}
+	}*/
 	
 
 	return 0;
