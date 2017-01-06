@@ -97,7 +97,18 @@ void CryptoAPI::ImportSessionKey(uint8_t* key, uint32_t keySize, std::string myC
 	_sessionKeyMutex.unlock();
 }
 
+/*!
+ * \brief Ёкспортирует свой сертификат без приватного ключа в формате x509 DER
+ */
+void Crypto::CryptoAPI::ExportMyCertificate(std::string myCertSubjectString, uint8_t ** certBuffer, uint32_t * bufferLength)
+{
+	PCCERT_CONTEXT_SimpleDeleter myCert;
+	*myCert = FindCertificate(CERT_PERSONAL_STORE, myCertSubjectString);
 
+	*bufferLength = (*myCert)->cbCertEncoded;
+	*certBuffer = new uint8_t[*bufferLength];
+	memcpy(*certBuffer, (*myCert)->pbCertEncoded, *bufferLength);
+}
 
 //Ўифрует данные с использованием сессионного ключа
 void CryptoAPI::Encrypt(uint8_t* data, uint32_t size)

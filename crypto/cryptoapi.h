@@ -64,6 +64,11 @@ namespace Crypto
 
 
 		/*!
+		 * \brief Экспортирует свой сертификат без приватного ключа в формате x509 DER
+		 */
+		void ExportMyCertificate(std::string myCertSubjectString, uint8_t** certBuffer, uint32_t* bufferLength);
+
+		/*!
 		 * \brief Шифрует данные с использованием сессионного ключа
 		 */
 		void Encrypt(uint8_t* data, uint32_t size);
