@@ -87,6 +87,9 @@
     <Filter Include="util\SmartPointer">
       <UniqueIdentifier>{5149b0b4-5d2e-479b-ac5d-a684fdd0c4af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{2d6ece4f-44e9-4f4d-8eee-0fbad0be0043}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -131,6 +134,15 @@
     <ClCompile Include="mainwindow.cpp">
       <Filter>Forms\MainWindow</Filter>
     </ClCompile>
+    <ClCompile Include="Network\Network.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\TcpClient.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\TcpListener.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_mainwindow.h">
@@ -139,38 +151,38 @@
     <ClInclude Include="crypto\cryptoapi.h">
       <Filter>crypto</Filter>
     </ClInclude>
-    <ClInclude Include="libs\CryptoPro\include\CryptoPro\cpdrvlib.h">
-      <Filter>libs\CryptoPro\include\CryptoPro</Filter>
+    <ClInclude Include="CryptoPro\include\WinCryptEx.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="libs\CryptoPro\include\CryptoPro\cspmm.h">
-      <Filter>libs\CryptoPro\include\CryptoPro</Filter>
+    <ClInclude Include="CryptoPro\include\cpdrvlib.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="libs\CryptoPro\include\CryptoPro\cspvtable.h">
-      <Filter>libs\CryptoPro\include\CryptoPro</Filter>
+    <ClInclude Include="CryptoPro\include\cspmm.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="libs\CryptoPro\include\CryptoPro\lfmm.h">
-      <Filter>libs\CryptoPro\include\CryptoPro</Filter>
+    <ClInclude Include="CryptoPro\include\cspvtable.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="libs\CryptoPro\include\CryptoPro\WinCryptEx.h">
-      <Filter>libs\CryptoPro\include\CryptoPro</Filter>
+    <ClInclude Include="CryptoPro\include\lfmm.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="libs\CryptoPro\include\CryptoPro\wincsp.h">
-      <Filter>libs\CryptoPro\include\CryptoPro</Filter>
+    <ClInclude Include="CryptoPro\include\wincsp.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="libs\CryptoPro\include\CryptoPro\wincspc.h">
-      <Filter>libs\CryptoPro\include\CryptoPro</Filter>
+    <ClInclude Include="CryptoPro\include\wincspc.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="CryptoExceptions.h">
-      <Filter>crypto</Filter>
+    <ClInclude Include="Network\master.h">
+      <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="common\Exceptions.h">
-      <Filter>Common</Filter>
+    <ClInclude Include="Network\Network.h">
+      <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="WinapiDeleters.h">
-      <Filter>crypto</Filter>
+    <ClInclude Include="Network\TcpClient.h">
+      <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="util\SmartPointer\SmartPointerDeleter.h">
-      <Filter>util\SmartPointer</Filter>
+    <ClInclude Include="Network\TcpListener.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -189,10 +201,5 @@
     <CustomBuild Include="mainwindow.h">
       <Filter>Forms\MainWindow</Filter>
     </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="libs\CryptoPro\include\CryptoPro\desktop.ini">
-      <Filter>libs\CryptoPro\include\CryptoPro</Filter>
-    </None>
   </ItemGroup>
 </Project>
