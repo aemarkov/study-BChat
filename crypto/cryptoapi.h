@@ -52,7 +52,7 @@ namespace Crypto
 		 * Экспортирует сессионный ключ и шифрует открытым ключом
 		 * соответствующего пользователя
 		 */
-		bool ExportSessionKeyForUser(std::string myCertSubjectString, std::string responderCertSubjectString);
+		bool ExportSessionKeyForUser(std::string myCertSubjectString, std::string responderCertSubjectString, uint8_t** publicKeyBlob, uint32_t* blobSize);
 
 		/*!
 		 *  \brief Импортирует сессионный ключ
@@ -60,7 +60,7 @@ namespace Crypto
 		 * Импортирует сессионный ключ, зашифрованный собственным
 		 * (нашим) открытым ключом
 		 */
-		bool ImportSessionKey(uint8_t* key, uint32_t keySize);
+		bool ImportSessionKey(uint8_t* key, uint32_t keySize, std::string myCertSybjectString, std::string senderCertSubjectString);
 
 
 		/*!
@@ -111,6 +111,18 @@ namespace Crypto
 		 * \return успех операции
 		 */
 		bool ExportKey(HCRYPTKEY keyToExport, HCRYPTKEY keyToEncode, DWORD blobType, BYTE** keyBlob, DWORD* keySize);
+
+
+		/*!
+		 * \brief Создает ключ согласования для импорта\экспорта сессионного ключа
+		 *
+		 * \param[in] myCertSubjectString     имя моего сертификата
+		 * \param[in] otherCertSubjectString  имя сертификата отправителя\получателя
+		 * \param[out] hProv                  дескриптор провайдера
+		 * \param[out] hAgreeKey              ключ согласования
+		 */
+		void CreateAgreeKey(std::string myCertSubjectString, std::string otherCertSubjectString, HCRYPTPROV* hProv, HCRYPTKEY* hAgreeKey);
+
 
 		//Получает текстовое представление ошибки
 		std::string ErrorToString(DWORD error);
