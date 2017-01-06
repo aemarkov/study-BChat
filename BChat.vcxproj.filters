@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{cee7d320-c47c-48ab-b60f-79fb29966106}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{6ceddd43-447e-4822-b4fd-bbf2f1677231}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="crypto">
+      <UniqueIdentifier>{fce7d455-c120-4740-8675-aa736b9dfe41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Forms">
+      <UniqueIdentifier>{5865c1c2-8ddc-4075-acc2-a6f565ae5e52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Forms\MainWindow">
+      <UniqueIdentifier>{18d72744-a697-48c7-ba8e-4b63da8ca5f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="webcam">
+      <UniqueIdentifier>{7717e530-ae20-4b11-b4c7-3b9beb6d5529}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="webcam\CameraFrameGrabber">
+      <UniqueIdentifier>{5bb67866-bb7d-4077-96cb-15c9c50b5755}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="webcam\FrameConverter">
+      <UniqueIdentifier>{ce12e5c6-3f02-4027-b7db-05fa2a8f1b69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="webcam\VideoViewer">
+      <UniqueIdentifier>{97f1db3f-6f6c-4e5d-befb-7d304506991b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs">
+      <UniqueIdentifier>{87a3905f-cd91-46ae-9c07-8d30e0fb3253}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\CryptoPro">
+      <UniqueIdentifier>{7bc7a8a0-2ddb-4aa8-b10c-c37b5a4de85d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\CryptoPro\include">
+      <UniqueIdentifier>{0dc06f8c-109c-4e82-b541-e91e962239eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\CryptoPro\include\CryptoPro">
+      <UniqueIdentifier>{a196b775-bb08-4b48-94f4-73aa35b1b095}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{32ae6640-8aeb-489f-8a67-30ee2c7ce906}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util">
+      <UniqueIdentifier>{b48941db-43b2-4fae-b717-208f7be8a76e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\SmartPointer">
+      <UniqueIdentifier>{5149b0b4-5d2e-479b-ac5d-a684fdd0c4af}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="crypto\cryptoapi.cpp">
+      <Filter>crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="webcam\VideoViewer\VideoViewer.cpp">
+      <Filter>webcam\VideoViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_VideoViewer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_VideoViewer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="webcam\FrameConverter\FrameConverter.cpp">
+      <Filter>webcam\FrameConverter</Filter>
+    </ClCompile>
+    <ClCompile Include="webcam\CameraFrameGrabber\CameraFrameGrabber.cpp">
+      <Filter>webcam\CameraFrameGrabber</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_CameraFrameGrabber.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_CameraFrameGrabber.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_FrameConverter.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_FrameConverter.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_mainwindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_mainwindow.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="mainwindow.cpp">
+      <Filter>Forms\MainWindow</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GeneratedFiles\ui_mainwindow.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="crypto\cryptoapi.h">
+      <Filter>crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\CryptoPro\include\CryptoPro\cpdrvlib.h">
+      <Filter>libs\CryptoPro\include\CryptoPro</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\CryptoPro\include\CryptoPro\cspmm.h">
+      <Filter>libs\CryptoPro\include\CryptoPro</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\CryptoPro\include\CryptoPro\cspvtable.h">
+      <Filter>libs\CryptoPro\include\CryptoPro</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\CryptoPro\include\CryptoPro\lfmm.h">
+      <Filter>libs\CryptoPro\include\CryptoPro</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\CryptoPro\include\CryptoPro\WinCryptEx.h">
+      <Filter>libs\CryptoPro\include\CryptoPro</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\CryptoPro\include\CryptoPro\wincsp.h">
+      <Filter>libs\CryptoPro\include\CryptoPro</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\CryptoPro\include\CryptoPro\wincspc.h">
+      <Filter>libs\CryptoPro\include\CryptoPro</Filter>
+    </ClInclude>
+    <ClInclude Include="CryptoExceptions.h">
+      <Filter>crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="common\Exceptions.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="WinapiDeleters.h">
+      <Filter>crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="util\SmartPointer\SmartPointerDeleter.h">
+      <Filter>util\SmartPointer</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="mainwindow.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="webcam\VideoViewer\VideoViewer.h">
+      <Filter>webcam\VideoViewer</Filter>
+    </CustomBuild>
+    <CustomBuild Include="webcam\CameraFrameGrabber\CameraFrameGrabber.h">
+      <Filter>webcam\CameraFrameGrabber</Filter>
+    </CustomBuild>
+    <CustomBuild Include="webcam\FrameConverter\FrameConverter.h">
+      <Filter>webcam\FrameConverter</Filter>
+    </CustomBuild>
+    <CustomBuild Include="mainwindow.h">
+      <Filter>Forms\MainWindow</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="libs\CryptoPro\include\CryptoPro\desktop.ini">
+      <Filter>libs\CryptoPro\include\CryptoPro</Filter>
+    </None>
+  </ItemGroup>
+</Project>
