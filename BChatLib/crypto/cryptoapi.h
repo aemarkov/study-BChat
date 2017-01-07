@@ -25,7 +25,7 @@
 #include <windows.h>
 #include <wincrypt.h>
 #include <CryptoPro\WinCryptEx.h>
-#include <qstring.h>
+//#include <qstring.h>
 
 #include "CryptoExceptions.h"
 #include "common\Exceptions.h"
@@ -38,7 +38,7 @@ namespace Crypto
 	class CryptoAPI
 	{
 	public:
-		CryptoAPI(const char* containerName);
+		CryptoAPI(std::string containerName);
 		~CryptoAPI();
 
 		/*!

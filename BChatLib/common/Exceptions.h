@@ -1,15 +1,19 @@
 #ifndef __EXCEPTIONS_H__
 #define __EXCEPTIONS_H__
 
-#include <qstring.h>
+//#include <qstring.h>
+#include <string>
+
+#define ExceptionString std::string
+//#define ExceptionString QString
 
 class Exception
 {
 public:
-	QString Message;
+	ExceptionString Message;
 
 	Exception() {}
-	Exception(QString message)
+	Exception(ExceptionString message)
 	{
 		Message = message;
 	}

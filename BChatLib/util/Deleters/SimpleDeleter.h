@@ -44,4 +44,14 @@ protected:
 
 };
 
+template <class T>
+class PointerSimpleDeleter: public SimpleDeleter<T>
+{
+public:
+	PointerSimpleDeleter()
+	{
+		t = NULL;
+	}
+};
+
 #endif

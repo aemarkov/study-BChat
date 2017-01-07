@@ -2,13 +2,13 @@
 
 using namespace Crypto;
 
-CryptoAPI::CryptoAPI(const char* containerName):_sessionKeyMutex()
+CryptoAPI::CryptoAPI(std::string containerName):_sessionKeyMutex()
 {
 
 	//Получаем провайдер
 	if (!CryptAcquireContextA(
 		&*_hCryptProv,
-		containerName,			//Имя контейнера
+		containerName.c_str(),	//Имя контейнера
 		NULL,					//Не указываем провайдера?
 		PROV_GOST_2012_256,
 		CRYPT_VERIFYCONTEXT
@@ -29,7 +29,8 @@ CryptoAPI::CryptoAPI(const char* containerName):_sessionKeyMutex()
 		 
 		 */
 
-		throw CryptoException(QString("Cryptographic context with container \"%1\" couldn't be accured").arg(containerName));
+		//throw CryptoException(QString("Cryptographic context with container \"%1\" couldn't be accured").arg(containerName));
+		throw CryptoException("Cryptographic context with container \"%1\" couldn't be accured");
 	}
 
 	//Обнуляем параметры. Они должны быть одинаковые при шифровании и расшифровке
@@ -72,7 +73,7 @@ void CryptoAPI::ExportSessionKeyForUser(std::string myCertSubjectString, std::st
 	//Экспортируем наш сеансовый ключ, шифруя его ключом согласования (???)
 	if (!(ExportKey(*_hSessionKey,	*hAgreeKey, SIMPLEBLOB, publicKeyBlob, (DWORD*)blobSize)))
 	{
-		throw new CryptoException("Can't export session key");
+		throw CryptoException("Can't export session key");
 	}
 	
 }
@@ -91,7 +92,7 @@ void CryptoAPI::ImportSessionKey(uint8_t* key, uint32_t keySize, std::string myC
 	if (!CryptImportKey(*hProv, key, keySize, *hAgreeKey, 0,&*_hSessionKey))
 	{
 		_sessionKeyMutex.unlock();
-		throw new CryptoException("Can't import session key");
+		throw CryptoException("Can't import session key");
 	}
 
 	_sessionKeyMutex.unlock();
@@ -103,6 +104,7 @@ void CryptoAPI::ImportSessionKey(uint8_t* key, uint32_t keySize, std::string myC
 void Crypto::CryptoAPI::ExportMyCertificate(std::string myCertSubjectString, uint8_t ** certBuffer, uint32_t * bufferLength)
 {
 	PCCERT_CONTEXT_SimpleDeleter myCert;
+	throw CryptoException("Certificate \"%1\" not found");
 	*myCert = FindCertificate(CERT_PERSONAL_STORE, myCertSubjectString);
 
 	*bufferLength = (*myCert)->cbCertEncoded;
@@ -118,13 +120,15 @@ void CryptoAPI::Encrypt(uint8_t* data, uint32_t size)
 	if (!CryptSetKeyParam(*_hSessionKey, KP_IV, (const BYTE*)_keyParams, 0))
 	{
 		DWORD error = GetLastError();
-		throw new CryptoException(QString("Can't set key params. Error: %1").arg(error, 0, 16));
+		//throw  CryptoException(QString("Can't set key params. Error: %1").arg(error, 0, 16));
+		throw CryptoException("Can't set key params");
 	}
 
 	if (!CryptEncrypt(*_hSessionKey, NULL, true, NULL, data, &dataLen, size))
 	{
 		DWORD error = GetLastError();
-		throw new CryptoException(QString("Can't encrypt data. Error: %1").arg(error, 0, 16));
+		//throw  CryptoException(QString("Can't encrypt data. Error: %1").arg(error, 0, 16));
+		throw CryptoException("Can't encrypt data");
 	}
 }
 
@@ -137,13 +141,15 @@ void CryptoAPI::Decrypt(uint8_t* data, uint32_t size)
 	if (!CryptSetKeyParam(*_hSessionKey, KP_IV, (const BYTE*)_keyParams, 0))
 	{
 		DWORD error = GetLastError();
-		throw new CryptoException(QString("Can't set key params. Error: %1").arg(error,0,16));
+		//throw  CryptoException(QString("Can't set key params. Error: %1").arg(error,0,16));
+		throw CryptoException("Can't set key params");
 	}
 
 	if (!CryptDecrypt(*_hSessionKey, NULL, true, NULL, data, &dataLen))
 	{
 		DWORD error = GetLastError();
-		throw new CryptoException(QString("Can't decrypt data. Error: %1").arg(error, 0, 16));
+		//throw  CryptoException(QString("Can't decrypt data. Error: %1").arg(error, 0, 16));
+		throw CryptoException("Can't decrypt data.");
 	}
 
 }
@@ -161,7 +167,7 @@ HCERTSTORE CryptoAPI::OpenCertStore(std::string storeName)
 	HCERTSTORE hCertStore = CertOpenSystemStoreA(*_hCryptProv, storeName.c_str());
 	if (!hCertStore)
 	{
-		//throw new CryptoException(std::string("Can't open system store \"") + std::string(storeName) + std::string("\""));
+		//throw CryptoException(std::string("Can't open system store \"") + std::string(storeName) + std::string("\""));
 		return NULL;
 	}
 
@@ -199,7 +205,8 @@ PCCERT_CONTEXT Crypto::CryptoAPI::FindCertificate(std::string storeName, std::st
 	);
 
 	if (hCert == NULL)
-		throw new CryptoException(QString("Sertificate \"%1\" not found").arg(certName.c_str()));
+		//throw CryptoException(QString("Certificate \"%1\" not found").arg(certName.c_str()));
+		throw CryptoException("Certificate \"%1\" not found");
 
 	return hCert;
 
@@ -269,19 +276,13 @@ bool CryptoAPI::ExportKey(HCRYPTKEY keyToExport, HCRYPTKEY keyToEncode, DWORD bl
 
 void CryptoAPI::CreateAgreeKey(std::string myCertSubjectString, std::string otherCertSubjectString, HCRYPTPROV* hProv, HCRYPTKEY* hAgreeKey)
 {
-	PCCERT_CONTEXT_SimpleDeleter hMyCert;
-	PCCERT_CONTEXT_SimpleDeleter hResponderCert;
+	
 
-	HCRYPTKEY_SimpleDeleter hMyPrivateKey;
 	DWORD dwKeySpecSender;
 
-	HCRYPTKEY_SimpleDeleter hPublicKey;
-	DWORD dwPublicKeyBlobLen;
-	BYTE* publicKeyBlob;
-
-
-
 	//Получаем свой сертификт
+	PCCERT_CONTEXT_SimpleDeleter hMyCert;
+
 	*hMyCert = FindCertificate(CERT_PERSONAL_STORE, myCertSubjectString);
 
 	// Получение дескриптора CSP, включая доступ к связанному с ним ключевому
@@ -295,23 +296,29 @@ void CryptoAPI::CreateAgreeKey(std::string myCertSubjectString, std::string othe
 		NULL
 	))
 	{
-		throw new CryptoException("Can't accuire certificate private key");
+		throw CryptoException("Can't accuire certificate private key");
 	}
 
 	//Получение дескриптора своего закрытого ключа
+	HCRYPTKEY_SimpleDeleter hMyPrivateKey;
+
 	if (!CryptGetUserKey(
 		*hProv,
 		dwKeySpecSender,
 		&*hMyPrivateKey
 	))
 	{
-		throw new CryptoException("Can't get own private key");
+		throw CryptoException("Can't get own private key");
 	}
 
 	//Ищем сертификат другой стороны (если мы передаем - получателя, если мы принимаем - отправителя)
+	PCCERT_CONTEXT_SimpleDeleter hResponderCert;
+
 	*hResponderCert = FindCertificate(CERT_OTHERS_STORE, otherCertSubjectString);
 
 	//Получаем публичный ключ другой стороны
+	HCRYPTKEY_SimpleDeleter hPublicKey;
+
 	if (!CryptImportPublicKeyInfoEx(
 		*_hCryptProv,
 		_dwCertEncodingType,
@@ -325,6 +332,9 @@ void CryptoAPI::CreateAgreeKey(std::string myCertSubjectString, std::string othe
 	}
 
 	//Экспортируем публичный ключ другой стороны
+	DWORD dwPublicKeyBlobLen;
+	BYTE* publicKeyBlob;
+
 	if (!ExportKey(
 		*hPublicKey,
 		NULL,
@@ -333,7 +343,7 @@ void CryptoAPI::CreateAgreeKey(std::string myCertSubjectString, std::string othe
 		&dwPublicKeyBlobLen
 	))
 	{
-		throw new CryptoException("Can't export other's public key");
+		throw CryptoException("Can't export other's public key");
 	}
 
 	//Получаем ключ согласования
@@ -347,7 +357,7 @@ void CryptoAPI::CreateAgreeKey(std::string myCertSubjectString, std::string othe
 	))
 	{
 		delete[] publicKeyBlob;
-		throw new CryptoException("Can't get agree key");
+		throw CryptoException("Can't get agree key");
 	}
 
 	delete[] publicKeyBlob;

@@ -47,12 +47,20 @@ namespace Crypto
 
 	};
 
-	class PCCERT_CONTEXT_SimpleDeleter : public SimpleDeleter<PCCERT_CONTEXT>
+	//“.к. PCCERT_CONTEXT - укзаатель, то если мы попробуем удалиить до инициализации,
+	//будет беда. я не смог сделать универсальный метод, чтобы определ€ть 
+	//инициаилизировано\не инициалзировано у любых классов, поэтому костыль
+	class PCCERT_CONTEXT_SimpleDeleter : public PointerSimpleDeleter<PCCERT_CONTEXT>
 	{
 	public:
 		virtual ~PCCERT_CONTEXT_SimpleDeleter()
 		{
-			CertFreeCertificateContext(t);
+			if (t == NULL) return;
+
+			if (!CertFreeCertificateContext(t))
+			{
+				//Do something
+			}
 		}
 	};
 

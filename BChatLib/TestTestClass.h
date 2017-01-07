@@ -1,14 +1,15 @@
 #pragma once
 
 #include <qobject.h>
+#include <qstring.h>
 
 class TestTestClass //:public QObject
 {
 
 //Q_OBJECT
 public:
-	int Sum(int a, int b)
+	bool Sum(QString a, QString b)
 	{
-		return a + b;
+		return a == b;
 	}
 };
