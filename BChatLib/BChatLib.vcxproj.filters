@@ -73,6 +73,9 @@
     <Filter Include="CryptoAdapter">
       <UniqueIdentifier>{7882b797-1a01-4c09-9fea-d86056b7f780}</UniqueIdentifier>
     </Filter>
+    <Filter Include="webcam\QImageConverter">
+      <UniqueIdentifier>{8ffd3f23-0dc8-4483-9503-3f46c760ba18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BChatLib.cpp">
@@ -132,8 +135,23 @@
     <ClCompile Include="GeneratedFiles\Debug\moc_ICrypt.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_ICrypt.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_QImageToBytesConverter.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_QImageToBytesConverter.cpp">
       <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="webcam\QImageConverter\QImageToBytesConverter.cpp">
+      <Filter>webcam\QImageConverter</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_BytesToQImageConverter.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_BytesToQImageConverter.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="webcam\QImageConverter\BytesToQImageConverter.cpp">
+      <Filter>webcam\QImageConverter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -204,11 +222,14 @@
     <CustomBuild Include="TestTestClass.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="Logger\Logger.h">
-      <Filter>Logger</Filter>
-    </CustomBuild>
     <CustomBuild Include="CryptoAdapter\ICrypt.h">
       <Filter>CryptoAdapter</Filter>
+    </CustomBuild>
+    <CustomBuild Include="webcam\QImageConverter\QImageToBytesConverter.h">
+      <Filter>webcam\QImageConverter</Filter>
+    </CustomBuild>
+    <CustomBuild Include="webcam\QImageConverter\BytesToQImageConverter.h">
+      <Filter>webcam\QImageConverter</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

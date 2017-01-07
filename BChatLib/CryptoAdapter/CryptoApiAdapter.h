@@ -3,7 +3,7 @@
 #include "ICrypt.h"
 using namespace Crypto;
 
-class CryptoApiAdapter : ICrypt
+class CryptoApiAdapter : public ICrypt
 {	
 
 public:
