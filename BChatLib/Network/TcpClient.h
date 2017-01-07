@@ -12,9 +12,10 @@ public:
 	~TcpClient();	
 
 	SOCKET GetSocket();								// Геттер для сокета
-	int Recv(char** message, int* xyuLength);		// Получить сообщение
+	int Recv(char** message, int* msgLength);		// Получить сообщение
 	int Send(char* message, int messageLength);		// Отправить сообщение
 	int Connect(char* ip, int port);				// Подключиться
+	void Close();									// Закрыть сокет
 
 private:
 	SOCKET _socket;
