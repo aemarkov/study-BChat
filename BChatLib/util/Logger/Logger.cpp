@@ -2,14 +2,11 @@
 #include <qfile.h>
 #include <qtextstream.h>
 
+using namespace Util;
+
 Logger * Logger::_instance = 0;
 bool Logger::_writeDebugFlag = 0;
 QString Logger::_filename = 0;
-
-Logger::Logger(QObject *parent)
-	: QObject(parent)
-{
-}
 
 Logger::~Logger()
 {
@@ -49,9 +46,4 @@ void Logger::Write(QString message)
 		
 		file.close();
 	}	
-}
-
-void Logger::Write(std::string str)
-{
-	Write(QString(str.c_str()));
 }

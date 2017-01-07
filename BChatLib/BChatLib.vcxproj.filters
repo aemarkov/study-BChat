@@ -58,14 +58,17 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
-    <Filter Include="Logger">
-      <UniqueIdentifier>{d0074438-57b9-4095-acf3-4960f5953523}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Network">
       <UniqueIdentifier>{db9a6757-54cd-4b1c-b807-e91c0bb71dcf}</UniqueIdentifier>
     </Filter>
     <Filter Include="util\Singleton">
       <UniqueIdentifier>{f75f85ba-ce10-40f3-be6c-ec3183703270}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\FactoryMethod">
+      <UniqueIdentifier>{ff2acadc-0fd2-4f67-930d-a391e41fa706}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\Logger">
+      <UniqueIdentifier>{e6efe222-640c-43ef-8e36-3b21897f13e5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -102,15 +105,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_VideoViewer.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Logger\Logger.cpp">
-      <Filter>Logger</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_Logger.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_Logger.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="Network\Network.cpp">
       <Filter>Network</Filter>
     </ClCompile>
@@ -122,6 +116,9 @@
     </ClCompile>
     <ClCompile Include="util\Singleton\Singleton.cpp">
       <Filter>util\Singleton</Filter>
+    </ClCompile>
+    <ClCompile Include="util\Logger\Logger.cpp">
+      <Filter>util\Logger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,11 +155,17 @@
     <ClInclude Include="Network\TcpListener.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="Singleton\Singleton.h">
-      <Filter>util\Singleton</Filter>
-    </ClInclude>
     <ClInclude Include="util\Singleton\SingletonContainer.h">
       <Filter>util\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="util\Singleton\Singleton.h">
+      <Filter>util\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="util\FactoryMethod\FactoryMethod.h">
+      <Filter>util\FactoryMethod</Filter>
+    </ClInclude>
+    <ClInclude Include="util\Logger\Logger.h">
+      <Filter>util\Logger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -182,9 +185,6 @@
     </CustomBuild>
     <CustomBuild Include="TestTestClass.h">
       <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Logger\Logger.h">
-      <Filter>Logger</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

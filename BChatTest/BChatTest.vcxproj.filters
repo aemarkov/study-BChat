@@ -32,6 +32,9 @@
     <ClCompile Include="cryptoapi_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="singleton_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BChatTest.h">

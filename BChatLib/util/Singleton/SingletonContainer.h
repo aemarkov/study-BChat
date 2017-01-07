@@ -14,20 +14,63 @@
 	или наследуют какой-то класс и должны быть синглтоном.
 	При этом вы хотите легко менять эти классы один на другой. 
 
+	Для этого надо реализовать Класс-создатель (фабричный метод, наследованный от
+	FactoryMethod, который создает экземпляр нужного класса.
+
+	Потом наследовать свой синглтон от SingletonContainer<MyClass, MyClassCreator>
+
+	Чтобы заменить реалзицию достаточно:
+	 - или изменить реализацию фабричного метода
+	 - или изменить шаблон у синглтона
+
  */
-template<class T>
-class SingletonContainer : private Singleton
+
+namespace Util
 {
-public:
 
-	T&& Inner()
+	template<class T, class CREATOR>
+	class SingletonContainer
 	{
-		return SingletonContainer::Instance()->_innerObject;
-	}
+	public:
 
-protected:
+		static T* Inner()
+		{
+			return SingletonContainer<T, CREATOR>::Instance()->_innerObject;
+		}
 
-	T _innerObject;
-};
+	protected:
+
+		SingletonContainer()
+		{
+			_innerObject = _creator.Create();
+		}
+		~SingletonContainer()
+		{
+			if (_innerObject != NULL)
+				delete[] _innerObject;
+		}
+
+		SingletonContainer(const SingletonContainer<T, CREATOR>& other) = delete;
+		SingletonContainer<T, CREATOR>& operator=(SingletonContainer<T, CREATOR>& other) = delete;
+
+
+		static SingletonContainer<T, CREATOR>* Instance()
+		{
+			if (!_instance)
+				_instance = new SingletonContainer<T, CREATOR>();
+
+			return _instance;
+		}
+
+		static SingletonContainer<T, CREATOR>* _instance;
+
+		CREATOR _creator;
+		T* _innerObject;
+	};
+
+	template <class T, class CREATOR>
+	SingletonContainer<T, CREATOR>* SingletonContainer<T, CREATOR>::_instance;
+
+}
 
 #endif
