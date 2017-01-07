@@ -121,14 +121,14 @@ void CryptoAPI::Encrypt(uint8_t* data, uint32_t size)
 	{
 		DWORD error = GetLastError();
 		//throw  CryptoException(QString("Can't set key params. Error: %1").arg(error, 0, 16));
-		throw CryptoException("Can't set key params");
+		//throw CryptoException("Can't set key params");
 	}
 
 	if (!CryptEncrypt(*_hSessionKey, NULL, true, NULL, data, &dataLen, size))
 	{
 		DWORD error = GetLastError();
 		//throw  CryptoException(QString("Can't encrypt data. Error: %1").arg(error, 0, 16));
-		throw CryptoException("Can't encrypt data");
+		//throw CryptoException("Can't encrypt data");
 	}
 }
 
@@ -142,14 +142,14 @@ void CryptoAPI::Decrypt(uint8_t* data, uint32_t size)
 	{
 		DWORD error = GetLastError();
 		//throw  CryptoException(QString("Can't set key params. Error: %1").arg(error,0,16));
-		throw CryptoException("Can't set key params");
+		//throw CryptoException("Can't set key params");
 	}
 
 	if (!CryptDecrypt(*_hSessionKey, NULL, true, NULL, data, &dataLen))
 	{
 		DWORD error = GetLastError();
 		//throw  CryptoException(QString("Can't decrypt data. Error: %1").arg(error, 0, 16));
-		throw CryptoException("Can't decrypt data.");
+		//throw CryptoException("Can't decrypt data.");
 	}
 
 }

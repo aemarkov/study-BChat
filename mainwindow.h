@@ -11,6 +11,12 @@
 
 #include "webcam/CameraFrameGrabber/CameraFrameGrabber.h"
 #include "webcam/FrameConverter/FrameConverter.h"
+#include "webcam/QImageConverter/QImageToBytesConverter.h"
+#include "webcam/QImageConverter/BytesToQImageConverter.h"
+
+#include "crypto/cryptoapi.h"
+#include "CryptoAdapter/CryptoApiAdapter.h"
+#include "CryptoAdapter/ICrypt.h"
 
 namespace Ui {
 class MainWindow;
@@ -70,6 +76,12 @@ private:
     //Используется для завхвата кадров с камеры
     CameraFrameGrabber _cameraFrameGrabber;
     FrameConverter _frameConverter;
+
+	QImageToBytesConverter _qimageToByteConverter;
+	BytesToQImageConverter _bytesToQImageConverter;
+
+	Crypto::CryptoAPI _cryptoApi;
+	CryptoApiAdapter _cryptoAdapter;
 
     bool _isCameraActive;
 

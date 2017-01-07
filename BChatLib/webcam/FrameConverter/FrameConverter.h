@@ -41,7 +41,7 @@ signals:
      * \brief Отправка конвертированного кадра в формате QImage
      * \param image
      */
-    void FrameOutput(const QImage& image);
+    void FrameOutput(QImage& image);
 
  private:
 

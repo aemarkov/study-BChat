@@ -16,7 +16,7 @@ VideoViewer::VideoViewer(const QString & text, QWidget* parent, Qt::WindowFlags 
 }
 
 //Отрисовывает кадр
-void VideoViewer::FrameInput(const QImage & image)
+void VideoViewer::FrameInput(QImage & image)
 {
     //Отрисовываем
     this->setPixmap(QPixmap::fromImage(image));

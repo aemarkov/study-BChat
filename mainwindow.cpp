@@ -9,21 +9,40 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     camera(0),
-    _frameConverter(QImage::Format_RGB16)
+    _frameConverter(QImage::Format_RGB16),
+	_cryptoApi("TestCertContainer"),
+	_cryptoAdapter(_cryptoApi)
 {
     qRegisterMetaType<QCameraInfo>();
     ui->setupUi(this);
+
+	_cryptoApi.CreateSessionKey();
 
 
     //Слоты
     connect(ui->ButtonCameraToggle, SIGNAL(clicked(bool)),this, SLOT(ButtonCameraToggle_clicked()));
     connect(&_cameraFrameGrabber, SIGNAL(FrameOutput(QVideoFrame)), &_frameConverter, SLOT(FrameInput(QVideoFrame)));
-    connect(&_frameConverter, SIGNAL(FrameOutput(QImage)), ui->MyCameraViewer, SLOT(FrameInput(QImage)));
-    connect(&_frameConverter, SIGNAL(FrameOutput(QImage)), this, SLOT(HandleFrame(QImage)));
-	
+
+    //connect(&_frameConverter, SIGNAL(FrameOutput(QImage&)), ui->MyCameraViewer, SLOT(FrameInput(QImage&)));
+    //connect(&_frameConverter, SIGNAL(FrameOutput(QImage)), this, SLOT(HandleFrame(QImage)));
+
+	//в байты - зашифровать - расшифровать - из байт - отобразить (для теста)
+	connect(&_frameConverter, SIGNAL(FrameOutput(QImage&)), &_qimageToByteConverter, SLOT(FrameInput(QImage&)));
+
+	connect(&_qimageToByteConverter, SIGNAL(DataOutput(uint8_t*, uint32_t)), &_cryptoAdapter, SLOT(EncryptSlot(uint8_t*, uint32_t)));
+	connect(&_cryptoAdapter, SIGNAL(EncryptSignal(uint8_t*, uint32_t)), &_cryptoAdapter, SLOT(DecryptSlot(uint8_t*, uint32_t)));
+	connect(&_cryptoAdapter, SIGNAL(DecryptSignal(uint8_t*, uint32_t)), &_bytesToQImageConverter, SLOT(DataInput(uint8_t*, uint32_t)));
+
+	//connect(&_qimageToByteConverter, SIGNAL(DataOutput(uint8_t*, uint32_t)), &_bytesToQImageConverter, SLOT(DataInput(uint8_t*, uint32_t)));
+
+	connect(&_bytesToQImageConverter, SIGNAL(FrameOutput(QImage&)), ui->MyCameraViewer, SLOT(FrameInput(QImage&)));
+
+
     //Настройка камеры
     UpdateCameras();
     SetCamera(QCameraInfo::defaultCamera());
+
+
 }
 
 MainWindow::~MainWindow()

@@ -26,7 +26,7 @@ public slots:
     /*!
      * \brief FrameInput Получает кадр для отображения
      */
-    void FrameInput(const QImage&);
+    void FrameInput(QImage&);
 };
 
 #endif // VIDEOVIEWER_H
