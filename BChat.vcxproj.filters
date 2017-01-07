@@ -51,6 +51,12 @@
     <Filter Include="Forms\MainWindow">
       <UniqueIdentifier>{18d72744-a697-48c7-ba8e-4b63da8ca5f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Forms\ChatWindow">
+      <UniqueIdentifier>{70e2724e-d4a3-41a2-8778-9d24cf4798d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Forms\SettingsWindow">
+      <UniqueIdentifier>{ad3d06da-e861-456a-ad20-fd8a5cf723da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -70,6 +76,27 @@
     </ClCompile>
     <ClCompile Include="mainwindow.cpp">
       <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="mainwindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="ChatWindow\ChatWindow.cpp">
+      <Filter>Forms\ChatWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_ChatWindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_ChatWindow.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsWindow\SettingsWindow.cpp">
+      <Filter>Forms\SettingsWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_SettingsWindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_SettingsWindow.cpp">
+      <Filter>Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +118,12 @@
     <ClInclude Include="CryptoPro\include\lfmm.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_SettingsWindow.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_ChatWindow.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.ui">
@@ -98,6 +131,18 @@
     </CustomBuild>
     <CustomBuild Include="mainwindow.h">
       <Filter>Forms\MainWindow</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ChatWindow\ChatWindow.h">
+      <Filter>Forms\ChatWindow</Filter>
+    </CustomBuild>
+    <CustomBuild Include="SettingsWindow.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="SettingsWindow\SettingsWindow.h">
+      <Filter>Forms\SettingsWindow</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ChatWindow.ui">
+      <Filter>Form Files</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>
