@@ -62,25 +62,7 @@
     <ClCompile Include="mainwindow.cpp">
       <Filter>Forms\MainWindow</Filter>
     </ClCompile>
-    <ClCompile Include="Debug\moc_Logger.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="Release\moc_Logger.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Logger\Logger.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="Network\Network.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="Network\TcpClient.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="Network\TcpListener.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="Release\moc_CameraFrameGrabber.cpp">
+    <ClCompile Include="mainwindow.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="mainwindow.cpp">
@@ -109,18 +91,6 @@
     <ClInclude Include="CryptoPro\include\lfmm.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="Network\master.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Network\Network.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Network\TcpClient.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Network\TcpListener.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.ui">
@@ -128,9 +98,6 @@
     </CustomBuild>
     <CustomBuild Include="mainwindow.h">
       <Filter>Forms\MainWindow</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Logger\Logger.h">
-      <Filter>Generated Files</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>
