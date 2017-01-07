@@ -76,6 +76,9 @@
     <Filter Include="NetworkAdapter">
       <UniqueIdentifier>{5bccb69b-1d1c-4534-84d4-422c6080bf93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="webcam\QImageConverter">
+      <UniqueIdentifier>{9f8b1623-86b8-4b03-9ff5-96fcbd76be1b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BChatLib.cpp">
@@ -135,21 +138,6 @@
     <ClCompile Include="GeneratedFiles\Debug\moc_ICrypt.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_QImageToBytesConverter.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_QImageToBytesConverter.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="webcam\QImageConverter\QImageToBytesConverter.cpp">
-      <Filter>webcam\QImageConverter</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_BytesToQImageConverter.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_BytesToQImageConverter.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="NetworkAdapter\INetwork.cpp">
       <Filter>NetworkAdapter</Filter>
     </ClCompile>
@@ -171,8 +159,26 @@
     <ClCompile Include="GeneratedFiles\Release\moc_NetworkProcessingThread.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ICrypt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="webcam\QImageConverter\BytesToQImageConverter.cpp">
       <Filter>webcam\QImageConverter</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_BytesToQImageConverter.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_BytesToQImageConverter.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="webcam\QImageConverter\QImageToBytesConverter.cpp">
+      <Filter>webcam\QImageConverter</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_QImageToBytesConverter.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_QImageToBytesConverter.cpp">
+      <Filter>Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -212,15 +218,6 @@
     <ClInclude Include="util\Singleton\SingletonContainer.h">
       <Filter>util\Singleton</Filter>
     </ClInclude>
-    <ClInclude Include="util\Singleton\Singleton.h">
-      <Filter>util\Singleton</Filter>
-    </ClInclude>
-    <ClInclude Include="util\FactoryMethod\FactoryMethod.h">
-      <Filter>util\FactoryMethod</Filter>
-    </ClInclude>
-    <ClInclude Include="util\Logger\Logger.h">
-      <Filter>util\Logger</Filter>
-    </ClInclude>
     <ClInclude Include="CryptoAdapter\CryptoApiAdapter.h">
       <Filter>CryptoAdapter</Filter>
     </ClInclude>
@@ -255,10 +252,10 @@
     <CustomBuild Include="NetworkAdapter\NetworkProcessingThread.h">
       <Filter>NetworkAdapter</Filter>
     </CustomBuild>
-    <CustomBuild Include="webcam\QImageConverter\QImageToBytesConverter.h">
+    <CustomBuild Include="webcam\QImageConverter\BytesToQImageConverter.h">
       <Filter>webcam\QImageConverter</Filter>
     </CustomBuild>
-    <CustomBuild Include="webcam\QImageConverter\BytesToQImageConverter.h">
+    <CustomBuild Include="webcam\QImageConverter\QImageToBytesConverter.h">
       <Filter>webcam\QImageConverter</Filter>
     </CustomBuild>
   </ItemGroup>
