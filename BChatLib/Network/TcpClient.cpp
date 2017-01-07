@@ -7,13 +7,16 @@ TcpClient::TcpClient(SOCKET socket)
 
 TcpClient::~TcpClient()
 {	
-	closesocket(_socket);
 }
 
 TcpClient::TcpClient()
 {
 }
 
+void TcpClient::Close()
+{
+	closesocket(_socket);
+}
 
 SOCKET TcpClient::GetSocket()
 {
@@ -41,10 +44,8 @@ int TcpClient::Recv(char** message, int* msgLength)
 
 int TcpClient::Send(char* message, int messageLength)
 {
-	char* msgLen = new char[sizeof(int)];
-	itoa(messageLength, msgLen, 10);
-
-	if (SOCKET_ERROR == (send(_socket, msgLen, sizeof(int), 0)))
+	
+	if (SOCKET_ERROR == (send(_socket, (char*)&messageLength, sizeof(int), 0)))
 	{
 		return WSAGetLastError();
 	}

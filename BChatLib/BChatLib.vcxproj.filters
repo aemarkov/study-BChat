@@ -70,6 +70,9 @@
     <Filter Include="CryptoAdapter">
       <UniqueIdentifier>{7882b797-1a01-4c09-9fea-d86056b7f780}</UniqueIdentifier>
     </Filter>
+    <Filter Include="NetworkAdapter">
+      <UniqueIdentifier>{5bccb69b-1d1c-4534-84d4-422c6080bf93}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BChatLib.cpp">
@@ -138,6 +141,27 @@
     <ClCompile Include="GeneratedFiles\Release\moc_ICrypt.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkAdapter\INetwork.cpp">
+      <Filter>NetworkAdapter</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_INetwork.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_INetwork.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkAdapter\NetworkAdapter.cpp">
+      <Filter>NetworkAdapter</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkAdapter\NetworkProcessingThread.cpp">
+      <Filter>NetworkAdapter</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_NetworkProcessingThread.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_NetworkProcessingThread.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BChatLib.h">
@@ -182,6 +206,9 @@
     <ClInclude Include="CryptoAdapter\CryptoApiAdapter.h">
       <Filter>CryptoAdapter</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkAdapter\NetworkAdapter.h">
+      <Filter>NetworkAdapter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bchatlib_global.h">
@@ -206,6 +233,12 @@
     </CustomBuild>
     <CustomBuild Include="CryptoAdapter\ICrypt.h">
       <Filter>CryptoAdapter</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NetworkAdapter\INetwork.h">
+      <Filter>NetworkAdapter</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NetworkAdapter\NetworkProcessingThread.h">
+      <Filter>NetworkAdapter</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>
