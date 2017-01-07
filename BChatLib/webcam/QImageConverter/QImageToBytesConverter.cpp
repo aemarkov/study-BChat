@@ -1,21 +1,34 @@
 #include "QImageToBytesConverter.h"
 
+
+QImageToBytesConverter::QImageToBytesConverter()
+{
+	_buffer = nullptr;
+	_bufferSize = 0;
+}
+
+
+QImageToBytesConverter::~QImageToBytesConverter()
+{
+	if (_buffer != nullptr)
+		delete[] _buffer;
+}
+
 void QImageToBytesConverter::FrameInput(QImage& image)
 {
 	uint32_t size = image.byteCount();
-	uint8_t* data = (uint8_t*)image.bits();
+
+	if (_buffer == nullptr)
+	{
+		_buffer = new uint8_t[size];
+		_bufferSize = size;
+	}
+
+	if (_bufferSize != size)
+		throw new Exception("QImage size is changed");
+
+	memcpy(_buffer, image.constBits(), size);
 	
-	//Есть перегрузка bits(), которая сама копирует, но хз
-	//А ведь нам необязательно НЕ МЕНЯТЬ этот массив, ведь
-	//QFrame в QImage переводится и так копируованием
-	//Но надо быть осторожным
-
-	//ДЛЯ ТЕХ КТО НЕ ПОНЯЛ: МЫ ПЕРЕДАЕМ УКАЗАТЕЛЬ НА ВНУТРЕННИЙ МАССИВ БАЙТ ИЗ QIMAGE,
-	//А ПОТОМ ВО ВСЯКИХ МЕСТАХ, ВТЧ В КРИПТОТЕ БУДЕМ ПРЯМО ЭТОТ МАССИВ МЕНЯТЬ
-
-	int width = image.width();
-	int height = image.height();
-
-	emit DataOutput(data, size);
+	emit DataOutput(_buffer, _bufferSize);
 
 }

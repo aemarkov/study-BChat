@@ -1,5 +1,6 @@
 #include "BytesToQImageConverter.h"
 
+
 void BytesToQImageConverter::DataInput(uint8_t* data, uint32_t size)
 {
 	//TODO: получать разрешение от клиента

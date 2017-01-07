@@ -28,9 +28,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	//в байты - зашифровать - расшифровать - из байт - отобразить (для теста)
 	connect(&_frameConverter, SIGNAL(FrameOutput(QImage&)), &_qimageToByteConverter, SLOT(FrameInput(QImage&)));
+
 	connect(&_qimageToByteConverter, SIGNAL(DataOutput(uint8_t*, uint32_t)), &_cryptoAdapter, SLOT(EncryptSlot(uint8_t*, uint32_t)));
 	connect(&_cryptoAdapter, SIGNAL(EncryptSignal(uint8_t*, uint32_t)), &_cryptoAdapter, SLOT(DecryptSlot(uint8_t*, uint32_t)));
 	connect(&_cryptoAdapter, SIGNAL(DecryptSignal(uint8_t*, uint32_t)), &_bytesToQImageConverter, SLOT(DataInput(uint8_t*, uint32_t)));
+
+	//connect(&_qimageToByteConverter, SIGNAL(DataOutput(uint8_t*, uint32_t)), &_bytesToQImageConverter, SLOT(DataInput(uint8_t*, uint32_t)));
+
 	connect(&_bytesToQImageConverter, SIGNAL(FrameOutput(QImage&)), ui->MyCameraViewer, SLOT(FrameInput(QImage&)));
 
 
