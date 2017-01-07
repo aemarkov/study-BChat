@@ -67,6 +67,9 @@
     <Filter Include="util\Singleton">
       <UniqueIdentifier>{f75f85ba-ce10-40f3-be6c-ec3183703270}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CryptoAdapter">
+      <UniqueIdentifier>{7882b797-1a01-4c09-9fea-d86056b7f780}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BChatLib.cpp">
@@ -123,6 +126,18 @@
     <ClCompile Include="util\Singleton\Singleton.cpp">
       <Filter>util\Singleton</Filter>
     </ClCompile>
+    <ClCompile Include="CryptoAdapter\CryptoApiAdapter.cpp">
+      <Filter>CryptoAdapter</Filter>
+    </ClCompile>
+    <ClCompile Include="CryptoAdapter\ICrypt.cpp">
+      <Filter>CryptoAdapter</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ICrypt.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ICrypt.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BChatLib.h">
@@ -164,6 +179,9 @@
     <ClInclude Include="util\Singleton\SingletonContainer.h">
       <Filter>util\Singleton</Filter>
     </ClInclude>
+    <ClInclude Include="CryptoAdapter\CryptoApiAdapter.h">
+      <Filter>CryptoAdapter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bchatlib_global.h">
@@ -185,6 +203,9 @@
     </CustomBuild>
     <CustomBuild Include="Logger\Logger.h">
       <Filter>Logger</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CryptoAdapter\ICrypt.h">
+      <Filter>CryptoAdapter</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>
