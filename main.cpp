@@ -1,17 +1,17 @@
 #include "mainwindow.h"
 #include <QApplication>
-
+#include "crypto\cryptoapi.h"
 #include <fstream>
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    /*QApplication a(argc, argv);
     MainWindow w;
     w.show();
 
-    return a.exec();
+    return a.exec();*/
 
-	/*try
+	try
 	{
 		uint8_t* keyBlob;
 		uint32_t size;
@@ -25,15 +25,15 @@ int main(int argc, char *argv[])
 		
 		memcpy(data2, data, dataSize);
 
-		//Crypto::CryptoAPI api("TestCertContainer");
-		//api.CreateSessionKey();
+		Crypto::CryptoAPI api("TestCertContainer");
+		api.CreateSessionKey();
 		//api.ExportSessionKeyForUser("Markov Alexey", "Garrus Vakarian", &keyBlob, &size);
 
-		Crypto::CryptoAPI api2("TestCertContainer");
+		//Crypto::CryptoAPI api2("TestCertContainer");
 		//api2.ImportSessionKey(keyBlob, size, "Garrus Vakarian", "Markov Alexey");
 
-		//api.Encrypt(data, dataSize);
-		//api.Decrypt(data, dataSize);
+		api.Encrypt(data, dataSize);
+		api.Decrypt(data, dataSize);
 
 		//Check
 		bool isOk = true;
@@ -46,10 +46,10 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		api.ExportMyCertificate("Garrus Vakarian", &keyBlob, &size);
+		//api.ExportMyCertificate("Garrus Vakarian", &keyBlob, &size);
 
-		std::ofstream stream("D:\\Test.cer");
-		stream.write((const char*)keyBlob, size);
+		//std::ofstream stream("D:\\Test.cer");
+		//stream.write((const char*)keyBlob, size);
 
 		//delete[] keyBlob;
 	}
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 	catch (...)
 	{
 
-	}*/
+	}
 	
 
 	return 0;

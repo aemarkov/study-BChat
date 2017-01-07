@@ -132,5 +132,8 @@
     <CustomBuild Include="webcam\VideoViewer\VideoViewer.h">
       <Filter>webcam\VideoViewer</Filter>
     </CustomBuild>
+    <CustomBuild Include="TestTestClass.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>
