@@ -75,6 +75,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BChatLib.cpp" />
+    <ClCompile Include="Containers\VideoFrameContainer.cpp" />
     <ClCompile Include="CryptoAdapter\CryptoApiAdapter.cpp" />
     <ClCompile Include="CryptoAdapter\ICrypt.cpp" />
     <ClCompile Include="crypto\cryptoapi.cpp" />
@@ -144,6 +145,8 @@
     <ClInclude Include="BChatLib.h" />
     <ClInclude Include="bchatlib_global.h" />
     <ClInclude Include="common\Exceptions.h" />
+    <ClInclude Include="Containers\BaseContainer.h" />
+    <ClInclude Include="Containers\VideoFrameContainer.h" />
     <ClInclude Include="CryptoAdapter\CryptoApiAdapter.h" />
     <CustomBuild Include="webcam\QImageConverter\QImageToBytesConverter.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

@@ -79,6 +79,9 @@
     <Filter Include="webcam\QImageConverter">
       <UniqueIdentifier>{9f8b1623-86b8-4b03-9ff5-96fcbd76be1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Containers">
+      <UniqueIdentifier>{bedf7811-50a2-4233-b7e4-263c28dff657}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BChatLib.cpp">
@@ -180,6 +183,9 @@
     <ClCompile Include="GeneratedFiles\Release\moc_QImageToBytesConverter.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Containers\VideoFrameContainer.cpp">
+      <Filter>Containers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BChatLib.h">
@@ -223,6 +229,12 @@
     </ClInclude>
     <ClInclude Include="NetworkAdapter\NetworkAdapter.h">
       <Filter>NetworkAdapter</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\BaseContainer.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\VideoFrameContainer.h">
+      <Filter>Containers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
