@@ -4,22 +4,27 @@
 /*!
  * \brief шаблонный базовый класс синглтона, чтобы делать другие синглтоны
  */
-class Singleton
+
+namespace Util
 {
-public:
 
-	/*!
-	 * \brief возвращает объект синглтона
-	 */
-	static Singleton* Instance();
+	class Singleton
+	{
+	public:
 
-protected:
-	Singleton();
-	~Singleton();
-	Singleton(const Singleton& other) = delete;
-	Singleton& operator=(Singleton& other) = delete;
+		/*!
+		 * \brief возвращает объект синглтона
+		 */
+		static Singleton* Instance();
 
-	static Singleton* _instance;
-};
+	private:
+		Singleton();
+		~Singleton();
+		Singleton(const Singleton& other) = delete;
+		Singleton& operator=(Singleton& other) = delete;
+
+		static Singleton* _instance;
+	};
+}
 
 #endif
