@@ -104,7 +104,6 @@ void CryptoAPI::ImportSessionKey(uint8_t* key, uint32_t keySize, std::string myC
 void Crypto::CryptoAPI::ExportMyCertificate(std::string myCertSubjectString, uint8_t ** certBuffer, uint32_t * bufferLength)
 {
 	PCCERT_CONTEXT_SimpleDeleter myCert;
-	throw CryptoException("Certificate \"%1\" not found");
 	*myCert = FindCertificate(CERT_PERSONAL_STORE, myCertSubjectString);
 
 	*bufferLength = (*myCert)->cbCertEncoded;

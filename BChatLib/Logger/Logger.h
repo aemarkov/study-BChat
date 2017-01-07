@@ -2,6 +2,11 @@
 
 #include <QObject>
 #include <qdatetime.h>
+
+
+/*!
+ * \brief Синглтон-класс для осуществления логгирования
+ */
 class Logger : public QObject
 {
 	Q_OBJECT
@@ -35,9 +40,9 @@ public:
 private:
 	Logger(QObject *parent);
 	Logger();
-	Logger(const Logger&);
-	Logger& operator=(Logger&);
 	~Logger();
+	Logger(const Logger&) = delete;
+	Logger& operator=(Logger&) = delete;
 	
 	static Logger*		_instance;			// Логгер
 	static bool			_writeDebugFlag;	// Флаг записи дебага в лог

@@ -58,6 +58,15 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Logger">
+      <UniqueIdentifier>{d0074438-57b9-4095-acf3-4960f5953523}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{db9a6757-54cd-4b1c-b807-e91c0bb71dcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\Singleton">
+      <UniqueIdentifier>{f75f85ba-ce10-40f3-be6c-ec3183703270}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BChatLib.cpp">
@@ -93,6 +102,27 @@
     <ClCompile Include="GeneratedFiles\Release\moc_VideoViewer.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Logger\Logger.cpp">
+      <Filter>Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_Logger.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_Logger.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\Network.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\TcpClient.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\TcpListener.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="util\Singleton\Singleton.cpp">
+      <Filter>util\Singleton</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BChatLib.h">
@@ -116,6 +146,24 @@
     <ClInclude Include="common\Exceptions.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Network\master.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\Network.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\TcpClient.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\TcpListener.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton\Singleton.h">
+      <Filter>util\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="util\Singleton\SingletonContainer.h">
+      <Filter>util\Singleton</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bchatlib_global.h">
@@ -134,6 +182,9 @@
     </CustomBuild>
     <CustomBuild Include="TestTestClass.h">
       <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Logger\Logger.h">
+      <Filter>Logger</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

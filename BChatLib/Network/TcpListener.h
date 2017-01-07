@@ -2,6 +2,13 @@
 #include "TcpClient.h"
 #include "master.h"
 
+/*! 
+ * \brief Сервер TCP
+ *
+ * Принимает подключение и возвращает TcpClient.
+ * Однопоточный
+ * 
+ */
 class TcpListener
 {
 public:	

@@ -1,5 +1,9 @@
 #pragma once
 #include "master.h"
+
+/*!
+ * \brief Обеспечивает двусторонний обмен данными по сети при помощи TCP
+ */
 class TcpClient
 {
 public:
