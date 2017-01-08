@@ -31,6 +31,11 @@ bool Logger::SetWriteDebugFlag(bool flag)
 	return _writeDebugFlag;
 }
 
+void Util::Logger::WriteException(QString message)
+{
+	this->Write(QString("EXCEPTION: ").append(message));
+}
+
 void Logger::Write(QString message)
 {	
 	QFile file(_filename);
@@ -40,7 +45,7 @@ void Logger::Write(QString message)
 		QTextStream stream(&file);
 		
 		stream << QDateTime::currentDateTime()
-			.toString("dd.MM.yyyy mm:hh:ss");
+			.toString("dd.MM.yyyy hh:mm:ss");
 
 		stream << " " << message << "\r\n";
 		

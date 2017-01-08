@@ -4,6 +4,9 @@
 //#include <qstring.h>
 #include <string>
 
+#include "util\Logger\Logger.h"
+using namespace Util;
+
 #define ExceptionString std::string
 //#define ExceptionString QString
 
@@ -16,6 +19,7 @@ public:
 	Exception(ExceptionString message)
 	{
 		Message = message;
+		Logger::Instance()->WriteException(message.c_str());
 	}
 };
 

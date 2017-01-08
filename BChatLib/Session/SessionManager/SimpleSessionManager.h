@@ -15,6 +15,7 @@
 
 #include "util\SettingsManager\SettingsManagerContainer.h"
 #include "util\DialogHelper\DialogHelper.h"
+#include "util\UserManager\UserManagerContainer.h";
 
 #include <stdint.h>
 

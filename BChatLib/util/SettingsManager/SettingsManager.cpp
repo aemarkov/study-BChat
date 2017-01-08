@@ -26,6 +26,14 @@ Settings SettingsManager::ReadSettings()
 		char* cert = new char[certLength];
 		fs.read(cert, certLength);
 
+		// Считать длину сертификата собеседника
+		int interlocutorCertLength;
+		fs.read((char*)&interlocutorCertLength, sizeof(int));
+		// Считать сертификат собеседника
+		char* interlocutorCert = new char[interlocutorCertLength];
+		fs.read(interlocutorCert, interlocutorCertLength);
+
+
 		// Считать длину контейнера
 		int containerLength;
 		fs.read((char*)&containerLength, sizeof(int));
@@ -44,12 +52,13 @@ Settings SettingsManager::ReadSettings()
 		fs.read((char*)&port, sizeof(int));
 
 		// Создать настройки
-		Settings settings = Settings(container, cert, ip, port);
+		Settings settings = Settings(container, cert, interlocutorCert, ip, port);
 
 		// Освободить память
 		delete[] cert;
 		delete[] container;
 		delete[] ip;
+		delete[] interlocutorCert;
 
 		return settings;
 	}
@@ -70,6 +79,11 @@ void SettingsManager::SaveSettings(Settings settings)
 		int tmpLength = settings.GetCertificate().length() + 1;
 		fs.write((char*)&tmpLength, sizeof(int));
 		fs.write(settings.GetCertificate().c_str(), settings.GetCertificate().length() + 1);
+
+		// Сохранить сертификат собеседника
+		tmpLength = settings.GetInterlocutorCertificate().length() + 1;
+		fs.write((char*)&tmpLength, sizeof(int));
+		fs.write(settings.GetInterlocutorCertificate().c_str(), settings.GetInterlocutorCertificate().length() + 1);
 
 		// Сохранить контейнер
 		tmpLength = settings.GetContainer().length() + 1;

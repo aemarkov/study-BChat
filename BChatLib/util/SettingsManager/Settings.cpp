@@ -1,11 +1,16 @@
 #include "Settings.h"
 
-Settings::Settings(string container, string certificate, string ip, int port)
+Settings::Settings(string container,
+	string certificate,
+	string interlocutorCertificate,
+	string ip,
+	int port)
 {
 	_container = container;
 	_certificate = certificate;
 	_ip = ip;
 	_port = port;
+	_interlocutorCertificate = interlocutorCertificate;
 }
 
 Settings::~Settings()
@@ -20,6 +25,11 @@ string Settings::GetContainer()
 string Settings::GetCertificate()
 {
 	return _certificate;
+}
+
+string Settings::GetInterlocutorCertificate()
+{
+	return _interlocutorCertificate;
 }
 
 string Settings::GetIP()
