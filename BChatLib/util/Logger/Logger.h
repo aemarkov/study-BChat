@@ -14,6 +14,7 @@ namespace Util
 		void Write(QString);			// Внести запись в лог
 		void WriteDebug(QString);		// Внести запись о дебаге в лог
 		bool SetWriteDebugFlag(bool);	// Установить флаг записи дебага в лог
+		void WriteException(QString);	// Внести запись в лог об исключении
 
 		static Logger* Instance()
 		{
