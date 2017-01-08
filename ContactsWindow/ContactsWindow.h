@@ -5,6 +5,7 @@
 
 #include "Session\SessionManager\SimpleSessionManager.h"
 #include "util\SettingsManager\SettingsManagerContainer.h"
+#include "SettingsWindow\SettingsWindow.h"
 
 class ContactsWindow : public QWidget
 {

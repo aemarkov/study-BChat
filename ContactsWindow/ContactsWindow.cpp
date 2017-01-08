@@ -20,6 +20,8 @@ ContactsWindow::~ContactsWindow()
 
 void ContactsWindow::Settings_Click()
 {
+	auto settingsWindow = new SettingsWindow();
+	settingsWindow->exec();
 }
 
 void ContactsWindow::JoinChat_Click()
