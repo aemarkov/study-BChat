@@ -7,12 +7,15 @@
 }*/
 
 Q_DECLARE_METATYPE(QCameraInfo)
+Q_DECLARE_METATYPE(Containers::VideoFrameContainer)
 
 ChatWindow::ChatWindow(Session& session):
 	_session(session),
 	camera(0)
 {
 	qRegisterMetaType<QCameraInfo>();
+	qRegisterMetaType<Containers::VideoFrameContainer>();
+
 	ui.setupUi(this);
 
 	connect(ui.menuToggleCamera, SIGNAL(triggered()), this, SLOT(ButtonCameraToggle_clicked()));
@@ -21,7 +24,7 @@ ChatWindow::ChatWindow(Session& session):
 
 	connect(&_cameraFrameGrabber, SIGNAL(FrameOutput(QVideoFrame)), &_session, SLOT(MyFrameInput(QVideoFrame)));
 	connect(&_session, SIGNAL(MyFrameOutput(QImage&)), ui.camYou, SLOT(FrameInput(QImage&)));
-	connect(&_session, SIGNAL(OtherFrameOutput(QImage&)), ui.camInterlocutor, SLOT(FrameInput(QImage&)), Qt::QueuedConnection);
+	connect(&_session, SIGNAL(OtherFrameOutput(QImage&)), ui.camInterlocutor, SLOT(FrameInput(QImage&)));
 
 	UpdateCameras();
 	SetCamera(QCameraInfo::defaultCamera());

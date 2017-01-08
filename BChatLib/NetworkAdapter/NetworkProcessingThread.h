@@ -10,7 +10,7 @@ class NetworkProcessingThread : public INetwork
 	Q_OBJECT
 
 public:
-	NetworkProcessingThread(TcpClient&);
+	NetworkProcessingThread(TcpClient);
 	~NetworkProcessingThread();
 
 	void run();

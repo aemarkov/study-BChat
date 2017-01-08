@@ -1,8 +1,8 @@
 #include "NetworkProcessingThread.h"
 
-NetworkProcessingThread::NetworkProcessingThread(TcpClient & tcpClient)
+NetworkProcessingThread::NetworkProcessingThread(TcpClient tcpClient)
 {
-	_tcpClient = std::move(tcpClient);
+	_tcpClient = tcpClient;
 }
 
 NetworkProcessingThread::~NetworkProcessingThread()

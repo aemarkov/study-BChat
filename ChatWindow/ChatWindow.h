@@ -11,6 +11,7 @@
 
 #include "Session/Session.h"
 #include "webcam/CameraFrameGrabber/CameraFrameGrabber.h"
+#include "Containers/VideoFrameContainer.h"
 
 class ChatWindow : public QMainWindow
 {

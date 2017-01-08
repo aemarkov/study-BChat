@@ -40,6 +40,7 @@ public:
 public slots:
 
 	void MyFrameInput(const QVideoFrame&);
+	void __OtherFrameOutput(QImage&);
 
 signals:
 

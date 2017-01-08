@@ -24,10 +24,10 @@ public:
 private:
 	SOCKET _socket;
 
-	void setOptions(SOCKET sock);
+	//void setOptions(SOCKET sock);
 
-	const int bufferSize = 1000000;
+	int bufferSize = 1000000;
 
-	void flushSocket();
+	//void flushSocket();
 };
 
