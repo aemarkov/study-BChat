@@ -1,5 +1,7 @@
 #include "FrameConverter.h"
 
+using namespace Webcam;
+
 FrameConverter::FrameConverter()
 {
     _targetFormat = QImage::Format_RGB30;
