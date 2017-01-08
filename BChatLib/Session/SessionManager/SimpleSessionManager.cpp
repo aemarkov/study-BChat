@@ -25,10 +25,47 @@ void SimpleSessionManager::CreateChat()
 	}
 }
 
+//Подключение к другому пользователю
 void SimpleSessionManager::ConnectToUser(uint32_t userId)
 {
+	uint8_t* keyBuffer = nullptr;
+
+	try
+	{
+		auto settings = SettingsManagerContainer::Inner()->ReadSettings();
+
+		//Создаем CryptoAPI
+		_cryptoAPI.Init(settings.GetContainer());
+
+		//Настройки куда подключаться должны определять у каждого конкретного пользователя,
+		//получиться от сервера итп, но здесь 1 пользолватель
+
+		TcpClient client;
+		int result = client.Connect((char*)settings.GetIP().c_str(), settings.GetPort());
+
+		if (result != 0)
+			DialogHelper::ShowDialog("Can't join chat");
+
+		//Передаем свой Id (Это должен быть нормальный Id)
+		uint32_t myId = 0;
+		client.SimpleSend((char*)&myId, sizeof(myId));
+
+		//Обмен ключами		
+		int keyBufferSize;
+
+		client.Recv((char**)&keyBuffer, &keyBufferSize);
+		if (keyBuffer == nullptr)
+			throw new Exception("Can't get session key from server");
+
+		_cryptoAPI.ImportSessionKey(keyBuffer, keyBufferSize, settings.GetCertificate(), settings.GetInterlocutorCertificate());
+	}
+	catch (Exception ex)
+	{
+		DialogHelper::ShowDialog(ex.Message.c_str());
+	}
 }
 
+//Ожидание подключение пользователя
 void SimpleSessionManager::WaitForConnection(int port)
 {
 	TcpListener listener(port);

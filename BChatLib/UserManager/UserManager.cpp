@@ -8,6 +8,8 @@ UserManager::UserManager()
 	user._certName = SettingsManagerContainer::Inner()->ReadSettings().GetCertificate();
 	user._name = "User1";
 	user._id = 1;
+
+	_users.push_back(user);
 }
 
 UserManager::~UserManager()

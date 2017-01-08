@@ -94,7 +94,7 @@ int TcpClient::Connect(char* ip, int port)
 	if (SOCKET_ERROR == (connect(_socket, (sockaddr *)&s_address, sizeof(s_address))))
 	{
 		// Error...
-		return ERROR;		
+		return WSAGetLastError();		
 	}
 	return 0;
 }

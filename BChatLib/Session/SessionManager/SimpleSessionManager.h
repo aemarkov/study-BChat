@@ -1,21 +1,21 @@
 #pragma once
 
-#include "Session\Session.h"
+#include "Session/Session.h"
 #include "ISessionManager.h"
 
-#include "Network\TcpClient.h"
-#include "Network\TcpListener.h"
+#include "Network/TcpClient.h"
+#include "Network/TcpListener.h"
 
-#include "NetworkAdapter\INetwork.h"
-#include "NetworkAdapter\NetworkAdapter.h"*/
+#include "NetworkAdapter/INetwork.h"
+#include "NetworkAdapter/NetworkAdapter.h"*/
 
-#include "crypto\cryptoapi.h"
-#include "CryptoAdapter\ICrypt.h"
-#include "CryptoAdapter\CryptoApiAdapter.h"
+#include "crypto/cryptoapi.h"
+#include "CryptoAdapter/ICrypt.h"
+#include "CryptoAdapter/CryptoApiAdapter.h"
 
-#include "util\SettingsManager\SettingsManagerContainer.h"
-#include "util\DialogHelper\DialogHelper.h"
-#include "util\UserManager\UserManagerContainer.h";
+#include "util/SettingsManager/SettingsManagerContainer.h"
+#include "util/DialogHelper/DialogHelper.h"
+#include "UserManager/UserManagerContainer.h";
 
 #include <stdint.h>
 

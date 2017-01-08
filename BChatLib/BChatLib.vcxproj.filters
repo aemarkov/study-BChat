@@ -97,6 +97,12 @@
     <Filter Include="util\DialogHelper">
       <UniqueIdentifier>{0a9c6529-6be4-499b-a839-fcf88c33687f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Models">
+      <UniqueIdentifier>{320ca0c8-3e46-4edb-8c9d-be75153b2a9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserManager">
+      <UniqueIdentifier>{89fbb9cf-2d93-4345-acec-b70a3d51afe2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BChatLib.cpp">
@@ -219,18 +225,6 @@
     <ClCompile Include="util\SettingsManager\Settings.cpp">
       <Filter>util\SettingsManager</Filter>
     </ClCompile>
-    <ClCompile Include="util\UserManager\IUserManager.cpp">
-      <Filter>util\UserManager</Filter>
-    </ClCompile>
-    <ClCompile Include="util\UserManager\User.cpp">
-      <Filter>util\UserManager</Filter>
-    </ClCompile>
-    <ClCompile Include="util\UserManager\UserManager.cpp">
-      <Filter>util\UserManager</Filter>
-    </ClCompile>
-    <ClCompile Include="util\UserManager\UserManagerCreator.cpp">
-      <Filter>util\UserManager</Filter>
-    </ClCompile>
     <ClCompile Include="Session\SessionManager\SimpleSessionManager.cpp">
       <Filter>Session\SessionManager</Filter>
     </ClCompile>
@@ -242,6 +236,18 @@
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_SimpleSessionManager.cpp">
       <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\User.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="UserManager\IUserManager.cpp">
+      <Filter>UserManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UserManager\UserManager.cpp">
+      <Filter>UserManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UserManager\UserManagerCreator.cpp">
+      <Filter>UserManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -308,29 +314,32 @@
     <ClInclude Include="util\SettingsManager\SettingsManagerContainer.h">
       <Filter>util\SettingsManager</Filter>
     </ClInclude>
-    <ClInclude Include="util\UserManager\IUserManager.h">
-      <Filter>util\UserManager</Filter>
-    </ClInclude>
-    <ClInclude Include="util\UserManager\User.h">
-      <Filter>util\UserManager</Filter>
-    </ClInclude>
-    <ClInclude Include="util\UserManager\UserManager.h">
-      <Filter>util\UserManager</Filter>
-    </ClInclude>
-    <ClInclude Include="util\UserManager\UserManagerCreator.h">
-      <Filter>util\UserManager</Filter>
-    </ClInclude>
-    <ClInclude Include="util\UserManager\UserManagerContainer.h">
-      <Filter>util\UserManager</Filter>
-    </ClInclude>
     <ClInclude Include="Session\SessionManager\ISessionManager.h">
       <Filter>Session\SessionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="util\DialogHelper\DialogHelper.h">
+      <Filter>util\DialogHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\User.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="UserManager\IUserManager.h">
+      <Filter>UserManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UserManager\UserManager.h">
+      <Filter>UserManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UserManager\UserManagerContainer.h">
+      <Filter>UserManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UserManager\UserManagerCreator.h">
+      <Filter>UserManager</Filter>
     </ClInclude>
     <ClInclude Include="Session\Session.h">
       <Filter>Session</Filter>
     </ClInclude>
-    <ClInclude Include="util\DialogHelper\DialogHelper.h">
-      <Filter>util\DialogHelper</Filter>
+    <ClInclude Include="Session\SessionUser.h">
+      <Filter>Session</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

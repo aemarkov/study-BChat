@@ -26,6 +26,8 @@ void ContactsWindow::Settings_Click()
 
 void ContactsWindow::JoinChat_Click()
 {
+	//Тут Id юзера, выбранный из списка на форме
+	_sessionManager.ConnectToUser(0);
 }
 
 void ContactsWindow::HostChat_Click()
