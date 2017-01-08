@@ -16,10 +16,14 @@ void SimpleSessionManager::CreateChat()
 		_cryptoAPI.Init(settings.GetContainer());
 		_cryptoAPI.CreateSessionKey();
 
-		std::thread waitingThread(&SimpleSessionManager::WaitForConnection, this, settings.GetPort());
-		waitingThread.detach();
-
+		
 		emit SessionCreated();
+		//std::thread waitingThread(&SimpleSessionManager::WaitForConnection, this, settings.GetPort());
+		//waitingThread.detach();
+
+		WaitForConnection(settings.GetPort());
+
+		//emit SessionCreated();
 	}
 	catch (Exception ex)
 	{
@@ -46,7 +50,11 @@ void SimpleSessionManager::ConnectToUser(uint32_t userId)
 		int result = client.Connect((char*)settings.GetIP().c_str(), settings.GetPort());
 
 		if (result != 0)
+		{
+			Logger::Instance()->WriteException("Can't join chat");
 			DialogHelper::ShowDialog("Can't join chat");
+			return;
+		}
 
 		emit SessionCreated();
 
@@ -62,7 +70,11 @@ void SimpleSessionManager::ConnectToUser(uint32_t userId)
 
 		client.Recv((char**)&keyBuffer, &keyBufferSize);
 		if (keyBuffer == nullptr)
-			throw new Exception("Can't get session key from server");
+		{
+			Logger::Instance()->WriteException("Can't get session key from server");
+			delete[] keyBuffer;
+			return;
+		}
 
 		_cryptoAPI.ImportSessionKey(keyBuffer, keyBufferSize, settings.GetCertificate(), settings.GetInterlocutorCertificate());
 

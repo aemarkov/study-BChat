@@ -1,5 +1,7 @@
 #pragma once
 #include "master.h"
+#include <new>          // std::bad_alloc
+#include "util\Logger\Logger.h"
 
 /*!
  * \brief Обеспечивает двусторонний обмен данными по сети при помощи TCP
@@ -21,5 +23,11 @@ public:
 
 private:
 	SOCKET _socket;
+
+	void setOptions(SOCKET sock);
+
+	const int bufferSize = 1000000;
+
+	void flushSocket();
 };
 

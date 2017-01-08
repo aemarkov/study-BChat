@@ -21,7 +21,7 @@ ChatWindow::ChatWindow(Session& session):
 
 	connect(&_cameraFrameGrabber, SIGNAL(FrameOutput(QVideoFrame)), &_session, SLOT(MyFrameInput(QVideoFrame)));
 	connect(&_session, SIGNAL(MyFrameOutput(QImage&)), ui.camYou, SLOT(FrameInput(QImage&)));
-	connect(&_session, SIGNAL(OtherFrameOutput(QImage&)), ui.camInterlocutor, SLOT(FrameInput(QImage&)));
+	connect(&_session, SIGNAL(OtherFrameOutput(QImage&)), ui.camInterlocutor, SLOT(FrameInput(QImage&)), Qt::QueuedConnection);
 
 	UpdateCameras();
 	SetCamera(QCameraInfo::defaultCamera());

@@ -12,6 +12,10 @@ NetworkProcessingThread::~NetworkProcessingThread()
 void NetworkProcessingThread::SendSlot(uint8_t* data, uint32_t size)
 {
 	_tcpClient.Send((char*)data, size);
+
+	//Считаем, что данные больше не нужны
+	delete[] data;
+	data = nullptr;
 }
 
 void NetworkProcessingThread::run()
@@ -33,12 +37,11 @@ void NetworkProcessingThread::run()
 		else
 		{
 			emit ConnectionProblem(result);
-			return;
 		}
 
 		// TODO: НЕ ЗАБЫТЬ НА ВНЕШНЕМ КОДЕ
 		//// Очистить память
 		//ZeroMemory(receivedData, size);
 
-	} while (result == 0);
+	} while (true);
 }
