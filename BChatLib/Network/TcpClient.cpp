@@ -42,6 +42,16 @@ int TcpClient::Recv(char** message, int* msgLength)
 	return 0;
 }
 
+
+int TcpClient::SimpleRecv(char * message, int length)
+{
+	int actual_len = 0;
+	if (SOCKET_ERROR == (actual_len = recv(_socket, message, length, 0)))
+		return WSAGetLastError();
+	
+	return 0;
+}
+
 int TcpClient::Send(char* message, int messageLength)
 {
 	
@@ -53,6 +63,16 @@ int TcpClient::Send(char* message, int messageLength)
 	{
 		return WSAGetLastError();
 	}
+	return 0;
+}
+
+int TcpClient::SimpleSend(char * message, int messageLength)
+{
+	if (SOCKET_ERROR == (send(_socket, message, messageLength, 0)))
+	{
+		return WSAGetLastError();
+	}
+
 	return 0;
 }
 

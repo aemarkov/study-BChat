@@ -11,11 +11,13 @@ public:
 	TcpClient();
 	~TcpClient();	
 
-	SOCKET GetSocket();								// Геттер для сокета
-	int Recv(char** message, int* msgLength);		// Получить сообщение
-	int Send(char* message, int messageLength);		// Отправить сообщение
-	int Connect(char* ip, int port);				// Подключиться
-	void Close();									// Закрыть сокет
+	SOCKET GetSocket();									// Геттер для сокета
+	int Recv(char** message, int* msgLength);			// Получить сообщение
+	int SimpleRecv(char* message, int length);			// Более низкоуровенвый прием без встроенной длины сообщения
+	int Send(char* message, int messageLength);			// Отправить сообщение
+	int SimpleSend(char* message, int messageLength);	// Более низкоуровневая передача без встроенное длины
+	int Connect(char* ip, int port);					// Подключиться
+	void Close();										// Закрыть сокет
 
 private:
 	SOCKET _socket;

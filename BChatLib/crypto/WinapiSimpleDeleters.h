@@ -25,6 +25,9 @@ namespace Crypto
 	public:
 		virtual ~HCRYPTKEY_SimpleDeleter()
 		{
+			if (t == NULL)
+				return;
+
 			if (!CryptDestroyKey(t))
 			{
 				DWORD err = GetLastError();
