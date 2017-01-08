@@ -18,7 +18,10 @@
 #include "CryptoAdapter/CryptoApiAdapter.h"
 #include "CryptoAdapter/ICrypt.h"
 
+#include "Containers\SimpleContainerMultiplexor.h"
+
 using namespace Webcam;
+//using namespace Containers;
 
 namespace Ui {
 class MainWindow;
@@ -81,6 +84,7 @@ private:
 
 	QImageToContainerConverter _qimageToContainerConverter;
 	ContainerToQImageConverter _containerToQImageConverter;
+	Containers::SimpleContainerMultiplexor _multiplexor;
 
 	Crypto::CryptoAPI _cryptoApi;
 	CryptoApiAdapter _cryptoAdapter;

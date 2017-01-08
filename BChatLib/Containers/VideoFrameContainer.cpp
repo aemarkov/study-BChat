@@ -6,13 +6,7 @@ using namespace Containers;
 Containers::VideoFrameContainer::VideoFrameContainer()
 {
 	_frameBuffer = nullptr;
-	_userId = 0;
 	_bufferSize = 0;
-}
-
-Containers::VideoFrameContainer::VideoFrameContainer(uint32_t userId):VideoFrameContainer()
-{
-	_userId = userId;
 }
 
 Containers::VideoFrameContainer::~VideoFrameContainer()
@@ -106,8 +100,6 @@ void VideoFrameContainer::Serialize(uint8_t * buffer) const
 	if (_frameBuffer == nullptr)
 		throw new Exception("Buffer is not initialized");
 
-	memcpy(buffer, &_userId, sizeof(_userId));
-	buffer += sizeof(_userId);
 
 	memcpy(buffer, &_width, sizeof(_width));
 	buffer += sizeof(_width);
@@ -130,9 +122,6 @@ void Containers::VideoFrameContainer::Deserialize(const uint8_t * buffer)
 		throw new Exception("Buffer is NULL");
 
 	uint32_t size;
-
-	memcpy(&_userId, buffer, sizeof(_userId));
-	buffer += sizeof(_userId);
 
 	memcpy(&_width, buffer, sizeof(_width));
 	buffer += sizeof(_width);

@@ -12,7 +12,6 @@ namespace Containers
 	public:
 
 		VideoFrameContainer();
-		VideoFrameContainer(uint32_t userId);
 		~VideoFrameContainer();
 
 		//Сеттеры
@@ -37,7 +36,6 @@ namespace Containers
 		uint8_t* _frameBuffer;
 		uint32_t _bufferSize;
 
-		uint32_t _userId;
 		uint32_t _width;
 		uint32_t _height;
 		QImage::Format _format;
