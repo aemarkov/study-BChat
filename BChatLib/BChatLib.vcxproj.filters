@@ -85,6 +85,9 @@
     <Filter Include="util\SettingsManager">
       <UniqueIdentifier>{20eb6276-631e-478a-8577-083cf2bd845a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="util\UserManager">
+      <UniqueIdentifier>{8fa74abb-62cf-40fa-b8db-a6a6b537b288}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BChatLib.cpp">
@@ -207,6 +210,18 @@
     <ClCompile Include="util\SettingsManager\Settings.cpp">
       <Filter>util\SettingsManager</Filter>
     </ClCompile>
+    <ClCompile Include="util\UserManager\IUserManager.cpp">
+      <Filter>util\UserManager</Filter>
+    </ClCompile>
+    <ClCompile Include="util\UserManager\User.cpp">
+      <Filter>util\UserManager</Filter>
+    </ClCompile>
+    <ClCompile Include="util\UserManager\UserManager.cpp">
+      <Filter>util\UserManager</Filter>
+    </ClCompile>
+    <ClCompile Include="util\UserManager\UserManagerCreator.cpp">
+      <Filter>util\UserManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BChatLib.h">
@@ -271,6 +286,21 @@
     </ClInclude>
     <ClInclude Include="util\SettingsManager\SettingsManagerContainer.h">
       <Filter>util\SettingsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="util\UserManager\IUserManager.h">
+      <Filter>util\UserManager</Filter>
+    </ClInclude>
+    <ClInclude Include="util\UserManager\User.h">
+      <Filter>util\UserManager</Filter>
+    </ClInclude>
+    <ClInclude Include="util\UserManager\UserManager.h">
+      <Filter>util\UserManager</Filter>
+    </ClInclude>
+    <ClInclude Include="util\UserManager\UserManagerCreator.h">
+      <Filter>util\UserManager</Filter>
+    </ClInclude>
+    <ClInclude Include="util\UserManager\UserManagerContainer.h">
+      <Filter>util\UserManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

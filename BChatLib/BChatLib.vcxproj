@@ -145,6 +145,10 @@
     <ClCompile Include="util\SettingsManager\SettingsManager.cpp" />
     <ClCompile Include="util\SettingsManager\SettingsManagerCreator.cpp" />
     <ClCompile Include="util\Singleton\Singleton.cpp" />
+    <ClCompile Include="util\UserManager\IUserManager.cpp" />
+    <ClCompile Include="util\UserManager\User.cpp" />
+    <ClCompile Include="util\UserManager\UserManager.cpp" />
+    <ClCompile Include="util\UserManager\UserManagerCreator.cpp" />
     <ClCompile Include="webcam\CameraFrameGrabber\CameraFrameGrabber.cpp" />
     <ClCompile Include="webcam\FrameConverter\FrameConverter.cpp" />
     <ClCompile Include="webcam\QImageConverter\ConainerToQImageConverter.cpp" />
@@ -156,6 +160,11 @@
     <ClInclude Include="bchatlib_global.h" />
     <ClInclude Include="common\Exceptions.h" />
     <ClInclude Include="Containers\BaseContainer.h" />
+    <ClInclude Include="util\UserManager\IUserManager.h" />
+    <ClInclude Include="util\UserManager\User.h" />
+    <ClInclude Include="util\UserManager\UserManager.h" />
+    <ClInclude Include="util\UserManager\UserManagerContainer.h" />
+    <ClInclude Include="util\UserManager\UserManagerCreator.h" />
     <CustomBuild Include="Containers\SimpleContainerMultiplexor.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing SimpleContainerMultiplexor.h...</Message>
