@@ -83,6 +83,9 @@ int TcpClient::Recv(char** message, int* msgLength)
 		return WSAGetLastError();				
 	}		
 	*msgLength = actual_len;
+
+	qDebug() << "actual length: " << actual_len;
+
 	return 0;
 }
 

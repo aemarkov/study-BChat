@@ -37,6 +37,7 @@ void NetworkProcessingThread::run()
 		else
 		{
 			emit ConnectionProblem(result);
+			return;
 		}
 
 		// TODO: ме гюашрэ мю бмеьмел йнде

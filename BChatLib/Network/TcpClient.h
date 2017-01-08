@@ -2,6 +2,7 @@
 #include "master.h"
 #include <new>          // std::bad_alloc
 #include "util\Logger\Logger.h"
+#include <qdebug.h>
 
 /*!
  * \brief Обеспечивает двусторонний обмен данными по сети при помощи TCP
