@@ -120,6 +120,7 @@ void CryptoAPI::Encrypt(uint8_t* data, uint32_t size)
 	if (!CryptSetKeyParam(*_hSessionKey, KP_IV, (const BYTE*)_keyParams, 0))
 	{
 		DWORD error = GetLastError();
+		Util::Logger::Instance()->Write(QString("Can't set key params. Error: %1").arg(error, 0, 16));
 		//throw  CryptoException(QString("Can't set key params. Error: %1").arg(error, 0, 16));
 		//throw CryptoException("Can't set key params");
 	}
@@ -127,6 +128,7 @@ void CryptoAPI::Encrypt(uint8_t* data, uint32_t size)
 	if (!CryptEncrypt(*_hSessionKey, NULL, true, NULL, data, &dataLen, size))
 	{
 		DWORD error = GetLastError();
+		Util::Logger::Instance()->Write(QString("Can't encrypt data. Error: %1").arg(error, 0, 16));
 		//throw  CryptoException(QString("Can't encrypt data. Error: %1").arg(error, 0, 16));
 		//throw CryptoException("Can't encrypt data");
 	}
@@ -141,6 +143,7 @@ void CryptoAPI::Decrypt(uint8_t* data, uint32_t size)
 	if (!CryptSetKeyParam(*_hSessionKey, KP_IV, (const BYTE*)_keyParams, 0))
 	{
 		DWORD error = GetLastError();
+		Util::Logger::Instance()->Write(QString("Can't set key params. Error: %1").arg(error, 0, 16));
 		//throw  CryptoException(QString("Can't set key params. Error: %1").arg(error,0,16));
 		//throw CryptoException("Can't set key params");
 	}
@@ -148,6 +151,7 @@ void CryptoAPI::Decrypt(uint8_t* data, uint32_t size)
 	if (!CryptDecrypt(*_hSessionKey, NULL, true, NULL, data, &dataLen))
 	{
 		DWORD error = GetLastError();
+		Util::Logger::Instance()->Write(QString("Can't decrypt data. Error: %1").arg(error, 0, 16));
 		//throw  CryptoException(QString("Can't decrypt data. Error: %1").arg(error, 0, 16));
 		//throw CryptoException("Can't decrypt data.");
 	}

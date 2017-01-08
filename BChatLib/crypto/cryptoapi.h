@@ -32,6 +32,8 @@
 #include "WinapiSimpleDeleters.h"
 #include <winerror.h>
 
+#include "util/Logger/Logger.h"
+
 namespace Crypto
 {
 
