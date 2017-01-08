@@ -79,6 +79,9 @@
     <Filter Include="webcam\QImageConverter">
       <UniqueIdentifier>{9f8b1623-86b8-4b03-9ff5-96fcbd76be1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="util\SettingsManager">
+      <UniqueIdentifier>{20eb6276-631e-478a-8577-083cf2bd845a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BChatLib.cpp">
@@ -180,6 +183,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_QImageToBytesConverter.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="util\SettingsManager\SettingsManagerCreator.cpp">
+      <Filter>util\SettingsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="util\SettingsManager\SettingsManager.cpp">
+      <Filter>util\SettingsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="util\SettingsManager\Settings.cpp">
+      <Filter>util\SettingsManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BChatLib.h">
@@ -223,6 +235,21 @@
     </ClInclude>
     <ClInclude Include="NetworkAdapter\NetworkAdapter.h">
       <Filter>NetworkAdapter</Filter>
+    </ClInclude>
+    <ClInclude Include="util\SettingsManager\ISettingsManager.h">
+      <Filter>util\SettingsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="util\SettingsManager\SettingsManagerCreator.h">
+      <Filter>util\SettingsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="util\SettingsManager\SettingsManager.h">
+      <Filter>util\SettingsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="util\SettingsManager\Settings.h">
+      <Filter>util\SettingsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="util\SettingsManager\SettingsManagerContainer.h">
+      <Filter>util\SettingsManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

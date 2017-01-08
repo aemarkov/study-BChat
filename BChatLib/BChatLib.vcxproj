@@ -133,6 +133,9 @@
     <ClCompile Include="Network\TcpClient.cpp" />
     <ClCompile Include="Network\TcpListener.cpp" />
     <ClCompile Include="util\Logger\Logger.cpp" />
+    <ClCompile Include="util\SettingsManager\Settings.cpp" />
+    <ClCompile Include="util\SettingsManager\SettingsManager.cpp" />
+    <ClCompile Include="util\SettingsManager\SettingsManagerCreator.cpp" />
     <ClCompile Include="util\Singleton\Singleton.cpp" />
     <ClCompile Include="webcam\CameraFrameGrabber\CameraFrameGrabber.cpp" />
     <ClCompile Include="webcam\FrameConverter\FrameConverter.cpp" />
@@ -198,6 +201,11 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_MULTIMEDIAWIDGETS_LIB -DBCHATLIB_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtMultimedia" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtMultimediaWidgets" "-I$(ProjectDir)libs\include"</Command>
     </CustomBuild>
+    <ClInclude Include="util\SettingsManager\ISettingsManager.h" />
+    <ClInclude Include="util\SettingsManager\Settings.h" />
+    <ClInclude Include="util\SettingsManager\SettingsManager.h" />
+    <ClInclude Include="util\SettingsManager\SettingsManagerContainer.h" />
+    <ClInclude Include="util\SettingsManager\SettingsManagerCreator.h" />
     <ClInclude Include="util\Singleton\SingletonContainer.h" />
     <CustomBuild Include="TestTestClass.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
