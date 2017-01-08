@@ -148,7 +148,6 @@
     </ClCompile>
     <ClCompile Include="Models\User.cpp" />
     <ClCompile Include="NetworkAdapter\INetwork.cpp" />
-    <ClCompile Include="NetworkAdapter\NetworkAdapter.cpp" />
     <ClCompile Include="NetworkAdapter\NetworkProcessingThread.cpp" />
     <ClCompile Include="Network\Network.cpp" />
     <ClCompile Include="Network\TcpClient.cpp" />
@@ -231,7 +230,6 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_MULTIMEDIAWIDGETS_LIB -DBCHATLIB_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtMultimedia" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtMultimediaWidgets" "-I$(ProjectDir)libs\include"</Command>
     </CustomBuild>
-    <ClInclude Include="NetworkAdapter\NetworkAdapter.h" />
     <CustomBuild Include="NetworkAdapter\NetworkProcessingThread.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing NetworkProcessingThread.h...</Message>

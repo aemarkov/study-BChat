@@ -1,16 +1,17 @@
 #pragma once
 
-#include <QObject>
+#include <QThread>
 
-class INetwork : public QObject
+class INetwork : public QThread
 {
 	Q_OBJECT
 
 public:
 
 public slots :
-	virtual void SendSlot(uint8_t* data, uint32_t size);
+	virtual void SendSlot(uint8_t*, uint32_t) = 0;
 
 signals:
-	void RecvSignal(uint8_t* data, uint32_t size);	
+	void RecvSignal(uint8_t*, uint32_t);	
+	void ConnectionProblem(int errorCode);
 };

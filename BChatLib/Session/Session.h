@@ -16,6 +16,9 @@
 #include "Containers/SimpleContainerMultiplexor.h"
 #include "UserManager/UserManagerContainer.h"
 
+#include "NetworkAdapter\INetwork.h"
+#include "CryptoAdapter\ICrypt.h"
+
 //class SimpleSessionManager;
 
 /*!
@@ -31,8 +34,8 @@ class Session: public QObject
 
 public:
 
-	Session();
-	void UserConnected(uint32_t userId, TcpClient client);
+	Session(ICrypt& crypter);
+	void UserConnected(uint32_t userId, INetwork * client);
 
 public slots:
 
@@ -47,10 +50,12 @@ signals:
 	void UserDisconnected(int);
 
 	//Видео от другого пользователя
-	void UserFrameOutput(QImage&);
+	void OtherFrameOutput(QImage&);
 
 	//Видео с моей камеры
 	void MyFrameOutput(QImage&);
+
+
 
 private:
 	std::map<uint32_t, SessionUser> _users;
@@ -60,4 +65,6 @@ private:
 	Webcam::ContainerToQImageConverter _containerToQImageConverter;
 
 	Containers::SimpleContainerMultiplexor _multiplexor;
+
+	ICrypt& _crypter;
 };

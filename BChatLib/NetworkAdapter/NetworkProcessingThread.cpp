@@ -2,11 +2,16 @@
 
 NetworkProcessingThread::NetworkProcessingThread(TcpClient & tcpClient)
 {
-	_tcpClient = tcpClient;
+	_tcpClient = std::move(tcpClient);
 }
 
 NetworkProcessingThread::~NetworkProcessingThread()
 {
+}
+
+void NetworkProcessingThread::SendSlot(uint8_t* data, uint32_t size)
+{
+	_tcpClient.Send((char*)data, size);
 }
 
 void NetworkProcessingThread::run()

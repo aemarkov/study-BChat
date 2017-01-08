@@ -7,7 +7,7 @@
 #include "Network/TcpListener.h"
 
 #include "NetworkAdapter/INetwork.h"
-#include "NetworkAdapter/NetworkAdapter.h"
+#include "NetworkAdapter/NetworkProcessingThread.h"
 
 #include "crypto/cryptoapi.h"
 #include "CryptoAdapter/ICrypt.h"
@@ -58,11 +58,15 @@ signals:
 
 private:
 	CryptoAPI _cryptoAPI;
+	CryptoApiAdapter _cryptoAPIAdapter;
 	Session _session;
 	uint32_t _myId = 0;
 	
 
 	void WaitForConnection(int port);
-	void AcceptConnection(TcpClient client);
+	void AcceptConnection(TcpClient & client);
+
+	NetworkProcessingThread* CreateTcpClientAdapter(TcpClient & client);
+	//CryptoApiAdapter* CreateCryptoAPIAdapter(CryptoAPI & api);
 
 };

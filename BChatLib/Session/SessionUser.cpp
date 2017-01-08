@@ -1,11 +1,11 @@
 #include "SessionUser.h"
 
-SessionUser::SessionUser()
+/*SessionUser::SessionUser()
 {
-}
+}*/
 
-SessionUser::SessionUser(User user, TcpClient client)
+SessionUser::SessionUser(User user, INetwork * client)
 {
-	user = this->user;;
 	this->client = client;
+	this->user = user;;
 }

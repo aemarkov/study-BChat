@@ -3,8 +3,9 @@
 #include <QObject>
 #include <qthread.h>
 #include "Network\TcpClient.h"
+#include "INetwork.h"
 
-class NetworkProcessingThread : public QThread
+class NetworkProcessingThread : public INetwork
 {
 	Q_OBJECT
 
@@ -14,9 +15,9 @@ public:
 
 	void run();
 
-signals: 
-	void RecvSignal(uint8_t* data, uint32_t size);
-	void ConnectionProblem(int errorCode);
+public slots :
+	virtual void SendSlot(uint8_t*, uint32_t) override;
+
 
 private:
 	TcpClient _tcpClient;

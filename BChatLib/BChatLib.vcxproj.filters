@@ -171,9 +171,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_INetwork.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="NetworkAdapter\NetworkAdapter.cpp">
-      <Filter>NetworkAdapter</Filter>
-    </ClCompile>
     <ClCompile Include="NetworkAdapter\NetworkProcessingThread.cpp">
       <Filter>NetworkAdapter</Filter>
     </ClCompile>
@@ -249,17 +246,17 @@
     <ClCompile Include="UserManager\UserManagerCreator.cpp">
       <Filter>UserManager</Filter>
     </ClCompile>
-    <ClCompile Include="Session\Session.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_Session.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_Session.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Session\Session.cpp">
+      <Filter>Session</Filter>
+    </ClCompile>
     <ClCompile Include="Session\SessionUser.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Session</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -301,9 +298,6 @@
     </ClInclude>
     <ClInclude Include="CryptoAdapter\CryptoApiAdapter.h">
       <Filter>CryptoAdapter</Filter>
-    </ClInclude>
-    <ClInclude Include="NetworkAdapter\NetworkAdapter.h">
-      <Filter>NetworkAdapter</Filter>
     </ClInclude>
     <ClInclude Include="Containers\BaseContainer.h">
       <Filter>Containers</Filter>

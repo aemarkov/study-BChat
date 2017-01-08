@@ -1,6 +1,8 @@
 #include "SimpleSessionManager.h"
 
-SimpleSessionManager::SimpleSessionManager()
+SimpleSessionManager::SimpleSessionManager():
+	_cryptoAPIAdapter(_cryptoAPI),
+	_session(_cryptoAPIAdapter)
 {
 }
 
@@ -66,7 +68,7 @@ void SimpleSessionManager::ConnectToUser(uint32_t userId)
 
 		delete[] keyBuffer;
 
-		_session.UserConnected(userId, client);
+		_session.UserConnected(userId, CreateTcpClientAdapter(client));
 
 	}
 	catch (Exception ex)
@@ -100,7 +102,7 @@ void SimpleSessionManager::WaitForConnection(int port)
 
 
 //Обмен ключами и прочей инфомацией с подключенным пользователем
-void SimpleSessionManager::AcceptConnection(TcpClient  client)
+void SimpleSessionManager::AcceptConnection(TcpClient & client)
 {
 	try
 	{
@@ -124,7 +126,7 @@ void SimpleSessionManager::AcceptConnection(TcpClient  client)
 
 		delete[] keyBuffer;
 
-		_session.UserConnected(userId, client);
+		_session.UserConnected(userId, CreateTcpClientAdapter(client));
 	}
 	catch (Exception ex)
 	{
@@ -132,3 +134,17 @@ void SimpleSessionManager::AcceptConnection(TcpClient  client)
 		DialogHelper::ShowDialog(ex.Message);
 	}
 }
+
+
+
+
+NetworkProcessingThread* SimpleSessionManager::CreateTcpClientAdapter(TcpClient & client)
+{
+	auto adapter = new NetworkProcessingThread(client);
+	return adapter;
+}
+
+/*CryptoApiAdapter * SimpleSessionManager::CreateCryptoAPIAdapter(CryptoAPI & api)
+{
+	return new CryptoApiAdapter(api);
+}*/
