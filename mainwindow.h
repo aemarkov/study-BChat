@@ -11,12 +11,17 @@
 
 #include "webcam/CameraFrameGrabber/CameraFrameGrabber.h"
 #include "webcam/FrameConverter/FrameConverter.h"
-#include "webcam/QImageConverter/QImageToBytesConverter.h"
-#include "webcam/QImageConverter/BytesToQImageConverter.h"
+#include "webcam/QImageConverter/QImageToContainerConverter.h"
+#include "webcam/QImageConverter/ContainerToQImageConverter.h"
 
 #include "crypto/cryptoapi.h"
 #include "CryptoAdapter/CryptoApiAdapter.h"
 #include "CryptoAdapter/ICrypt.h"
+
+#include "Containers\SimpleContainerMultiplexor.h"
+
+using namespace Webcam;
+//using namespace Containers;
 
 namespace Ui {
 class MainWindow;
@@ -77,8 +82,9 @@ private:
     CameraFrameGrabber _cameraFrameGrabber;
     FrameConverter _frameConverter;
 
-	QImageToBytesConverter _qimageToByteConverter;
-	BytesToQImageConverter _bytesToQImageConverter;
+	QImageToContainerConverter _qimageToContainerConverter;
+	ContainerToQImageConverter _containerToQImageConverter;
+	Containers::SimpleContainerMultiplexor _multiplexor;
 
 	Crypto::CryptoAPI _cryptoApi;
 	CryptoApiAdapter _cryptoAdapter;

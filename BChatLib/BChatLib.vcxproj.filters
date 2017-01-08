@@ -79,6 +79,9 @@
     <Filter Include="webcam\QImageConverter">
       <UniqueIdentifier>{9f8b1623-86b8-4b03-9ff5-96fcbd76be1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Containers">
+      <UniqueIdentifier>{bedf7811-50a2-4233-b7e4-263c28dff657}</UniqueIdentifier>
+    </Filter>
     <Filter Include="util\SettingsManager">
       <UniqueIdentifier>{20eb6276-631e-478a-8577-083cf2bd845a}</UniqueIdentifier>
     </Filter>
@@ -165,23 +168,35 @@
     <ClCompile Include="GeneratedFiles\Release\moc_ICrypt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="webcam\QImageConverter\BytesToQImageConverter.cpp">
-      <Filter>webcam\QImageConverter</Filter>
+    <ClCompile Include="Containers\VideoFrameContainer.cpp">
+      <Filter>Containers</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_BytesToQImageConverter.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_QImageToContainerConverter.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_BytesToQImageConverter.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_QImageToContainerConverter.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="webcam\QImageConverter\QImageToBytesConverter.cpp">
+    <ClCompile Include="webcam\QImageConverter\QImageToContainerConverter.cpp">
       <Filter>webcam\QImageConverter</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_QImageToBytesConverter.cpp">
+    <ClCompile Include="webcam\QImageConverter\ConainerToQImageConverter.cpp">
+      <Filter>webcam\QImageConverter</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ContainerToQImageConverter.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_QImageToBytesConverter.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_ContainerToQImageConverter.cpp">
       <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_SimpleContainerMultiplexor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_SimpleContainerMultiplexor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Containers\SimpleContainerMultiplexor.cpp">
+      <Filter>Containers</Filter>
     </ClCompile>
     <ClCompile Include="util\SettingsManager\SettingsManagerCreator.cpp">
       <Filter>util\SettingsManager</Filter>
@@ -236,6 +251,12 @@
     <ClInclude Include="NetworkAdapter\NetworkAdapter.h">
       <Filter>NetworkAdapter</Filter>
     </ClInclude>
+    <ClInclude Include="Containers\BaseContainer.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\VideoFrameContainer.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
     <ClInclude Include="util\SettingsManager\ISettingsManager.h">
       <Filter>util\SettingsManager</Filter>
     </ClInclude>
@@ -279,11 +300,14 @@
     <CustomBuild Include="NetworkAdapter\NetworkProcessingThread.h">
       <Filter>NetworkAdapter</Filter>
     </CustomBuild>
-    <CustomBuild Include="webcam\QImageConverter\BytesToQImageConverter.h">
+    <CustomBuild Include="webcam\QImageConverter\QImageToContainerConverter.h">
       <Filter>webcam\QImageConverter</Filter>
     </CustomBuild>
-    <CustomBuild Include="webcam\QImageConverter\QImageToBytesConverter.h">
+    <CustomBuild Include="webcam\QImageConverter\ContainerToQImageConverter.h">
       <Filter>webcam\QImageConverter</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Containers\SimpleContainerMultiplexor.h">
+      <Filter>Containers</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

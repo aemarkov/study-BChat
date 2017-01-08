@@ -5,48 +5,52 @@
 #include <QImage>
 #include <QVideoFrame>
 
-/*!
- * \brief Преобразует QVideoFrame в QImage
- *
- * Преобразует QVideoFrame в QImage. Конвертирует кадры
- * в заданный формат.
- */
-class FrameConverter:public QObject
+namespace Webcam
 {
-    Q_OBJECT
 
- public:
-    /*!
-     * \brief FrameConverter Создает новый экземпляр FrameConverter,
-     *        который конвертирует кадры в Format_RGB30
-     */
-    FrameConverter();
+	/*!
+	 * \brief Преобразует QVideoFrame в QImage
+	 *
+	 * Преобразует QVideoFrame в QImage. Конвертирует кадры
+	 * в заданный формат.
+	 */
+	class FrameConverter :public QObject
+	{
+		Q_OBJECT
 
-    /*!
-     * \brief FrameConverter Создает новый экземпляр FrameConverter,
-     *        который конвертирует кадры в заданный формат
-     * \param format выходной формат
-     */
-    FrameConverter(QImage::Format format);
+	public:
+		/*!
+		 * \brief FrameConverter Создает новый экземпляр FrameConverter,
+		 *        который конвертирует кадры в Format_RGB30
+		 */
+		FrameConverter();
 
-public slots:
-    /*!
-     * \brief Получение исходного кадра в формате QVideoFrame
-     * \param frame
-     */
-    void FrameInput(const QVideoFrame& frame);
-signals:
+		/*!
+		 * \brief FrameConverter Создает новый экземпляр FrameConverter,
+		 *        который конвертирует кадры в заданный формат
+		 * \param format выходной формат
+		 */
+		FrameConverter(QImage::Format format);
 
-    /*!
-     * \brief Отправка конвертированного кадра в формате QImage
-     * \param image
-     */
-    void FrameOutput(QImage& image);
+		public slots:
+		/*!
+		 * \brief Получение исходного кадра в формате QVideoFrame
+		 * \param frame
+		 */
+		void FrameInput(const QVideoFrame& frame);
+	signals:
 
- private:
+		/*!
+		 * \brief Отправка конвертированного кадра в формате QImage
+		 * \param image
+		 */
+		void FrameOutput(QImage& image);
 
-    QImage::Format _targetFormat;
+	private:
 
-};
+		QImage::Format _targetFormat;
+
+	};
+}
 
 #endif // FRAMECONVERTER_H
