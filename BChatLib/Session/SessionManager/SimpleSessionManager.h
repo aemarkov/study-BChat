@@ -54,8 +54,7 @@ public:
 	Session& GetSession();
 
 signals:
-	void WaitingForConnection();
-	void UserConnected();
+	void SessionCreated();
 
 private:
 	CryptoAPI _cryptoAPI;

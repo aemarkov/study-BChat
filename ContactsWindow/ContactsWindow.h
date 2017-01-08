@@ -7,6 +7,8 @@
 #include "util\SettingsManager\SettingsManagerContainer.h"
 #include "SettingsWindow\SettingsWindow.h"
 
+#include "ChatWindow\ChatWindow.h"
+
 class ContactsWindow : public QWidget
 {
 	Q_OBJECT
@@ -25,6 +27,5 @@ public slots:
 	void JoinChat_Click();
 	void HostChat_Click();
 
-	void Host_WaitingForConnection();
-	void Host_UserConnected();
+	void SessionCreated();
 };

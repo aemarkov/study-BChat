@@ -14,6 +14,7 @@
 #include "webcam/QImageConverter/ContainerToQImageConverter.h"
 
 #include "Containers/SimpleContainerMultiplexor.h"
+#include "UserManager/UserManagerContainer.h"
 
 //class SimpleSessionManager;
 
@@ -30,16 +31,16 @@ class Session: public QObject
 
 public:
 
-	void AddUser(uint32_t userId, TcpClient client);
+	void UserConnected(uint32_t userId, TcpClient client);
 
 public slots:
 
-	void MyFrameInput(const QVideoFrame& frame);
+	void MyFrameInput(const QVideoFrame&);
 
 signals:
 
-	void UserConnected(uint32_t);
-	void UserDisconnected(uint32_t);
+	void UserConnected(int);
+	void UserDisconnected(int);
 
 	//Видео от другого пользователя
 	void UserFrameOutput(QImage&);

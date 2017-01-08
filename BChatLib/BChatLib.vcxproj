@@ -155,6 +155,7 @@
     <ClCompile Include="Network\TcpListener.cpp" />
     <ClCompile Include="Session\Session.cpp" />
     <ClCompile Include="Session\SessionManager\SimpleSessionManager.cpp" />
+    <ClCompile Include="Session\SessionUser.cpp" />
     <ClCompile Include="UserManager\IUserManager.cpp" />
     <ClCompile Include="UserManager\UserManager.cpp" />
     <ClCompile Include="UserManager\UserManagerCreator.cpp" />

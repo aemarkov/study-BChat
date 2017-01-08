@@ -10,8 +10,8 @@ ContactsWindow::ContactsWindow(QWidget *parent)
 	connect(ui.btnHostChat, SIGNAL(clicked()), this, SLOT(HostChat_Click()));
 	connect(ui.btnJoinChat, SIGNAL(clicked()), this, SLOT(JoinChat_Click()));
 
-	connect(&_sessionManager, SIGNAL(WaitingForConnection()), this, SLOT(Host_WaitingForConnection()));
-	connect(&_sessionManager, SIGNAL(UserConnected()), this, SLOT(Host_UserConnected()));
+	connect(&_sessionManager, SIGNAL(SessionCreated()), this, SLOT(SessionCreated()));
+	//connect(&_sessionManager, SIGNAL(UserConnected()), this, SLOT(Host_UserConnected()));
 }
 
 ContactsWindow::~ContactsWindow()
@@ -35,13 +35,10 @@ void ContactsWindow::HostChat_Click()
 	_sessionManager.CreateChat();
 }
 
-void ContactsWindow::Host_WaitingForConnection()
+void ContactsWindow::SessionCreated()
 {
 	ui.btnHostChat->setEnabled(false);
-	ui.btnHostChat->setText("Waiting for connection");
-}
 
-void ContactsWindow::Host_UserConnected()
-{
-	ui.btnHostChat->setText("Connected");
+	ChatWindow* chat = new ChatWindow(_sessionManager.GetSession());
+	chat->show();
 }

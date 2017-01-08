@@ -17,7 +17,7 @@ void SimpleSessionManager::CreateChat()
 		std::thread waitingThread(&SimpleSessionManager::WaitForConnection, this, settings.GetPort());
 		waitingThread.detach();
 
-		emit WaitingForConnection();
+		emit SessionCreated();
 	}
 	catch (Exception ex)
 	{
@@ -46,6 +46,8 @@ void SimpleSessionManager::ConnectToUser(uint32_t userId)
 		if (result != 0)
 			DialogHelper::ShowDialog("Can't join chat");
 
+		emit SessionCreated();
+
 		//Передаем свой Id (Это должен быть нормальный Id)
 		client.SimpleSend((char*)&_myId, sizeof(_myId));
 
@@ -64,7 +66,7 @@ void SimpleSessionManager::ConnectToUser(uint32_t userId)
 
 		delete[] keyBuffer;
 
-		_session.AddUser(userId, client);
+		_session.UserConnected(userId, client);
 
 	}
 	catch (Exception ex)
@@ -122,7 +124,7 @@ void SimpleSessionManager::AcceptConnection(TcpClient  client)
 
 		delete[] keyBuffer;
 
-		_session.AddUser(userId, client);
+		_session.UserConnected(userId, client);
 	}
 	catch (Exception ex)
 	{

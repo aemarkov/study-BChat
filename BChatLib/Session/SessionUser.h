@@ -9,6 +9,10 @@
 class SessionUser
 {
 public:
-	User User;
-	TcpClient Client;
+
+	SessionUser();
+	SessionUser(User user, TcpClient client);
+
+	User user;
+	TcpClient client;
 };
