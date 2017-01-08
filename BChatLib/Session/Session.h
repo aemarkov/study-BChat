@@ -31,6 +31,7 @@ class Session: public QObject
 
 public:
 
+	Session();
 	void UserConnected(uint32_t userId, TcpClient client);
 
 public slots:
@@ -38,6 +39,9 @@ public slots:
 	void MyFrameInput(const QVideoFrame&);
 
 signals:
+
+	//Чтобы пробросить слот на сигнал для внутреннего использования
+	void __MyFameInput(const QVideoFrame&);
 
 	void UserConnected(int);
 	void UserDisconnected(int);

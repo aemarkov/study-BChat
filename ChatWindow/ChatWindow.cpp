@@ -19,6 +19,9 @@ ChatWindow::ChatWindow(Session& session):
 	connect(&_session, SIGNAL(UserConnected(int)), this, SLOT(UserConnected(int)));
 	connect(&_session, SIGNAL(UserDisconnected(int)), this, SLOT(UserDisconnected(int)));
 
+	connect(&_cameraFrameGrabber, SIGNAL(FrameOutput(QVideoFrame)), &_session, SLOT(MyFrameInput(QVideoFrame)));
+	connect(&_session, SIGNAL(MyFrameOutput(QImage&)), ui.camYou, SLOT(FrameInput(QImage&)));
+
 	UpdateCameras();
 	SetCamera(QCameraInfo::defaultCamera());
 }
