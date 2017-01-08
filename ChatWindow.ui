@@ -1,112 +1,155 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>ChatWindow</class>
- <widget class="QWidget" name="ChatWindow">
+ <widget class="QMainWindow" name="ChatWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>556</width>
-    <height>477</height>
+    <width>568</width>
+    <height>513</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Чат</string>
   </property>
-  <widget class="QGroupBox" name="gbChat">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>230</y>
-     <width>531</width>
-     <height>241</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Чат</string>
-   </property>
-   <widget class="QTextEdit" name="txtChat">
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QGroupBox" name="gbChat">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>20</y>
-      <width>511</width>
-      <height>151</height>
+      <y>230</y>
+      <width>531</width>
+      <height>241</height>
      </rect>
     </property>
+    <property name="title">
+     <string>Чат</string>
+    </property>
+    <widget class="QTextEdit" name="txtChat">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>511</width>
+       <height>151</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QTextEdit" name="txtMessage">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>180</y>
+       <width>431</width>
+       <height>51</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btnSendMessage">
+     <property name="geometry">
+      <rect>
+       <x>450</x>
+       <y>180</y>
+       <width>75</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Отправить</string>
+     </property>
+    </widget>
    </widget>
-   <widget class="QTextEdit" name="txtMessage">
+   <widget class="QGroupBox" name="gbInterlocutor">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>10</y>
+      <width>261</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Собеседник</string>
+    </property>
+    <widget class="VideoViewer" name="camInterlocutor" native="true">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>241</width>
+       <height>191</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="gbYou">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>180</y>
-      <width>431</width>
-      <height>51</height>
+      <y>10</y>
+      <width>261</width>
+      <height>221</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QPushButton" name="btnSendMessage">
-    <property name="geometry">
-     <rect>
-      <x>450</x>
-      <y>180</y>
-      <width>75</width>
-      <height>51</height>
-     </rect>
+    <property name="title">
+     <string>Вы</string>
     </property>
-    <property name="text">
-     <string>Отправить</string>
-    </property>
+    <widget class="VideoViewer" name="camYou" native="true">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>241</width>
+       <height>191</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
   </widget>
-  <widget class="QGroupBox" name="gbYou">
+  <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>261</width>
-     <height>221</height>
+     <x>0</x>
+     <y>0</y>
+     <width>568</width>
+     <height>21</height>
     </rect>
    </property>
-   <property name="title">
-    <string>Вы</string>
-   </property>
-   <widget class="QWidget" name="camYou" native="true">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>20</y>
-      <width>241</width>
-      <height>191</height>
-     </rect>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Настройки</string>
     </property>
+    <widget class="QMenu" name="MenuCamera">
+     <property name="title">
+      <string>Камеры</string>
+     </property>
+    </widget>
+    <addaction name="MenuCamera"/>
+    <addaction name="menuToggleCamera"/>
    </widget>
+   <addaction name="menuSettings"/>
   </widget>
-  <widget class="QGroupBox" name="gbInterlocutor">
-   <property name="geometry">
-    <rect>
-     <x>280</x>
-     <y>10</y>
-     <width>261</width>
-     <height>221</height>
-    </rect>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="action123">
+   <property name="text">
+    <string>123</string>
    </property>
-   <property name="title">
-    <string>Собеседник</string>
+  </action>
+  <action name="menuToggleCamera">
+   <property name="text">
+    <string>Выключить камеру</string>
    </property>
-   <widget class="QWidget" name="camInterlocutor" native="true">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>20</y>
-      <width>241</width>
-      <height>191</height>
-     </rect>
-    </property>
-   </widget>
-  </widget>
+  </action>
  </widget>
- <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>VideoViewer</class>
+   <extends>QWidget</extends>
+   <header>webcam/VideoViewer/VideoViewer.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

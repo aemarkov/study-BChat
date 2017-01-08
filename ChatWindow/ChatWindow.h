@@ -1,12 +1,18 @@
 #pragma once
 
-#include <QWidget>
-#include <qdialog>
+#include <QMainWindow>
 #include "ui_ChatWindow.h"
 
-#include "Session/Session.h"
+#include <QCamera>
+#include <QCameraImageCapture>
+#include <QMediaRecorder>
+#include <QCameraInfo>
+#include <QMediaMetaData>
 
-class ChatWindow : public QDialog
+#include "Session/Session.h"
+#include "webcam/CameraFrameGrabber/CameraFrameGrabber.h"
+
+class ChatWindow : public QMainWindow
 {
 	Q_OBJECT
 
@@ -15,11 +21,28 @@ public:
 	ChatWindow(Session& session);
 	~ChatWindow();
 
-public slots:
+	public slots:
+
+	//Событие изменения состояния камеры
+	void UpdateCameraState(const QCamera::State state);
+
+	//событие нажатия на кнопку вкл\выкл камеры
+	void ButtonCameraToggle_clicked();
+
+	//Событие выбора камеры в пункте меню
+	void CameraSelected(QAction *action);
+
 	void UserConnected(int);
 	void UserDisconnected(int);
 
 private:
 	Ui::ChatWindow ui;
 	Session& _session;
+
+	void UpdateCameras();
+	void SetCamera(const QCameraInfo & info);
+
+	QCamera *camera;
+	CameraFrameGrabber _cameraFrameGrabber;
+	bool _isCameraActive;
 };

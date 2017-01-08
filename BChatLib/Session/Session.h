@@ -51,7 +51,6 @@ signals:
 private:
 	std::map<uint32_t, SessionUser> _users;
 
-	CameraFrameGrabber _cameraFrameGrabber;
 	Webcam::FrameConverter _frameConverter;
 	Webcam::QImageToContainerConverter _qimageToContainerConverter;
 	Webcam::ContainerToQImageConverter _containerToQImageConverter;
