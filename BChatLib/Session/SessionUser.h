@@ -3,6 +3,9 @@
 #include "Models/User.h"
 #include "Network/TcpClient.h"
 
+/*!
+ * \brief Хранит одного пользователя в сессии - сам пользователь и TcpClient для связи
+ */
 class SessionUser
 {
 public:

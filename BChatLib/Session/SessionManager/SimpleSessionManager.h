@@ -7,7 +7,7 @@
 #include "Network/TcpListener.h"
 
 #include "NetworkAdapter/INetwork.h"
-#include "NetworkAdapter/NetworkAdapter.h"*/
+#include "NetworkAdapter/NetworkAdapter.h"
 
 #include "crypto/cryptoapi.h"
 #include "CryptoAdapter/ICrypt.h"
@@ -15,7 +15,7 @@
 
 #include "util/SettingsManager/SettingsManagerContainer.h"
 #include "util/DialogHelper/DialogHelper.h"
-#include "UserManager/UserManagerContainer.h";
+#include "UserManager/UserManagerContainer.h"
 
 #include <stdint.h>
 
@@ -51,13 +51,16 @@ public:
 	 */
 	void ConnectToUser(uint32_t userId);
 
+	Session& GetSession();
+
 signals:
 	void WaitingForConnection();
 	void UserConnected();
 
 private:
-	Session _session;
 	CryptoAPI _cryptoAPI;
+	Session _session;
+	uint32_t _myId = 0;
 	
 
 	void WaitForConnection(int port);

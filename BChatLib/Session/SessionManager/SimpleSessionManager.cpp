@@ -47,8 +47,11 @@ void SimpleSessionManager::ConnectToUser(uint32_t userId)
 			DialogHelper::ShowDialog("Can't join chat");
 
 		//Передаем свой Id (Это должен быть нормальный Id)
-		uint32_t myId = 0;
-		client.SimpleSend((char*)&myId, sizeof(myId));
+		client.SimpleSend((char*)&_myId, sizeof(_myId));
+
+		//Принимаем Id другого пользователя (в чате могут быть несколько пользователей)
+		uint32_t userId;
+		client.SimpleRecv((char*)&userId, sizeof(userId));
 
 		//Обмен ключами		
 		int keyBufferSize;
@@ -58,12 +61,29 @@ void SimpleSessionManager::ConnectToUser(uint32_t userId)
 			throw new Exception("Can't get session key from server");
 
 		_cryptoAPI.ImportSessionKey(keyBuffer, keyBufferSize, settings.GetCertificate(), settings.GetInterlocutorCertificate());
+
+		delete[] keyBuffer;
+
+		_session.AddUser(userId, client);
+
 	}
 	catch (Exception ex)
 	{
+		//Может остаться не удаленный keyBuffer
 		DialogHelper::ShowDialog(ex.Message.c_str());
 	}
 }
+
+Session & SimpleSessionManager::GetSession()
+{
+	return _session;
+}
+
+
+
+
+
+
 
 //Ожидание подключение пользователя
 void SimpleSessionManager::WaitForConnection(int port)
@@ -74,9 +94,8 @@ void SimpleSessionManager::WaitForConnection(int port)
 
 	//Соединение установлено
 	AcceptConnection(client);
-
-	emit UserConnected();
 }
+
 
 //Обмен ключами и прочей инфомацией с подключенным пользователем
 void SimpleSessionManager::AcceptConnection(TcpClient  client)
@@ -86,6 +105,9 @@ void SimpleSessionManager::AcceptConnection(TcpClient  client)
 		//Узнать Id подключенного пользователя
 		uint32_t userId;
 		client.SimpleRecv((char*)&userId, sizeof(userId));
+
+		//Передаем свой Id
+		client.SimpleSend((char*)&_myId, sizeof(_myId));
 
 		//Получаем пользователя по этому Id (на самом деле нет, это стандартный пользователь)
 		auto user = UserManagerContainer::Inner()->GetUser(userId);
@@ -99,9 +121,12 @@ void SimpleSessionManager::AcceptConnection(TcpClient  client)
 		client.Send((char*)keyBuffer, keyBufferSize);
 
 		delete[] keyBuffer;
+
+		_session.AddUser(userId, client);
 	}
 	catch (Exception ex)
 	{
+		//Может остаться не удаленный keyBuffer
 		DialogHelper::ShowDialog(ex.Message);
 	}
 }

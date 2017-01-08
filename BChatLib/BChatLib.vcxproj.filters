@@ -249,6 +249,15 @@
     <ClCompile Include="UserManager\UserManagerCreator.cpp">
       <Filter>UserManager</Filter>
     </ClCompile>
+    <ClCompile Include="Session\Session.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_Session.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_Session.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BChatLib.h">
@@ -335,9 +344,6 @@
     <ClInclude Include="UserManager\UserManagerCreator.h">
       <Filter>UserManager</Filter>
     </ClInclude>
-    <ClInclude Include="Session\Session.h">
-      <Filter>Session</Filter>
-    </ClInclude>
     <ClInclude Include="Session\SessionUser.h">
       <Filter>Session</Filter>
     </ClInclude>
@@ -380,6 +386,9 @@
     </CustomBuild>
     <CustomBuild Include="Session\SessionManager\SimpleSessionManager.h">
       <Filter>Session\SessionManager</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Session\Session.h">
+      <Filter>Session</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>
