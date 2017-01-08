@@ -4,11 +4,10 @@
 
 UserManager::UserManager()
 {
-}
-
-
-UserManager::UserManager()
-{
+	User user;
+	user._certName = SettingsManagerContainer::Inner()->ReadSettings().GetCertificate();
+	user._name = "User1";
+	user._id = 1;
 }
 
 UserManager::~UserManager()
@@ -22,5 +21,5 @@ vector<User> UserManager::GetUsers()
 
 User UserManager::GetUser(uint32_t id)
 {
-	return _users[id];
+	return _users[0];
 }

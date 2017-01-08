@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IUserManager.h"
-
+#include "util\SettingsManager\SettingsManagerContainer.h"
 class UserManager : IUserManager
 {
 public:

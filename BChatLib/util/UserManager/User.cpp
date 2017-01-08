@@ -7,6 +7,10 @@ User::User(uint32_t id, string name, string certName)
 	_certName = certName;
 }
 
+User::User()
+{
+}
+
 User::~User()
 {
 }
