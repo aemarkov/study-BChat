@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     camera(0),
-    _frameConverter(QImage::Format_RGB16),
+    _frameConverter(QImage::Format_RGB444),
 	_cryptoApi("TestCertContainer"),
 	_cryptoAdapter(_cryptoApi)
 {
@@ -27,15 +27,15 @@ MainWindow::MainWindow(QWidget *parent) :
     //connect(&_frameConverter, SIGNAL(FrameOutput(QImage)), this, SLOT(HandleFrame(QImage)));
 
 	//в байты - зашифровать - расшифровать - из байт - отобразить (для теста)
-	connect(&_frameConverter, SIGNAL(FrameOutput(QImage&)), &_qimageToByteConverter, SLOT(FrameInput(QImage&)));
+	connect(&_frameConverter, SIGNAL(FrameOutput(QImage&)), &_qimageToContainerConverter, SLOT(FrameInput(QImage&)));
 
-	connect(&_qimageToByteConverter, SIGNAL(DataOutput(uint8_t*, uint32_t)), &_cryptoAdapter, SLOT(EncryptSlot(uint8_t*, uint32_t)));
-	connect(&_cryptoAdapter, SIGNAL(EncryptSignal(uint8_t*, uint32_t)), &_cryptoAdapter, SLOT(DecryptSlot(uint8_t*, uint32_t)));
-	connect(&_cryptoAdapter, SIGNAL(DecryptSignal(uint8_t*, uint32_t)), &_bytesToQImageConverter, SLOT(DataInput(uint8_t*, uint32_t)));
+	//connect(&_qimageToByteConverter, SIGNAL(DataOutput(uint8_t*, uint32_t)), &_cryptoAdapter, SLOT(EncryptSlot(uint8_t*, uint32_t)));
+	//connect(&_cryptoAdapter, SIGNAL(EncryptSignal(uint8_t*, uint32_t)), &_cryptoAdapter, SLOT(DecryptSlot(uint8_t*, uint32_t)));
+	//connect(&_cryptoAdapter, SIGNAL(DecryptSignal(uint8_t*, uint32_t)), &_bytesToQImageConverter, SLOT(DataInput(uint8_t*, uint32_t)));
 
-	//connect(&_qimageToByteConverter, SIGNAL(DataOutput(uint8_t*, uint32_t)), &_bytesToQImageConverter, SLOT(DataInput(uint8_t*, uint32_t)));
+	connect(&_qimageToContainerConverter, SIGNAL(DataOutput(const Containers::VideoFrameContainer &)), &_containerToQImageConverter, SLOT(DataInput(const Containers::VideoFrameContainer &)));
 
-	connect(&_bytesToQImageConverter, SIGNAL(FrameOutput(QImage&)), ui->MyCameraViewer, SLOT(FrameInput(QImage&)));
+	connect(&_containerToQImageConverter, SIGNAL(FrameOutput(QImage&)), ui->MyCameraViewer, SLOT(FrameInput(QImage&)));
 
 
     //Настройка камеры

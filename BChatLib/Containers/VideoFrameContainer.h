@@ -16,17 +16,21 @@ namespace Containers
 		~VideoFrameContainer();
 
 		//Сеттеры
-		bool IsBuffer();
-		void CreateBuffer(uint32_t size);
-		void SetBuffer(uint8_t* buffer, uint32_t size);
-		void SetWidth(uint32_t width);
-		void SetHeight(uint32_t height);
-		void SetFormat(QImage::Format format);
+		bool IsBuffer() const;
+		void CreateBuffer(const uint32_t size);
+		void SetBuffer(const uint8_t* buffer, uint32_t size);
+		uint8_t* GetBuffer() const;
+		void SetWidth(const uint32_t width);
+		uint32_t GetWidth() const;
+		void SetHeight(const uint32_t height);
+		uint32_t GetHeight() const;
+		void SetFormat(const QImage::Format format);
+		QImage::Format GetFormat() const;
 
 		//Сериализация
-		virtual uint32_t GetSize() override;
-		virtual void Serialize(uint8_t* buffer) override;
-		virtual void Deserialize(uint8_t* buffer) override;
+		virtual uint32_t GetSize() const override;
+		virtual void Serialize(uint8_t* buffer) const override;
+		virtual void Deserialize(const uint8_t* buffer) override;
 
 	private:
 

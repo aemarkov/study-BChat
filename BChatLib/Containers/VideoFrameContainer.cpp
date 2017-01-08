@@ -23,18 +23,18 @@ Containers::VideoFrameContainer::~VideoFrameContainer()
 
 ////////////////////////////////////////// —≈““≈–€ ////////////////////////////////////////////////
 
-bool Containers::VideoFrameContainer::IsBuffer()
+bool Containers::VideoFrameContainer::IsBuffer() const
 {
 	return _frameBuffer != nullptr;
 }
 
-void Containers::VideoFrameContainer::CreateBuffer(uint32_t size)
+void Containers::VideoFrameContainer::CreateBuffer(const uint32_t size)
 {
 	_bufferSize = size;
 	_frameBuffer = new uint8_t[size];
 }
 
-void Containers::VideoFrameContainer::SetBuffer(uint8_t * buffer, uint32_t size)
+void Containers::VideoFrameContainer::SetBuffer(const uint8_t * buffer, uint32_t size)
 {
 	if (buffer == nullptr)
 		throw new Exception("Buffer is not initialized");
@@ -51,26 +51,46 @@ void Containers::VideoFrameContainer::SetBuffer(uint8_t * buffer, uint32_t size)
 	memcpy(_frameBuffer, buffer, size);
 }
 
-void Containers::VideoFrameContainer::SetWidth(uint32_t width)
+uint8_t * Containers::VideoFrameContainer::GetBuffer() const
+{
+	return _frameBuffer;
+}
+
+void Containers::VideoFrameContainer::SetWidth(const uint32_t width)
 {
 	_width = width;
 }
 
-void Containers::VideoFrameContainer::SetHeight(uint32_t height)
+uint32_t Containers::VideoFrameContainer::GetWidth() const
+{
+	return _width;
+}
+
+void Containers::VideoFrameContainer::SetHeight(const uint32_t height)
 {
 	_height = height;
 }
 
-void Containers::VideoFrameContainer::SetFormat(QImage::Format format)
+uint32_t Containers::VideoFrameContainer::GetHeight() const
+{
+	return _height;
+}
+
+void Containers::VideoFrameContainer::SetFormat(const QImage::Format format)
 {
 	_format = format;
+}
+
+QImage::Format Containers::VideoFrameContainer::GetFormat() const
+{
+	return _format;
 }
 
 
 //////////////////////////////////////// —≈–»¿À»«¿÷»ﬂ /////////////////////////////////////////////
 
 
-uint32_t VideoFrameContainer::GetSize()
+uint32_t VideoFrameContainer::GetSize() const
 {
 	if (_frameBuffer == nullptr)
 		throw new Exception("Buffer is not initialized");
@@ -78,7 +98,7 @@ uint32_t VideoFrameContainer::GetSize()
 	return _bufferSize + sizeof(_width) + sizeof(_height) + sizeof(_format) + sizeof(_bufferSize);
 }
 
-void VideoFrameContainer::Serialize(uint8_t * buffer)
+void VideoFrameContainer::Serialize(uint8_t * buffer) const
 {
 	if (buffer == nullptr)
 		throw new Exception("Buffer is NULL");
@@ -104,7 +124,7 @@ void VideoFrameContainer::Serialize(uint8_t * buffer)
 	memcpy(buffer, _frameBuffer, _bufferSize);
 }
 
-void Containers::VideoFrameContainer::Deserialize(uint8_t * buffer)
+void Containers::VideoFrameContainer::Deserialize(const uint8_t * buffer)
 {
 	if (buffer == nullptr)
 		throw new Exception("Buffer is NULL");

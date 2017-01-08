@@ -21,19 +21,19 @@ namespace Containers
 		/*!
 		 * \brief Возвращает необходимый размер для сериализации
 		 */
-		virtual uint32_t GetSize() = 0;
+		virtual uint32_t GetSize() const = 0;
 
 		/*!
 		 * \brief Сериализует себя в буфер по указанному указателю
 		 *
 		 * ВНИМАНИЕ: В буфере должно быть как минимум GetSize() байт
 		 */
-		virtual void Serialize(uint8_t* buffer);
+		virtual void Serialize(uint8_t* buffer) const = 0;
 
 		/*!
 		 * \brief Десериализует буфер в себя (уже существующий объект)
 		 */
-		virtual void Deserialize(uint8_t* buffer);
+		virtual void Deserialize(const uint8_t* buffer) = 0;
 	};
 
 }
