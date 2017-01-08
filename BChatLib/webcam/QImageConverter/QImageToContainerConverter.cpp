@@ -21,6 +21,6 @@ void QImageToContainerConverter::FrameInput(QImage& image)
 	_container.SetHeight(image.height());
 	_container.SetFormat(image.format());
 
-	emit DataOutput(_container);
+	emit DataOutput(&_container);
 
 }

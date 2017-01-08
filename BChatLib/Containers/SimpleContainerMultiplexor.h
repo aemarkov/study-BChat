@@ -29,7 +29,7 @@ namespace Containers
 		 * ¬ообще-то надо родител€ принимать BaseContainer, но слоты-сигналы Qt
 		 * не коннект€тс€
 		 */
-		void InputContainer(const Containers::VideoFrameContainer&);
+		void InputContainer(const Containers::VideoFrameContainer*);
 		
 		/*
 		 * \brief ѕолучение данных в байтовом виде
@@ -46,7 +46,7 @@ namespace Containers
 		/*!
 		 * \brief ѕередача полученного кадра
 		 */
-		void OutputFrame(const Containers::VideoFrameContainer&);
+		void OutputFrame(const Containers::VideoFrameContainer*);
 	
 	private:
 		

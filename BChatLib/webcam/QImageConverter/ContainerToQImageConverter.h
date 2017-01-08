@@ -15,7 +15,7 @@ namespace Webcam
 	public:
 
 		public slots :
-			void DataInput(const Containers::VideoFrameContainer &);
+			void DataInput(const Containers::VideoFrameContainer *);
 
 	signals:
 		void FrameOutput(QImage&);

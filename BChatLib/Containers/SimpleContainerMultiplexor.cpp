@@ -3,12 +3,12 @@
 using namespace Containers;
 
 //ѕолучение данных от какого-то источника
-void SimpleContainerMultiplexor::InputContainer(const Containers::VideoFrameContainer& container)
+void SimpleContainerMultiplexor::InputContainer(const Containers::VideoFrameContainer* container)
 {
 	try
 	{
 		uint32_t size = _headerSize; // +sizeof(userId)
-		size += container.GetSize();
+		size += container->GetSize();
 
 		uint8_t * buffer = new uint8_t[size];
 		uint8_t * buffer0 = buffer;
@@ -19,7 +19,7 @@ void SimpleContainerMultiplexor::InputContainer(const Containers::VideoFrameCont
 		//memcpy(buffer, &userId, sizeof(userId));
 		//buffer += sizeof(userId);
 
-		container.Serialize(buffer);
+		container->Serialize(buffer);
 
 		emit OutputData(buffer0, size);
 	}
@@ -63,7 +63,7 @@ void SimpleContainerMultiplexor::InputData(uint8_t * buffer, uint32_t size)
 
 		//„итаем кадр
 		container.Deserialize(buffer);
-		emit OutputFrame(container);
+		emit OutputFrame(&container);
 
 		//¬от предполагаем, что это - последнее звено в цепочке, а 
 		//контейнеры копируют данные себе, а не просто ссылаютс€
