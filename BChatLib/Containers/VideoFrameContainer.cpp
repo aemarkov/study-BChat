@@ -31,7 +31,10 @@ void Containers::VideoFrameContainer::CreateBuffer(const uint32_t size)
 void Containers::VideoFrameContainer::SetBuffer(const uint8_t * buffer, uint32_t size)
 {
 	if (buffer == nullptr)
-		throw new Exception("Buffer is not initialized");
+	{
+		Logger::Instance()->WriteException("VideFrameContainer: Buffer is not initialized");
+		return;
+	}
 
 	if (_frameBuffer == nullptr)
 	{
@@ -40,7 +43,10 @@ void Containers::VideoFrameContainer::SetBuffer(const uint8_t * buffer, uint32_t
 	}
 
 	if (size != _bufferSize)
-		throw new Exception("Buffer has invalid size");
+	{
+		Logger::Instance()->WriteException("VideFrameContainer: Buffer has invalid size");
+		return;
+	}
 
 	memcpy(_frameBuffer, buffer, size);
 }
@@ -87,7 +93,10 @@ QImage::Format Containers::VideoFrameContainer::GetFormat() const
 uint32_t VideoFrameContainer::GetSize() const
 {
 	if (_frameBuffer == nullptr)
-		throw new Exception("Buffer is not initialized");
+	{
+		Logger::Instance()->WriteException("VideFrameContainer: Buffer is not initialized");
+		return 0;
+	}
 
 	return _bufferSize + sizeof(_width) + sizeof(_height) + sizeof(_format) + sizeof(_bufferSize);
 }
@@ -95,10 +104,16 @@ uint32_t VideoFrameContainer::GetSize() const
 void VideoFrameContainer::Serialize(uint8_t * buffer) const
 {
 	if (buffer == nullptr)
-		throw new Exception("Buffer is NULL");
+	{
+		Logger::Instance()->WriteException("VideFrameContainer: Buffer is null");
+		return;
+	}
 
 	if (_frameBuffer == nullptr)
-		throw new Exception("Buffer is not initialized");
+	{
+		Logger::Instance()->WriteException("VideFrameContainer: Buffer is not initialized");
+		return;
+	}
 
 
 	memcpy(buffer, &_width, sizeof(_width));
@@ -119,7 +134,10 @@ void VideoFrameContainer::Serialize(uint8_t * buffer) const
 void Containers::VideoFrameContainer::Deserialize(const uint8_t * buffer)
 {
 	if (buffer == nullptr)
-		throw new Exception("Buffer is NULL");
+	{
+		Logger::Instance()->WriteException("VideFrameContainer: Buffer is NULL");
+		return;
+	}
 
 	uint32_t size;
 
@@ -141,7 +159,10 @@ void Containers::VideoFrameContainer::Deserialize(const uint8_t * buffer)
 	}
 
 	if (size != _bufferSize)
-		throw new Exception("Buffer has invalid size");
+	{
+		Logger::Instance()->WriteException("VideFrameContainer: Buffer has invalid size");
+		return;
+	}
 
 	memcpy(_frameBuffer, buffer, _bufferSize);
 }

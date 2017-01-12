@@ -1,12 +1,21 @@
 #include "NetworkProcessingThread.h"
 
-NetworkProcessingThread::NetworkProcessingThread(TcpClient & tcpClient)
+NetworkProcessingThread::NetworkProcessingThread(TcpClient tcpClient)
 {
 	_tcpClient = tcpClient;
 }
 
 NetworkProcessingThread::~NetworkProcessingThread()
 {
+}
+
+void NetworkProcessingThread::SendSlot(uint8_t* data, uint32_t size)
+{
+	_tcpClient.Send((char*)data, size);
+
+	//—читаем, что данные больше не нужны
+	delete[] data;
+	data = nullptr;
 }
 
 void NetworkProcessingThread::run()
@@ -35,5 +44,5 @@ void NetworkProcessingThread::run()
 		//// ќчистить пам€ть
 		//ZeroMemory(receivedData, size);
 
-	} while (result == 0);
+	} while (true);
 }

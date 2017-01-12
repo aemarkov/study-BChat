@@ -88,6 +88,21 @@
     <Filter Include="util\UserManager">
       <UniqueIdentifier>{8fa74abb-62cf-40fa-b8db-a6a6b537b288}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Session">
+      <UniqueIdentifier>{9e8586eb-6591-4419-b98d-1620626668ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Session\SessionManager">
+      <UniqueIdentifier>{6cf6fefc-3d3e-46d1-850c-4236df10d4b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\DialogHelper">
+      <UniqueIdentifier>{0a9c6529-6be4-499b-a839-fcf88c33687f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Models">
+      <UniqueIdentifier>{320ca0c8-3e46-4edb-8c9d-be75153b2a9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserManager">
+      <UniqueIdentifier>{89fbb9cf-2d93-4345-acec-b70a3d51afe2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BChatLib.cpp">
@@ -156,9 +171,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_INetwork.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="NetworkAdapter\NetworkAdapter.cpp">
-      <Filter>NetworkAdapter</Filter>
-    </ClCompile>
     <ClCompile Include="NetworkAdapter\NetworkProcessingThread.cpp">
       <Filter>NetworkAdapter</Filter>
     </ClCompile>
@@ -210,17 +222,41 @@
     <ClCompile Include="util\SettingsManager\Settings.cpp">
       <Filter>util\SettingsManager</Filter>
     </ClCompile>
-    <ClCompile Include="util\UserManager\IUserManager.cpp">
-      <Filter>util\UserManager</Filter>
+    <ClCompile Include="Session\SessionManager\SimpleSessionManager.cpp">
+      <Filter>Session\SessionManager</Filter>
     </ClCompile>
-    <ClCompile Include="util\UserManager\User.cpp">
-      <Filter>util\UserManager</Filter>
+    <ClCompile Include="util\DialogHelper\DialogHelper.cpp">
+      <Filter>util\DialogHelper</Filter>
     </ClCompile>
-    <ClCompile Include="util\UserManager\UserManager.cpp">
-      <Filter>util\UserManager</Filter>
+    <ClCompile Include="GeneratedFiles\Debug\moc_SimpleSessionManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="util\UserManager\UserManagerCreator.cpp">
-      <Filter>util\UserManager</Filter>
+    <ClCompile Include="GeneratedFiles\Release\moc_SimpleSessionManager.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\User.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="UserManager\IUserManager.cpp">
+      <Filter>UserManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UserManager\UserManager.cpp">
+      <Filter>UserManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UserManager\UserManagerCreator.cpp">
+      <Filter>UserManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_Session.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_Session.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Session\Session.cpp">
+      <Filter>Session</Filter>
+    </ClCompile>
+    <ClCompile Include="Session\SessionUser.cpp">
+      <Filter>Session</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -263,9 +299,6 @@
     <ClInclude Include="CryptoAdapter\CryptoApiAdapter.h">
       <Filter>CryptoAdapter</Filter>
     </ClInclude>
-    <ClInclude Include="NetworkAdapter\NetworkAdapter.h">
-      <Filter>NetworkAdapter</Filter>
-    </ClInclude>
     <ClInclude Include="Containers\BaseContainer.h">
       <Filter>Containers</Filter>
     </ClInclude>
@@ -287,20 +320,29 @@
     <ClInclude Include="util\SettingsManager\SettingsManagerContainer.h">
       <Filter>util\SettingsManager</Filter>
     </ClInclude>
-    <ClInclude Include="util\UserManager\IUserManager.h">
-      <Filter>util\UserManager</Filter>
+    <ClInclude Include="Session\SessionManager\ISessionManager.h">
+      <Filter>Session\SessionManager</Filter>
     </ClInclude>
-    <ClInclude Include="util\UserManager\User.h">
-      <Filter>util\UserManager</Filter>
+    <ClInclude Include="util\DialogHelper\DialogHelper.h">
+      <Filter>util\DialogHelper</Filter>
     </ClInclude>
-    <ClInclude Include="util\UserManager\UserManager.h">
-      <Filter>util\UserManager</Filter>
+    <ClInclude Include="Models\User.h">
+      <Filter>Models</Filter>
     </ClInclude>
-    <ClInclude Include="util\UserManager\UserManagerCreator.h">
-      <Filter>util\UserManager</Filter>
+    <ClInclude Include="UserManager\IUserManager.h">
+      <Filter>UserManager</Filter>
     </ClInclude>
-    <ClInclude Include="util\UserManager\UserManagerContainer.h">
-      <Filter>util\UserManager</Filter>
+    <ClInclude Include="UserManager\UserManager.h">
+      <Filter>UserManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UserManager\UserManagerContainer.h">
+      <Filter>UserManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UserManager\UserManagerCreator.h">
+      <Filter>UserManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Session\SessionUser.h">
+      <Filter>Session</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -338,6 +380,12 @@
     </CustomBuild>
     <CustomBuild Include="Containers\SimpleContainerMultiplexor.h">
       <Filter>Containers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Session\SessionManager\SimpleSessionManager.h">
+      <Filter>Session\SessionManager</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Session\Session.h">
+      <Filter>Session</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

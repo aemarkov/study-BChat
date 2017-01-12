@@ -2,13 +2,9 @@
 
 TcpListener::TcpListener()
 {
+	throw Exception("WARNING: tcp listenr port not set");
 }
 
-TcpListener::TcpListener(char* ip, int port)
-{
-	_ip = ip;
-	_port = port;
-}
 
 TcpListener::TcpListener(int port)
 {
@@ -66,3 +62,4 @@ TcpClient TcpListener::AcceptClient()
 	}
 	return TcpClient(new_sock);
 }
+

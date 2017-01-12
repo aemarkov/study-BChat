@@ -28,7 +28,7 @@ namespace Webcam
 		void FrameInput(QImage&);
 
 	signals:
-		void DataOutput(const Containers::VideoFrameContainer &);
+		void DataOutput(const Containers::VideoFrameContainer *);
 
 	private:
 		Containers::VideoFrameContainer _container;

@@ -2,7 +2,7 @@
 
 #include "IUserManager.h"
 #include "util\SettingsManager\SettingsManagerContainer.h"
-class UserManager : IUserManager
+class UserManager : public IUserManager
 {
 public:
 	UserManager();

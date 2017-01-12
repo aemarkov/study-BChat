@@ -2,7 +2,22 @@
 
 using namespace Crypto;
 
-CryptoAPI::CryptoAPI(std::string containerName):_sessionKeyMutex()
+Crypto::CryptoAPI::CryptoAPI():_sessionKeyMutex()
+{
+}
+
+CryptoAPI::CryptoAPI(std::string containerName):CryptoAPI()
+{
+	Init(containerName);
+}
+
+
+CryptoAPI::~CryptoAPI()
+{
+
+}
+
+void Crypto::CryptoAPI::Init(std::string containerName)
 {
 
 	//Получаем провайдер
@@ -14,20 +29,20 @@ CryptoAPI::CryptoAPI(std::string containerName):_sessionKeyMutex()
 		CRYPT_VERIFYCONTEXT
 	))
 	{
-		/* 
-	     Не удалось получить провайдер с заданным именем контейнером 
-		 Самостоятельно создать контейнер можно, но крипто про не сохранит
-		 его до тех пор, пока в него не будет добавлен ключ или сертификат (???).
-		 
-		 Поэтому надо создать сертификат и установить его в конейнер
-		 https://www.cryptopro.ru/certsrv/certrqma.asp (тестовый УЦ крипто-про)
-		 
-		 Там можно выбрать "существующий набор ключей" или "новый набор ключей"
-		 Если новый - то создается контейнер и генерируется новый ключ.
+		/*
+		Не удалось получить провайдер с заданным именем контейнером
+		Самостоятельно создать контейнер можно, но крипто про не сохранит
+		его до тех пор, пока в него не будет добавлен ключ или сертификат (???).
 
-		 На контейнер идет один ключ? Или свой на каждый сертификат?
-		 
-		 */
+		Поэтому надо создать сертификат и установить его в конейнер
+		https://www.cryptopro.ru/certsrv/certrqma.asp (тестовый УЦ крипто-про)
+
+		Там можно выбрать "существующий набор ключей" или "новый набор ключей"
+		Если новый - то создается контейнер и генерируется новый ключ.
+
+		На контейнер идет один ключ? Или свой на каждый сертификат?
+
+		*/
 
 		//throw CryptoException(QString("Cryptographic context with container \"%1\" couldn't be accured").arg(containerName));
 		throw CryptoException("Cryptographic context with container \"%1\" couldn't be accured");
@@ -37,16 +52,6 @@ CryptoAPI::CryptoAPI(std::string containerName):_sessionKeyMutex()
 	//Размер - BlockSizeBits/8. Для ГОСТ-8147 размер блока наверное 64 бит
 	memset(_keyParams, 0, 64 / 8);
 }
-
-
-CryptoAPI::~CryptoAPI()
-{
-
-}
-
-
-
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 

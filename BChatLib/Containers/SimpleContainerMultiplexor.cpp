@@ -3,12 +3,12 @@
 using namespace Containers;
 
 //ѕолучение данных от какого-то источника
-void SimpleContainerMultiplexor::InputContainer(const Containers::VideoFrameContainer& container)
+void SimpleContainerMultiplexor::InputContainer(const Containers::VideoFrameContainer* container)
 {
 	try
 	{
 		uint32_t size = _headerSize; // +sizeof(userId)
-		size += container.GetSize();
+		size += container->GetSize();
 
 		uint8_t * buffer = new uint8_t[size];
 		uint8_t * buffer0 = buffer;
@@ -19,7 +19,7 @@ void SimpleContainerMultiplexor::InputContainer(const Containers::VideoFrameCont
 		//memcpy(buffer, &userId, sizeof(userId));
 		//buffer += sizeof(userId);
 
-		container.Serialize(buffer);
+		container->Serialize(buffer);
 
 		emit OutputData(buffer0, size);
 	}
@@ -38,11 +38,20 @@ void SimpleContainerMultiplexor::InputData(uint8_t * buffer, uint32_t size)
 		uint8_t* buffer0 = buffer;
 
 		if (buffer == nullptr)
-			throw new Exception("Input data is NULL");
+		{
+			//throw new Exception("Input data is NULL");
+			Logger::Instance()->WriteException("Input data is NULL");
+			return;
+		}
 
 		//—равниваем заголовок
 		if (memcmp(buffer, _header, _headerSize) != 0)
-			throw new Exception("Input data is invalid, maybe Session Key is invalid");
+		{
+			//throw new Exception("Input data is invalid, maybe Session Key is invalid");
+			Logger::Instance()->WriteException("Input data is invalid, maybe Session Key is invalid");
+			delete[] buffer0;
+			return;
+		}
 
 		buffer += _headerSize;
 
@@ -54,7 +63,7 @@ void SimpleContainerMultiplexor::InputData(uint8_t * buffer, uint32_t size)
 
 		//„итаем кадр
 		container.Deserialize(buffer);
-		emit OutputFrame(container);
+		emit OutputFrame(&container);
 
 		//¬от предполагаем, что это - последнее звено в цепочке, а 
 		//контейнеры копируют данные себе, а не просто ссылаютс€

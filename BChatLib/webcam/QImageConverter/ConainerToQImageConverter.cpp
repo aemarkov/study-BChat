@@ -2,14 +2,14 @@
 
 using namespace Webcam;
 
-void ContainerToQImageConverter::DataInput(const Containers::VideoFrameContainer & container)
+void ContainerToQImageConverter::DataInput(const Containers::VideoFrameContainer * container)
 {
-	QImage frame(container.GetWidth(), container.GetHeight(), container.GetFormat());
+	QImage frame(container->GetWidth(), container->GetHeight(), container->GetFormat());
 
 	int frameSize = frame.byteCount();
 
 	uint8_t* frameBuffer = frame.bits();
-	memcpy(frameBuffer, container.GetBuffer(), container.GetSize());
+	memcpy(frameBuffer, container->GetBuffer(), container->GetSize());
 
 	emit FrameOutput(frame);
 }
