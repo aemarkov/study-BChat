@@ -1,21 +1,51 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <iostream>
+using namespace std;
 Q_DECLARE_METATYPE(QCameraInfo)
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    camera(0),
+    _frameConverter(QImage::Format_RGB444),
+	_cryptoApi("TestCertContainer"),
+	_cryptoAdapter(_cryptoApi)
 {
     qRegisterMetaType<QCameraInfo>();
     ui->setupUi(this);
 
+	_cryptoApi.CreateSessionKey();
+
     //Слоты
     connect(ui->ButtonCameraToggle, SIGNAL(clicked(bool)),this, SLOT(ButtonCameraToggle_clicked()));
+    connect(&_cameraFrameGrabber, SIGNAL(FrameOutput(QVideoFrame)), &_frameConverter, SLOT(FrameInput(QVideoFrame)));
+
+    //connect(&_frameConverter, SIGNAL(FrameOutput(QImage&)), ui->MyCameraViewer, SLOT(FrameInput(QImage&)));
+    //connect(&_frameConverter, SIGNAL(FrameOutput(QImage)), this, SLOT(HandleFrame(QImage)));
+
+	//в байты - зашифровать - расшифровать - из байт - отобразить (для теста)
+	connect(&_frameConverter, SIGNAL(FrameOutput(QImage&)), &_qimageToContainerConverter, SLOT(FrameInput(QImage&)));
+	connect(&_qimageToContainerConverter, SIGNAL(DataOutput(const Containers::VideoFrameContainer &)), &_multiplexor, SLOT(InputContainer(const Containers::VideoFrameContainer&)));
+
+	//connect(&_qimageToByteConverter, SIGNAL(DataOutput(uint8_t*, uint32_t)), &_cryptoAdapter, SLOT(EncryptSlot(uint8_t*, uint32_t)));
+	//connect(&_cryptoAdapter, SIGNAL(EncryptSignal(uint8_t*, uint32_t)), &_cryptoAdapter, SLOT(DecryptSlot(uint8_t*, uint32_t)));
+	//connect(&_cryptoAdapter, SIGNAL(DecryptSignal(uint8_t*, uint32_t)), &_bytesToQImageConverter, SLOT(DataInput(uint8_t*, uint32_t)));
+
+	//connect(&_qimageToContainerConverter, SIGNAL(DataOutput(const Containers::VideoFrameContainer &)), &_containerToQImageConverter, SLOT(DataInput(const Containers::VideoFrameContainer &)));
+
+	connect(&_multiplexor, SIGNAL(OutputData(uint8_t*, uint32_t)), &_multiplexor, SLOT(InputData(uint8_t*, uint32_t)));
+	connect(&_multiplexor, SIGNAL(OutputFrame(const Containers::VideoFrameContainer&)), &_containerToQImageConverter, SLOT(DataInput(const Containers::VideoFrameContainer &)));
+
+	connect(&_containerToQImageConverter, SIGNAL(FrameOutput(QImage&)), ui->MyCameraViewer, SLOT(FrameInput(QImage&)));
+
 
     //Настройка камеры
     UpdateCameras();
     SetCamera(QCameraInfo::defaultCamera());
+
+
 }
 
 MainWindow::~MainWindow()
@@ -42,25 +72,24 @@ void MainWindow::UpdateCameras()
         ui->MenuSelectCamera->addAction(action);
         group->addAction(action);
     }
+
+    //Подключаем обработчик выбора камеры
+    connect(group, SIGNAL(triggered(QAction*)), this, SLOT(CameraSelected(QAction*)));
 }
 
 //Включает\выключает камеру
 //Выбирает камеру
 void MainWindow::SetCamera(const QCameraInfo & info)
 {
-    delete imageCapture;
-    delete mediaRecorder;
     delete camera;
 
     camera = new QCamera(info);
-    mediaRecorder = new QMediaRecorder(camera);
-    imageCapture = new QCameraImageCapture(camera);
-    mediaRecorder->setMetaData(QMediaMetaData::Title, QVariant(QLatin1String("Test Title")));
-
-    camera->setViewfinder(ui->viewFinder);
+    camera->setViewfinder(&_cameraFrameGrabber);
 
     //Сигналы камеры
     connect(camera, SIGNAL(stateChanged(QCamera::State)), this, SLOT(UpdateCameraState(QCamera::State)));
+
+    UpdateCameraState(camera->state());
 
     camera->start();
 }
@@ -94,4 +123,17 @@ void MainWindow::ButtonCameraToggle_clicked()
     {
         camera->start();
     }
+}
+
+//Событие выбора другой камеры
+void MainWindow::CameraSelected(QAction* action)
+{
+    SetCamera(qvariant_cast<QCameraInfo>(action->data()));
+}
+
+//Событие получения кадра с камеры
+void MainWindow::HandleFrame(const QImage & image)
+{
+    ///int count =  image.byteCount();
+    //qDebug()<<count;
 }

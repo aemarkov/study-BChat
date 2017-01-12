@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{1015ff8f-ca7f-421a-ad86-572389fc8971}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util">
+      <UniqueIdentifier>{d6ad1824-ee1c-4d91-839f-86bf3ea044ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="webcam">
+      <UniqueIdentifier>{3fe0e4fb-539f-4e3d-9fc3-bbce77713e42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="crypto">
+      <UniqueIdentifier>{b8c6b763-b1f4-456e-92c5-e7e38e08aa49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\Deleters">
+      <UniqueIdentifier>{88481c14-1c73-45da-8ecc-5ff66e5a8fc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="webcam\CameraFrameGrabber">
+      <UniqueIdentifier>{7a80fb3c-fbd9-4ff1-a18e-b3eac6816f2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="webcam\FrameConverter">
+      <UniqueIdentifier>{f2618e13-8012-4878-9cb5-4b24f7744959}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="webcam\VideoViewer">
+      <UniqueIdentifier>{9b3c88c6-72da-4ea9-9b5d-f813bb5517fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{3e262c9a-4e98-4148-b901-82f3cf7d1438}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{f97705c9-495e-4094-b774-b4758241b278}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{db9a6757-54cd-4b1c-b807-e91c0bb71dcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\Singleton">
+      <UniqueIdentifier>{f75f85ba-ce10-40f3-be6c-ec3183703270}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\FactoryMethod">
+      <UniqueIdentifier>{ff2acadc-0fd2-4f67-930d-a391e41fa706}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\Logger">
+      <UniqueIdentifier>{e6efe222-640c-43ef-8e36-3b21897f13e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CryptoAdapter">
+      <UniqueIdentifier>{7882b797-1a01-4c09-9fea-d86056b7f780}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NetworkAdapter">
+      <UniqueIdentifier>{5bccb69b-1d1c-4534-84d4-422c6080bf93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="webcam\QImageConverter">
+      <UniqueIdentifier>{9f8b1623-86b8-4b03-9ff5-96fcbd76be1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Containers">
+      <UniqueIdentifier>{bedf7811-50a2-4233-b7e4-263c28dff657}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\SettingsManager">
+      <UniqueIdentifier>{20eb6276-631e-478a-8577-083cf2bd845a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\UserManager">
+      <UniqueIdentifier>{8fa74abb-62cf-40fa-b8db-a6a6b537b288}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Session">
+      <UniqueIdentifier>{9e8586eb-6591-4419-b98d-1620626668ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Session\SessionManager">
+      <UniqueIdentifier>{6cf6fefc-3d3e-46d1-850c-4236df10d4b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\DialogHelper">
+      <UniqueIdentifier>{0a9c6529-6be4-499b-a839-fcf88c33687f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Models">
+      <UniqueIdentifier>{320ca0c8-3e46-4edb-8c9d-be75153b2a9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserManager">
+      <UniqueIdentifier>{89fbb9cf-2d93-4345-acec-b70a3d51afe2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BChatLib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="crypto\cryptoapi.cpp">
+      <Filter>crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="webcam\CameraFrameGrabber\CameraFrameGrabber.cpp">
+      <Filter>webcam\CameraFrameGrabber</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CameraFrameGrabber.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CameraFrameGrabber.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="webcam\FrameConverter\FrameConverter.cpp">
+      <Filter>webcam\FrameConverter</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_FrameConverter.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_FrameConverter.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="webcam\VideoViewer\VideoViewer.cpp">
+      <Filter>webcam\VideoViewer</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_VideoViewer.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_VideoViewer.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\Network.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\TcpClient.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\TcpListener.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="util\Singleton\Singleton.cpp">
+      <Filter>util\Singleton</Filter>
+    </ClCompile>
+    <ClCompile Include="util\Logger\Logger.cpp">
+      <Filter>util\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="CryptoAdapter\CryptoApiAdapter.cpp">
+      <Filter>CryptoAdapter</Filter>
+    </ClCompile>
+    <ClCompile Include="CryptoAdapter\ICrypt.cpp">
+      <Filter>CryptoAdapter</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ICrypt.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkAdapter\INetwork.cpp">
+      <Filter>NetworkAdapter</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_INetwork.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_INetwork.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkAdapter\NetworkProcessingThread.cpp">
+      <Filter>NetworkAdapter</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_NetworkProcessingThread.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_NetworkProcessingThread.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ICrypt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Containers\VideoFrameContainer.cpp">
+      <Filter>Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_QImageToContainerConverter.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_QImageToContainerConverter.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="webcam\QImageConverter\QImageToContainerConverter.cpp">
+      <Filter>webcam\QImageConverter</Filter>
+    </ClCompile>
+    <ClCompile Include="webcam\QImageConverter\ConainerToQImageConverter.cpp">
+      <Filter>webcam\QImageConverter</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ContainerToQImageConverter.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ContainerToQImageConverter.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_SimpleContainerMultiplexor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_SimpleContainerMultiplexor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Containers\SimpleContainerMultiplexor.cpp">
+      <Filter>Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="util\SettingsManager\SettingsManagerCreator.cpp">
+      <Filter>util\SettingsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="util\SettingsManager\SettingsManager.cpp">
+      <Filter>util\SettingsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="util\SettingsManager\Settings.cpp">
+      <Filter>util\SettingsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Session\SessionManager\SimpleSessionManager.cpp">
+      <Filter>Session\SessionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="util\DialogHelper\DialogHelper.cpp">
+      <Filter>util\DialogHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_SimpleSessionManager.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_SimpleSessionManager.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\User.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="UserManager\IUserManager.cpp">
+      <Filter>UserManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UserManager\UserManager.cpp">
+      <Filter>UserManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UserManager\UserManagerCreator.cpp">
+      <Filter>UserManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_Session.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_Session.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Session\Session.cpp">
+      <Filter>Session</Filter>
+    </ClCompile>
+    <ClCompile Include="Session\SessionUser.cpp">
+      <Filter>Session</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BChatLib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="crypto\cryptoapi.h">
+      <Filter>crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="crypto\WinapiSimpleDeleters.h">
+      <Filter>crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="util\Deleters\SimpleDeleter.h">
+      <Filter>util\Deleters</Filter>
+    </ClInclude>
+    <ClInclude Include="util\Deleters\SmartPointerCreator.h">
+      <Filter>util\Deleters</Filter>
+    </ClInclude>
+    <ClInclude Include="util\Deleters\SmartPointerDeleter.h">
+      <Filter>util\Deleters</Filter>
+    </ClInclude>
+    <ClInclude Include="common\Exceptions.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\master.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\Network.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\TcpClient.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\TcpListener.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="util\Singleton\SingletonContainer.h">
+      <Filter>util\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="CryptoAdapter\CryptoApiAdapter.h">
+      <Filter>CryptoAdapter</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\BaseContainer.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\VideoFrameContainer.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="util\SettingsManager\ISettingsManager.h">
+      <Filter>util\SettingsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="util\SettingsManager\SettingsManagerCreator.h">
+      <Filter>util\SettingsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="util\SettingsManager\SettingsManager.h">
+      <Filter>util\SettingsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="util\SettingsManager\Settings.h">
+      <Filter>util\SettingsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="util\SettingsManager\SettingsManagerContainer.h">
+      <Filter>util\SettingsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Session\SessionManager\ISessionManager.h">
+      <Filter>Session\SessionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="util\DialogHelper\DialogHelper.h">
+      <Filter>util\DialogHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\User.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="UserManager\IUserManager.h">
+      <Filter>UserManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UserManager\UserManager.h">
+      <Filter>UserManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UserManager\UserManagerContainer.h">
+      <Filter>UserManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UserManager\UserManagerCreator.h">
+      <Filter>UserManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Session\SessionUser.h">
+      <Filter>Session</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bchatlib_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="webcam\CameraFrameGrabber\CameraFrameGrabber.h">
+      <Filter>webcam\CameraFrameGrabber</Filter>
+    </CustomBuild>
+    <CustomBuild Include="webcam\FrameConverter\FrameConverter.h">
+      <Filter>webcam\FrameConverter</Filter>
+    </CustomBuild>
+    <CustomBuild Include="webcam\VideoViewer\VideoViewer.h">
+      <Filter>webcam\VideoViewer</Filter>
+    </CustomBuild>
+    <CustomBuild Include="TestTestClass.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="CryptoAdapter\ICrypt.h">
+      <Filter>CryptoAdapter</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NetworkAdapter\INetwork.h">
+      <Filter>NetworkAdapter</Filter>
+    </CustomBuild>
+    <CustomBuild Include="NetworkAdapter\NetworkProcessingThread.h">
+      <Filter>NetworkAdapter</Filter>
+    </CustomBuild>
+    <CustomBuild Include="webcam\QImageConverter\QImageToContainerConverter.h">
+      <Filter>webcam\QImageConverter</Filter>
+    </CustomBuild>
+    <CustomBuild Include="webcam\QImageConverter\ContainerToQImageConverter.h">
+      <Filter>webcam\QImageConverter</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Containers\SimpleContainerMultiplexor.h">
+      <Filter>Containers</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Session\SessionManager\SimpleSessionManager.h">
+      <Filter>Session\SessionManager</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Session\Session.h">
+      <Filter>Session</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

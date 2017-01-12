@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{cee7d320-c47c-48ab-b60f-79fb29966106}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{6ceddd43-447e-4822-b4fd-bbf2f1677231}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Forms">
+      <UniqueIdentifier>{5865c1c2-8ddc-4075-acc2-a6f565ae5e52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Forms\MainWindow">
+      <UniqueIdentifier>{18d72744-a697-48c7-ba8e-4b63da8ca5f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Forms\ChatWindow">
+      <UniqueIdentifier>{70e2724e-d4a3-41a2-8778-9d24cf4798d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Forms\SettingsWindow">
+      <UniqueIdentifier>{ad3d06da-e861-456a-ad20-fd8a5cf723da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Forms\ContactsWindow">
+      <UniqueIdentifier>{e40337c1-e8af-4a37-b68a-67bba6e2279a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_mainwindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="mainwindow.cpp">
+      <Filter>Forms\MainWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="mainwindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="mainwindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="mainwindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="mainwindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="ChatWindow\ChatWindow.cpp">
+      <Filter>Forms\ChatWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_ChatWindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_ChatWindow.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsWindow\SettingsWindow.cpp">
+      <Filter>Forms\SettingsWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_SettingsWindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_SettingsWindow.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="ContactsWindow\ContactsWindow.cpp">
+      <Filter>Forms\ContactsWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_ContactsWindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_ContactsWindow.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GeneratedFiles\ui_mainwindow.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CryptoPro\include\cpdrvlib.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="crypto\cryptoapi.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CryptoPro\include\cspmm.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CryptoPro\include\cspvtable.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CryptoPro\include\lfmm.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_SettingsWindow.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_ChatWindow.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_ContactsWindow.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="mainwindow.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="mainwindow.h">
+      <Filter>Forms\MainWindow</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ChatWindow\ChatWindow.h">
+      <Filter>Forms\ChatWindow</Filter>
+    </CustomBuild>
+    <CustomBuild Include="SettingsWindow.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="SettingsWindow\SettingsWindow.h">
+      <Filter>Forms\SettingsWindow</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ChatWindow.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ContactsWindow.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ContactsWindow\ContactsWindow.h">
+      <Filter>Forms\ContactsWindow</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

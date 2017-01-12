@@ -1,11 +1,19 @@
+#include "Network\Network.h"
+
 #include "mainwindow.h"
+#include "ContactsWindow\ContactsWindow.h"
 #include <QApplication>
+
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
+	Network network;
 
-    return a.exec();
+	QApplication a(argc, argv);
+	ContactsWindow w;
+	w.show();
+	return a.exec();
+
+	return 0;
+
 }
