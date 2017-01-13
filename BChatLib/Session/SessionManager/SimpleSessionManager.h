@@ -61,6 +61,8 @@ private:
 	CryptoApiAdapter _cryptoAPIAdapter;
 	Session _session;
 	uint32_t _myId = 0;
+
+	const uint32_t RECV_BUFFER_SIZE = 1000000;
 	
 
 	void WaitForConnection(int port);

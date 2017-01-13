@@ -59,16 +59,16 @@ void SimpleSessionManager::ConnectToUser(uint32_t userId)
 		emit SessionCreated();
 
 		//Передаем свой Id (Это должен быть нормальный Id)
-		client.SimpleSend((char*)&_myId, sizeof(_myId));
+		client.Send((uint8_t*)&_myId, sizeof(_myId));
 
 		//Принимаем Id другого пользователя (в чате могут быть несколько пользователей)
 		uint32_t userId;
-		client.SimpleRecv((char*)&userId, sizeof(userId));
+		client.SimpleRecv((uint8_t*)&userId, sizeof(userId));
 
 		//Обмен ключами		
-		int keyBufferSize;
+		uint32_t keyBufferSize;
 
-		client.Recv((char**)&keyBuffer, &keyBufferSize);
+		client.RecvAlloc((uint8_t**)&keyBuffer, &keyBufferSize);
 		if (keyBuffer == nullptr)
 		{
 			Logger::Instance()->WriteException("Can't get session key from server");
@@ -96,11 +96,6 @@ Session & SimpleSessionManager::GetSession()
 }
 
 
-
-
-
-
-
 //Ожидание подключение пользователя
 void SimpleSessionManager::WaitForConnection(int port)
 {
@@ -120,10 +115,10 @@ void SimpleSessionManager::AcceptConnection(TcpClient & client)
 	{
 		//Узнать Id подключенного пользователя
 		uint32_t userId;
-		client.SimpleRecv((char*)&userId, sizeof(userId));
+		client.SimpleRecv((uint8_t*)&userId, sizeof(userId));
 
 		//Передаем свой Id
-		client.SimpleSend((char*)&_myId, sizeof(_myId));
+		client.Send((uint8_t*)&_myId, sizeof(_myId));
 
 		//Получаем пользователя по этому Id (на самом деле нет, это стандартный пользователь)
 		auto user = UserManagerContainer::Inner()->GetUser(userId);
@@ -134,7 +129,7 @@ void SimpleSessionManager::AcceptConnection(TcpClient & client)
 
 		_cryptoAPI.ExportSessionKeyForUser(SettingsManagerContainer::Inner()->ReadSettings().GetCertificate(), user._certName, &keyBuffer, &keyBufferSize);
 
-		client.Send((char*)keyBuffer, keyBufferSize);
+		client.SendWithLength((uint8_t*)keyBuffer, keyBufferSize);
 
 		delete[] keyBuffer;
 
@@ -152,11 +147,6 @@ void SimpleSessionManager::AcceptConnection(TcpClient & client)
 
 NetworkProcessingThread* SimpleSessionManager::CreateTcpClientAdapter(TcpClient & client)
 {
-	auto adapter = new NetworkProcessingThread(client);
+	auto adapter = new NetworkProcessingThread(client, RECV_BUFFER_SIZE);
 	return adapter;
 }
-
-/*CryptoApiAdapter * SimpleSessionManager::CreateCryptoAPIAdapter(CryptoAPI & api)
-{
-	return new CryptoApiAdapter(api);
-}*/

@@ -34,8 +34,6 @@ void SimpleContainerMultiplexor::InputData(uint8_t * buffer, uint32_t size)
 {
 	try
 	{
-		//uint32_t userId;
-		uint8_t* buffer0 = buffer;
 
 		if (buffer == nullptr)
 		{
@@ -49,7 +47,6 @@ void SimpleContainerMultiplexor::InputData(uint8_t * buffer, uint32_t size)
 		{
 			//throw new Exception("Input data is invalid, maybe Session Key is invalid");
 			Logger::Instance()->WriteException("Input data is invalid, maybe Session Key is invalid");
-			delete[] buffer0;
 			return;
 		}
 
@@ -64,13 +61,8 @@ void SimpleContainerMultiplexor::InputData(uint8_t * buffer, uint32_t size)
 		//„итаем кадр
 		container.Deserialize(buffer);
 		emit OutputFrame(&container);
-
-		//¬от предполагаем, что это - последнее звено в цепочке, а 
-		//контейнеры копируют данные себе, а не просто ссылаютс€
-		delete[] buffer0;
 	}
 	catch (Exception ex)
 	{
-		//TODO: ѕоказать диалоговое окно
 	}
 }
