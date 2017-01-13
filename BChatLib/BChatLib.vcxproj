@@ -75,6 +75,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BChatLib.cpp" />
+    <ClCompile Include="common\Exception.cpp" />
     <ClCompile Include="Containers\SimpleContainerMultiplexor.cpp" />
     <ClCompile Include="Containers\VideoFrameContainer.cpp" />
     <ClCompile Include="CryptoAdapter\CryptoApiAdapter.cpp" />

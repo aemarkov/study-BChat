@@ -39,11 +39,7 @@ int TcpClient::Recv(uint8_t* message, uint32_t* msgLength, uint32_t bufferSize)
 
 	//Произошла ошибка
 	if (recvResult == SOCKET_ERROR)
-	{
-		DWORD error = WSAGetLastError();
-		Util::Logger::Instance()->WriteException(QString("TCPClient: Error receiving message, error code: %1").arg(error));
-		return error;
-	}
+		throw NetworkException("TCPClient: Error receiving message", WSAGetLastError());
 
 	*msgLength = recvResult;
 
@@ -64,11 +60,8 @@ int TcpClient::RecvAlloc(uint8_t ** message, uint32_t * msgLength)
 	uint32_t messageLength;
 
 	if (recv(_socket, (char*)&messageLength, sizeof(messageLength), 0) != sizeof(messageLength))
-	{
-		DWORD error =  WSAGetLastError();
-		Util::Logger::Instance()->WriteException(QString("TCPClient: Error receiving message length, error code: %1").arg(error));
-		return error;
-	}
+		throw NetworkException("TCPClient: Error receiving message length", WSAGetLastError());
+		
 
 	try
 	{
@@ -76,19 +69,16 @@ int TcpClient::RecvAlloc(uint8_t ** message, uint32_t * msgLength)
 	}
 	catch (std::bad_alloc& ba)
 	{
-		Util::Logger::Instance()->WriteException(QString("TCPClient: Error allocating %1 bytes").arg(messageLength));
-		return -1;
+		throw new Exception(QString("TCPClient: Error allocating %1 bytes").arg(messageLength));
 	}
 
 	//Принимаем сообщение
 	if (recv(_socket, (char*)*message, messageLength, 0) != messageLength)
 	{
-		DWORD error = WSAGetLastError();
-		Util::Logger::Instance()->WriteException(QString("TCPClient: Error receiving message, error code: %1").arg(error));
-
-		delete[] *message;
-		return error;
+		delete[] * message;
+		throw NetworkException("TCPClient: Error receiving message length", WSAGetLastError());
 	}
+		
 
 	*msgLength = messageLength;
 }
@@ -98,11 +88,7 @@ int TcpClient::SimpleRecv(uint8_t * message, uint32_t length)
 {
 	int actual_len ;
 	if (SOCKET_ERROR == (actual_len = recv(_socket, (char*)message, length, 0)))
-	{
-		DWORD error = WSAGetLastError();
-		Util::Logger::Instance()->WriteException(QString("TCPClient: Error receiving message, error code: %1").arg(error));
-		return error;
-	}
+		throw NetworkException("TCPClient: Error receiving message", WSAGetLastError());
 	
 	return 0;
 }
@@ -113,11 +99,7 @@ int TcpClient::Send(uint8_t* message, uint32_t messageLength)
 	int sendResut = send(_socket, (char*)message, messageLength, 0);
 
 	if (sendResut == SOCKET_ERROR || sendResut!=messageLength)
-	{
-		DWORD error = WSAGetLastError();
-		Util::Logger::Instance()->WriteException(QString("TCPClient: Error sending message, error code: %1").arg(error));
-		return error;
-	}
+		throw NetworkException("TCPClient: Error sending message", WSAGetLastError());
 
 	return 0;
 }
@@ -126,19 +108,11 @@ int TcpClient::Send(uint8_t* message, uint32_t messageLength)
 int TcpClient::SendWithLength(uint8_t * message, uint32_t messageLength)
 {
 	if (send(_socket, (char*)&messageLength, sizeof(messageLength), 0) != sizeof(messageLength))
-	{
-		DWORD error = WSAGetLastError();
-		Util::Logger::Instance()->WriteException(QString("TCPClient: Error sending message length, error code: %1").arg(error));
-		return error;
-	}
+		throw NetworkException("TCPClient: Error sending message length", WSAGetLastError());
 
 
 	if (send(_socket, (char*)message, messageLength, 0) != messageLength)
-	{
-		DWORD error = WSAGetLastError();
-		Util::Logger::Instance()->WriteException(QString("TCPClient: Error sending message, error code: %1").arg(error));
-		return error;
-	}
+		throw NetworkException("TCPClient: Error sending message", WSAGetLastError());
 }
 
 
@@ -163,11 +137,8 @@ int TcpClient::Connect(char* ip, int port)
 
 	// Дальше выполняем соединение:
 	if (SOCKET_ERROR == (connect(_socket, (sockaddr *)&s_address, sizeof(s_address))))
-	{
-		// Error...
-		DWORD error = WSAGetLastError();
-		Util::Logger::Instance()->WriteException(QString("TCPClient: Error connecting to server, error code: %1").arg(error));
-		return error;
-	}
+
+		throw NetworkException("TCPClient: Error connecting to server", WSAGetLastError());
+
 	return 0;
 }

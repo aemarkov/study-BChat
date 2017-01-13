@@ -16,10 +16,7 @@ void SimpleSessionManager::CreateChat()
 		_cryptoAPI.Init(settings.GetContainer());
 		_cryptoAPI.CreateSessionKey();
 
-		
 		emit SessionCreated();
-		//std::thread waitingThread(&SimpleSessionManager::WaitForConnection, this, settings.GetPort());
-		//waitingThread.detach();
 
 		WaitForConnection(settings.GetPort());
 
@@ -27,7 +24,7 @@ void SimpleSessionManager::CreateChat()
 	}
 	catch (Exception ex)
 	{
-		DialogHelper::ShowDialog(ex.Message.c_str());
+		DialogHelper::ShowDialog(ex.Message);
 	}
 }
 
@@ -86,7 +83,7 @@ void SimpleSessionManager::ConnectToUser(uint32_t userId)
 	catch (Exception ex)
 	{
 		//Может остаться не удаленный keyBuffer
-		DialogHelper::ShowDialog(ex.Message.c_str());
+		DialogHelper::ShowDialog(ex.Message);
 	}
 }
 

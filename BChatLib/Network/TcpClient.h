@@ -2,6 +2,7 @@
 #include "master.h"
 #include <new>          // std::bad_alloc
 #include "util\Logger\Logger.h"
+#include "common\Exceptions.h"
 #include <qdebug.h>
 
 /*!

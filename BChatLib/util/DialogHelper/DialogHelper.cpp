@@ -1,8 +1,9 @@
 #include "DialogHelper.h"
 
-void DialogHelper::ShowDialog(std::string text)
+
+void DialogHelper::ShowDialog(QString text)
 {
 	QMessageBox box;
-	box.setText(text.c_str());
+	box.setText(text.toStdString().c_str());
 	box.exec();
 }

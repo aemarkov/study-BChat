@@ -24,7 +24,14 @@ NetworkProcessingThread::~NetworkProcessingThread()
 
 void NetworkProcessingThread::SendSlot(uint8_t* data, uint32_t size)
 {
-	_tcpClient.Send(data, size);
+	try
+	{
+		_tcpClient.Send(data, size);
+	}
+	catch (NetworkException ex)
+	{
+		emit ConnectionProblem(ex.ErrorCode);
+	}
 }
 
 void NetworkProcessingThread::run()
@@ -34,20 +41,19 @@ void NetworkProcessingThread::run()
 
 	do
 	{
-		// ќжидать прием данных
-		result = _tcpClient.Recv(_buffer, &actualLength, _bufferSize);
-		
-		if (result == 0)
+		try
 		{
-			// »спустить сигнал о том, что данные, дескать, прин€ты
-			emit RecvSignal(_buffer, actualLength);
+			// ќжидать прием данных
+			_tcpClient.Recv(_buffer, &actualLength, _bufferSize);
 		}
-		else
+		catch (NetworkException ex)
 		{
-			emit ConnectionProblem(result);
+			emit ConnectionProblem(ex.ErrorCode);
 			return;
 		}
 
+		// »спустить сигнал о том, что данные, дескать, прин€ты
+		emit RecvSignal(_buffer, actualLength);
 	}
 	while (true);
 }

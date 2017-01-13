@@ -258,6 +258,9 @@
     <ClCompile Include="Session\SessionUser.cpp">
       <Filter>Session</Filter>
     </ClCompile>
+    <ClCompile Include="common\Exception.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BChatLib.h">
