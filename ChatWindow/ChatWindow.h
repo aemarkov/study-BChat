@@ -19,7 +19,7 @@ class ChatWindow : public QMainWindow
 
 public:
 	//ChatWindow(QWidget *parent = Q_NULLPTR);
-	ChatWindow(Session& session);
+	ChatWindow(Session* session);
 	~ChatWindow();
 
 	public slots:
@@ -38,7 +38,7 @@ public:
 
 private:
 	Ui::ChatWindow ui;
-	Session& _session;
+	Session* _session;
 
 	void UpdateCameras();
 	void SetCamera(const QCameraInfo & info);

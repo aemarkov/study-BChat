@@ -1,5 +1,7 @@
 #include "CryptoApiAdapter.h"
 
+using namespace Crypto;
+
 CryptoApiAdapter::CryptoApiAdapter(CryptoAPI & cryptoApi) : _cryptoAPI(cryptoApi)
 {
 	

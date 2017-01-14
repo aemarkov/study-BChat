@@ -1,6 +1,5 @@
 #include "Network\Network.h"
 
-#include "mainwindow.h"
 #include "ContactsWindow\ContactsWindow.h"
 #include <QApplication>
 

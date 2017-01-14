@@ -2,7 +2,7 @@
 
 SimpleSessionManager::SimpleSessionManager():
 	_cryptoAPIAdapter(_cryptoAPI),
-	_session(_cryptoAPIAdapter)
+	_session()
 {
 }
 

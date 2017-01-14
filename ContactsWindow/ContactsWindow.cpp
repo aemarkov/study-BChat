@@ -9,9 +9,6 @@ ContactsWindow::ContactsWindow(QWidget *parent)
 	connect(ui.btnSettings, SIGNAL(clicked()), this, SLOT(Settings_Click()));
 	connect(ui.btnHostChat, SIGNAL(clicked()), this, SLOT(HostChat_Click()));
 	connect(ui.btnJoinChat, SIGNAL(clicked()), this, SLOT(JoinChat_Click()));
-
-	connect(&_sessionManager, SIGNAL(SessionCreated()), this, SLOT(SessionCreated()));
-	//connect(&_sessionManager, SIGNAL(UserConnected()), this, SLOT(Host_UserConnected()));
 }
 
 ContactsWindow::~ContactsWindow()
@@ -26,19 +23,44 @@ void ContactsWindow::Settings_Click()
 
 void ContactsWindow::JoinChat_Click()
 {
-	//Тут Id юзера, выбранный из списка на форме
-	_sessionManager.ConnectToUser(0);
+	Session* session = new Session();
+
+	try
+	{
+		session->JoinChat(0);
+	}
+	catch (Exception ex)
+	{
+		DialogHelper::ShowDialog(ex.Message);
+		return;
+	}
+
+	StartSession(session);
 }
 
 void ContactsWindow::HostChat_Click()
 {
-	_sessionManager.CreateChat();
+	Session* session = new Session();
+	
+	try
+	{
+		session->CreateChat();
+	}
+	catch (Exception ex)
+	{
+		DialogHelper::ShowDialog(ex.Message);
+		return;
+	}
+
+	StartSession(session);
 }
 
-void ContactsWindow::SessionCreated()
+void ContactsWindow::StartSession(Session* session)
 {
 	ui.btnHostChat->setEnabled(false);
-
-	ChatWindow* chat = new ChatWindow(_sessionManager.GetSession());
+	ui.btnJoinChat->setEnabled(false);
+	
+	ChatWindow* chat = new ChatWindow(session);
+	chat->setAttribute(Qt::WA_DeleteOnClose);
 	chat->show();
 }

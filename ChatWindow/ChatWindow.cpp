@@ -9,7 +9,7 @@
 Q_DECLARE_METATYPE(QCameraInfo)
 Q_DECLARE_METATYPE(Containers::VideoFrameContainer)
 
-ChatWindow::ChatWindow(Session& session):
+ChatWindow::ChatWindow(Session* session):
 	_session(session),
 	camera(0)
 {
@@ -18,13 +18,14 @@ ChatWindow::ChatWindow(Session& session):
 
 	ui.setupUi(this);
 
-	connect(ui.menuToggleCamera, SIGNAL(triggered()), this, SLOT(ButtonCameraToggle_clicked()));
-	connect(&_session, SIGNAL(UserConnected(int)), this, SLOT(UserConnected(int)));
-	connect(&_session, SIGNAL(UserDisconnected(int)), this, SLOT(UserDisconnected(int)));
 
-	connect(&_cameraFrameGrabber, SIGNAL(FrameOutput(QVideoFrame)), &_session, SLOT(MyFrameInput(QVideoFrame)));
-	connect(&_session, SIGNAL(MyFrameOutput(QImage&)), ui.camYou, SLOT(FrameInput(QImage&)));
-	connect(&_session, SIGNAL(OtherFrameOutput(QImage&)), ui.camInterlocutor, SLOT(FrameInput(QImage&)));
+	connect(ui.menuToggleCamera, SIGNAL(triggered()), this, SLOT(ButtonCameraToggle_clicked()));
+	connect(_session, SIGNAL(UserConnected(int)), this, SLOT(UserConnected(int)));
+	connect(_session, SIGNAL(UserDisconnected(int)), this, SLOT(UserDisconnected(int)));
+
+	connect(&_cameraFrameGrabber, SIGNAL(FrameOutput(QVideoFrame)), _session, SLOT(MyFrameInput(QVideoFrame)));
+	connect(_session, SIGNAL(MyFrameOutput(QImage&)), ui.camYou, SLOT(FrameInput(QImage&)));
+	connect(_session, SIGNAL(OtherFrameOutput(QImage&)), ui.camInterlocutor, SLOT(FrameInput(QImage&)));
 
 	UpdateCameras();
 	SetCamera(QCameraInfo::defaultCamera());
@@ -32,6 +33,10 @@ ChatWindow::ChatWindow(Session& session):
 
 ChatWindow::~ChatWindow()
 {
+	delete camera;
+
+	if (_session != nullptr)
+		delete _session;
 }
 
 

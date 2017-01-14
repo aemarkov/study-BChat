@@ -16,8 +16,11 @@
 #include "Containers/SimpleContainerMultiplexor.h"
 #include "UserManager/UserManagerContainer.h"
 
-#include "NetworkAdapter\INetwork.h"
-#include "CryptoAdapter\ICrypt.h"
+#include "NetworkAdapter/INetwork.h"
+#include "Network/TcpListener.h"
+
+#include "CryptoAdapter/ICrypt.h"
+#include "crypto/cryptoapi.h"
 
 //class SimpleSessionManager;
 
@@ -28,14 +31,35 @@
 
 //class SimpleSessionManager;
 
-class Session: public QObject
+using namespace Crypto;
+
+class Session: public QThread
 {
 	Q_OBJECT
 
 public:
 
-	Session(ICrypt& crypter);
+	Session();
+	~Session();
+
 	void UserConnected(uint32_t userId, INetwork * client);
+
+	/*!
+	* \brief создание чата - запуск TcpListener, генерация сессионного ключа
+	ожидает подключения пользователя, после осуществляет обмен сессионными
+	ключами, создает цепочку объектов для передачи видео и создает форму чата
+	*/
+	void CreateChat();
+
+	/*
+	* \breif подключение - просто подключение по заданному IP, обмен ключами
+	подключение к серверу, после осуществляет обмен сессионными
+	ключами, создает цепочку объектов для передачи видео и создает форму чата
+	*/
+	void JoinChat(uint32_t userId);
+
+	//Ожидание подключений в отдельном потоке
+	void run();
 
 public slots:
 
@@ -59,13 +83,23 @@ signals:
 
 
 private:
+	//Подключенные пользователи
 	std::map<uint32_t, SessionUser> _users;
+	int _myId = 0;
 
+	//Части конвейера
 	Webcam::FrameConverter _frameConverter;
 	Webcam::QImageToContainerConverter _qimageToContainerConverter;
 	Webcam::ContainerToQImageConverter _containerToQImageConverter;
-
 	Containers::SimpleContainerMultiplexor _multiplexor;
 
-	ICrypt& _crypter;
+	//Крипто-апи
+	CryptoAPI _cryptoAPI;
+	ICrypt* _crypter;
+
+	//Сеть
+	int _port;
+
+	void SetupPipeline();
+
 };

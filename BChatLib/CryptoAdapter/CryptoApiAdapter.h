@@ -1,18 +1,22 @@
 #pragma once
 #include <crypto/cryptoapi.h>
 #include "ICrypt.h"
-using namespace Crypto;
 
-class CryptoApiAdapter : public ICrypt
-{	
+namespace Crypto
+{
 
-public:
-	CryptoApiAdapter(CryptoAPI & cryptoApi);
-	~CryptoApiAdapter();
-	
-	virtual void DecryptSlot(uint8_t * key, uint32_t keySize) override;
-	virtual void EncryptSlot(uint8_t *key, uint32_t keySize) override;
+	class CryptoApiAdapter : public ICrypt
+	{
 
-private:
-	CryptoAPI & _cryptoAPI;
-};
+	public:
+		CryptoApiAdapter(CryptoAPI & cryptoApi);
+		~CryptoApiAdapter();
+
+		virtual void DecryptSlot(uint8_t * key, uint32_t keySize) override;
+		virtual void EncryptSlot(uint8_t *key, uint32_t keySize) override;
+
+	private:
+		CryptoAPI & _cryptoAPI;
+	};
+
+}
