@@ -9,3 +9,7 @@ SessionUser::SessionUser(User user, INetwork * client)
 	this->client = client;
 	this->user = user;;
 }
+
+SessionUser::~SessionUser()
+{
+}

@@ -1,10 +1,11 @@
 #include "NetworkProcessingThread.h"
 
-NetworkProcessingThread::NetworkProcessingThread(TcpClient tcpClient,  uint32_t bufferSize)
+NetworkProcessingThread::NetworkProcessingThread(TcpClient tcpClient,  uint32_t bufferSize, int clientIndex)
 {
 	_tcpClient = tcpClient;
 	_bufferSize = bufferSize;
 	_buffer = new uint8_t[bufferSize];
+	_clientIndex = clientIndex;
 }
 
 /*
@@ -20,6 +21,8 @@ NetworkProcessingThread::~NetworkProcessingThread()
 		delete[] _buffer;
 		_buffer = nullptr;
 	}
+
+	_tcpClient.Close();
 }
 
 void NetworkProcessingThread::SendSlot(uint8_t* data, uint32_t size)
@@ -30,7 +33,7 @@ void NetworkProcessingThread::SendSlot(uint8_t* data, uint32_t size)
 	}
 	catch (NetworkException ex)
 	{
-		emit ConnectionProblem(ex.ErrorCode);
+		emit ConnectionProblem(ex.ErrorCode, _clientIndex);
 	}
 }
 
@@ -48,7 +51,7 @@ void NetworkProcessingThread::run()
 		}
 		catch (NetworkException ex)
 		{
-			emit ConnectionProblem(ex.ErrorCode);
+			emit ConnectionProblem(ex.ErrorCode, _clientIndex);
 			return;
 		}
 

@@ -13,5 +13,5 @@ public slots :
 
 signals:
 	void RecvSignal(uint8_t*, uint32_t);	
-	void ConnectionProblem(int errorCode);
+	void ConnectionProblem(int, int);
 };

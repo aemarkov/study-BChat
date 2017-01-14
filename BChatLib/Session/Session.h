@@ -3,8 +3,8 @@
 #include <qobject.h>
 #include <qimage>
 #include <qvideoframe.h>
-#include <map>
-
+#include <vector>
+#include <string>
 #include "SessionUser.h"
 
 
@@ -18,6 +18,7 @@
 
 #include "NetworkAdapter/INetwork.h"
 #include "Network/TcpListener.h"
+#include "NetworkAdapter/NetworkProcessingThread.h"
 
 #include "CryptoAdapter/ICrypt.h"
 #include "crypto/cryptoapi.h"
@@ -42,8 +43,6 @@ public:
 	Session();
 	~Session();
 
-	void UserConnected(uint32_t userId, INetwork * client);
-
 	/*!
 	* \brief создание чата - запуск TcpListener, генерация сессионного ключа
 	ожидает подключения пользователя, после осуществляет обмен сессионными
@@ -63,8 +62,12 @@ public:
 
 public slots:
 
+	//Получен кадр с вебкамеры
 	void MyFrameInput(const QVideoFrame&);
 	void __OtherFrameOutput(QImage&);
+
+	//Проблемы с подключением у одного из клиентов
+	void ConnectionProblem(int, int);
 
 signals:
 
@@ -84,7 +87,8 @@ signals:
 
 private:
 	//Подключенные пользователи
-	std::map<uint32_t, SessionUser> _users;
+	std::vector<SessionUser> _users;
+	int _userCnt = 0;
 	int _myId = 0;
 
 	//Части конвейера
@@ -99,7 +103,14 @@ private:
 
 	//Сеть
 	int _port;
+	uint32_t RECV_BUFFER_SIZE = 1000000;
 
+	//Добавляет пользователя
+	void AddUser(uint32_t userId, TcpClient  client);
+
+
+
+
+	//Настраивает конвейер
 	void SetupPipeline();
-
 };

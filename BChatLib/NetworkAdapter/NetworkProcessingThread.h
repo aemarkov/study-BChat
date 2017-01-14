@@ -10,7 +10,7 @@ class NetworkProcessingThread : public INetwork
 	Q_OBJECT
 
 public:
-	NetworkProcessingThread(TcpClient client, uint32_t bufferSize);
+	NetworkProcessingThread(TcpClient client, uint32_t bufferSize, int clientIndex);
 	~NetworkProcessingThread();
 
 	void run();
@@ -21,6 +21,7 @@ public slots :
 
 private:
 	TcpClient _tcpClient;
+	int _clientIndex;
 
 	//Выделенный буфер, куда будут приниматься сообщения
 	//Чтобы избежать постоянных аллокций

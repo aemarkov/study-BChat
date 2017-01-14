@@ -11,6 +11,7 @@ public:
 
 	//SessionUser();
 	SessionUser(User user, INetwork * client);
+	~SessionUser();
 
 	User user;
 	INetwork* client;

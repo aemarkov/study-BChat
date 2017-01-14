@@ -91,9 +91,6 @@
     <Filter Include="Session">
       <UniqueIdentifier>{9e8586eb-6591-4419-b98d-1620626668ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Session\SessionManager">
-      <UniqueIdentifier>{6cf6fefc-3d3e-46d1-850c-4236df10d4b8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="util\DialogHelper">
       <UniqueIdentifier>{0a9c6529-6be4-499b-a839-fcf88c33687f}</UniqueIdentifier>
     </Filter>
@@ -222,17 +219,8 @@
     <ClCompile Include="util\SettingsManager\Settings.cpp">
       <Filter>util\SettingsManager</Filter>
     </ClCompile>
-    <ClCompile Include="Session\SessionManager\SimpleSessionManager.cpp">
-      <Filter>Session\SessionManager</Filter>
-    </ClCompile>
     <ClCompile Include="util\DialogHelper\DialogHelper.cpp">
       <Filter>util\DialogHelper</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_SimpleSessionManager.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_SimpleSessionManager.cpp">
-      <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Models\User.cpp">
       <Filter>Models</Filter>
@@ -323,9 +311,6 @@
     <ClInclude Include="util\SettingsManager\SettingsManagerContainer.h">
       <Filter>util\SettingsManager</Filter>
     </ClInclude>
-    <ClInclude Include="Session\SessionManager\ISessionManager.h">
-      <Filter>Session\SessionManager</Filter>
-    </ClInclude>
     <ClInclude Include="util\DialogHelper\DialogHelper.h">
       <Filter>util\DialogHelper</Filter>
     </ClInclude>
@@ -383,9 +368,6 @@
     </CustomBuild>
     <CustomBuild Include="Containers\SimpleContainerMultiplexor.h">
       <Filter>Containers</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Session\SessionManager\SimpleSessionManager.h">
-      <Filter>Session\SessionManager</Filter>
     </CustomBuild>
     <CustomBuild Include="Session\Session.h">
       <Filter>Session</Filter>
