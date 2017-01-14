@@ -13,6 +13,7 @@ public:
 	NetworkProcessingThread(TcpClient client, uint32_t bufferSize, int clientIndex);
 	~NetworkProcessingThread();
 
+	virtual void Stop() override;
 	void run();
 
 public slots :

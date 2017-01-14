@@ -37,7 +37,7 @@ int TcpListener::Start()
 	else
 	{
 		// Установить в режим listen
-		bool fail = FAILED(listen(_inSocket, 10));
+		bool fail = FAILED(listen(_inSocket, SOMAXCONN));
 		if (fail) // Максимум 10 входящих соединений
 		{
 			return E_FAIL;
@@ -52,13 +52,16 @@ int TcpListener::Start()
 TcpClient TcpListener::AcceptClient()
 {	
 	SOCKET new_sock;
-	sockaddr_in new_ca;
-	int new_len = sizeof(new_ca);
-	ZeroMemory(&new_ca, sizeof(new_ca));
-	new_sock = socket(AF_INET, SOCK_STREAM, 0);
-	if (FAILED(new_sock = accept(_inSocket, (sockaddr*)&new_ca, &new_len)))
+	//sockaddr_in new_ca;
+	//int new_len = sizeof(new_ca);
+	//ZeroMemory(&new_ca, sizeof(new_ca));
+	//new_sock = socket(AF_INET, SOCK_STREAM, 0);
+
+	if (FAILED(new_sock = accept(_inSocket, NULL, NULL))) // (sockaddr*)&new_ca, &new_len)))
 	{
 		// Error
+		throw NetworkException("Error accept socket", WSAGetLastError());
+
 	}
 	return TcpClient(new_sock);
 }

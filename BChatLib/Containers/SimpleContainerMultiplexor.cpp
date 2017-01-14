@@ -2,6 +2,18 @@
 
 using namespace Containers;
 
+SimpleContainerMultiplexor::SimpleContainerMultiplexor(uint32_t bufferSize)
+{
+	_bufferSize = bufferSize;
+	_sendBuffer = new uint8_t[bufferSize];
+}
+
+SimpleContainerMultiplexor::~SimpleContainerMultiplexor()
+{
+	delete[] _sendBuffer;
+}
+
+
 //Получение данных от какого-то источника
 void SimpleContainerMultiplexor::InputContainer(const Containers::VideoFrameContainer* container)
 {
@@ -10,24 +22,24 @@ void SimpleContainerMultiplexor::InputContainer(const Containers::VideoFrameCont
 		uint32_t size = _headerSize; // +sizeof(userId)
 		size += container->GetSize();
 
-		uint8_t * buffer = new uint8_t[size];
-		uint8_t * buffer0 = buffer;
+		uint8_t * buffer0 = _sendBuffer;
 
-		memcpy(buffer, _header, _headerSize);
-		buffer += _headerSize;
+		memcpy(buffer0, _header, _headerSize);
+		buffer0 += _headerSize;
 
 		//memcpy(buffer, &userId, sizeof(userId));
 		//buffer += sizeof(userId);
 
-		container->Serialize(buffer);
+		container->Serialize(buffer0);
 
-		emit OutputData(buffer0, size);
+		emit OutputData(_sendBuffer, size);
 	}
 	catch (Exception ex)
 	{
 		//TODO:  Показать диалоговое окно
 	}
 }
+
 
 //Получение данных в байтовом виде
 void SimpleContainerMultiplexor::InputData(uint8_t * buffer, uint32_t size)

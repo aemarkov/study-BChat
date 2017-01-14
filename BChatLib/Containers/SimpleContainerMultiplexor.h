@@ -19,6 +19,8 @@ namespace Containers
 		Q_OBJECT
 
 	public:
+		SimpleContainerMultiplexor(uint32_t bufferSize);
+		~SimpleContainerMultiplexor();
 
 	public slots:
 
@@ -55,6 +57,9 @@ namespace Containers
 
 		//Их может быть под каждого пользователя массив
 		VideoFrameContainer container;
+
+		uint8_t* _sendBuffer;
+		uint32_t _bufferSize;
 
 	};
 }

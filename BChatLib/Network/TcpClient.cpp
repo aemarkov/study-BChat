@@ -137,7 +137,6 @@ int TcpClient::Connect(char* ip, int port)
 
 	// Дальше выполняем соединение:
 	if (SOCKET_ERROR == (connect(_socket, (sockaddr *)&s_address, sizeof(s_address))))
-
 		throw NetworkException("TCPClient: Error connecting to server", WSAGetLastError());
 
 	return 0;

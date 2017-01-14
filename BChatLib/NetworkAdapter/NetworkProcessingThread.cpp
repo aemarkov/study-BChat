@@ -16,14 +16,22 @@ NetworkProcessingThread::NetworkProcessingThread(TcpClient tcpClient,  uint32_t 
 
 NetworkProcessingThread::~NetworkProcessingThread()
 {
+	_tcpClient.Close();
+
 	if (_buffer != nullptr)
 	{
 		delete[] _buffer;
 		_buffer = nullptr;
 	}
 
-	_tcpClient.Close();
+	while (this->isRunning());
 }
+
+void NetworkProcessingThread::Stop()
+{
+	
+}
+
 
 void NetworkProcessingThread::SendSlot(uint8_t* data, uint32_t size)
 {
@@ -37,6 +45,7 @@ void NetworkProcessingThread::SendSlot(uint8_t* data, uint32_t size)
 	}
 }
 
+
 void NetworkProcessingThread::run()
 {		
 	int result;
@@ -48,15 +57,20 @@ void NetworkProcessingThread::run()
 		{
 			// Ожидать прием данных
 			_tcpClient.Recv(_buffer, &actualLength, _bufferSize);
+
+			// Испустить сигнал о том, что данные, дескать, приняты
+			emit RecvSignal(_buffer, actualLength);
 		}
 		catch (NetworkException ex)
 		{
-			emit ConnectionProblem(ex.ErrorCode, _clientIndex);
+			//Это очень неприятная ситуация
+			//Когда отключаюсь, объект уничтожается, а сокет закрывается.
+			//Но потом все-равно срабатывает этот метод и emit вызывает ошибку
+			if(ex.ErrorCode!=-1)
+				emit ConnectionProblem(ex.ErrorCode, _clientIndex);
+
 			return;
 		}
-
-		// Испустить сигнал о том, что данные, дескать, приняты
-		emit RecvSignal(_buffer, actualLength);
 	}
 	while (true);
 }

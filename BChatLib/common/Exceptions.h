@@ -34,7 +34,7 @@ public:
 	NetworkException() :Exception(){}
 	NetworkException(uint32_t errorCode) :Exception(QString("Network error occured, error code: %1").arg(errorCode)){}
 	NetworkException(ExceptionString message) :Exception(message) {}
-	NetworkException(ExceptionString message, uint32_t errorCode) :Exception(QString("%1, error code: %2").arg(message, QString::number(ErrorCode))) {}
+	NetworkException(ExceptionString message, uint32_t errorCode) :Exception(QString("%1, error code: %2").arg(message).arg(errorCode)) {}
 };
 
 #endif

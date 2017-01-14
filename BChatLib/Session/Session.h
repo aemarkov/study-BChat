@@ -23,6 +23,8 @@
 #include "CryptoAdapter/ICrypt.h"
 #include "crypto/cryptoapi.h"
 
+#include "util/DialogHelper/DialogHelper.h"
+
 //class SimpleSessionManager;
 
 /*!
@@ -103,7 +105,7 @@ private:
 
 	//Сеть
 	int _port;
-	uint32_t RECV_BUFFER_SIZE = 1000000;
+	static const uint32_t BUFFERS_SIZE;
 
 	//Добавляет пользователя
 	void AddUser(uint32_t userId, TcpClient  client);
