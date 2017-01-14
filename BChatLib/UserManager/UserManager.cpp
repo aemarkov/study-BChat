@@ -4,24 +4,37 @@
 
 UserManager::UserManager()
 {
-	User user;
-	user._certName = SettingsManagerContainer::Inner()->ReadSettings().GetCertificate();
-	user._name = "User1";
-	user._id = 1;
-
-	_users.push_back(user);
 }
 
 UserManager::~UserManager()
 {
 }
 
-vector<User> UserManager::GetUsers()
+void UserManager::Clear()
 {
-	return _users;
+	_users.clear();
 }
 
-User UserManager::GetUser(uint32_t id)
+void UserManager::Add(string key, User user)
 {
-	return _users[0];
+	_users.insert(pair<string, User>(key, user));
 }
+
+void UserManager::Remove(string key)
+{
+	_users.erase(key);
+}
+
+void UserManager::Update(string key, User user)
+{
+	_users[key] = user;
+}
+
+void UserManager::LoadFromFile()
+{
+}
+
+void UserManager::SaveToFile()
+{
+}
+

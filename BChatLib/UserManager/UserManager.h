@@ -6,12 +6,17 @@ class UserManager : public IUserManager
 {
 public:
 	UserManager();
-	~UserManager();
-
+	~UserManager();	
 	// Унаследовано через IUserManager
-	virtual vector<User> GetUsers() override;
-	virtual User GetUser(uint32_t id) override;
+	virtual void Clear() override;
+	virtual void Add(string key, User user) override;
+	virtual void Remove(string key) override;
+	virtual void Update(string key, User user) override;
+	virtual void LoadFromFile() override;
+	virtual void SaveToFile() override;
+
 private:
-	vector<User> _users;
+	 map<string, User>		_users;
+	 string					filename = "users.txt";
 };
 
