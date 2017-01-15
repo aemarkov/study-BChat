@@ -19,9 +19,9 @@ Session::Session(ICrypt& crypter) :
 
 void Session::UserConnected(uint32_t userId, INetwork * client)
 {
-	auto user = UserManagerContainer::Inner()->GetUser(userId);
+	/*auto user = UserManagerContainer::Inner()->GetUser(userId);
 	SessionUser sessionUser(user, client);
-	_users.insert(std::pair<uint32_t, SessionUser>(userId, sessionUser));
+	_users.insert(std::pair<uint32_t, SessionUser>(userId, sessionUser));*/
 
 	//Конвертер - преобразованеи в контейнер
 	connect(&_frameConverter, SIGNAL(FrameOutput(QImage&)), &_qimageToContainerConverter, SLOT(FrameInput(QImage&)));

@@ -126,13 +126,13 @@ void SimpleSessionManager::AcceptConnection(TcpClient & client)
 		client.SimpleSend((char*)&_myId, sizeof(_myId));
 
 		//Получаем пользователя по этому Id (на самом деле нет, это стандартный пользователь)
-		auto user = UserManagerContainer::Inner()->GetUser(userId);
+		//auto user = UserManagerContainer::Inner()->GetUser(userId);
 
 		//Обмен ключами
 		uint8_t* keyBuffer;
 		uint32_t keyBufferSize;
 
-		_cryptoAPI.ExportSessionKeyForUser(SettingsManagerContainer::Inner()->ReadSettings().GetCertificate(), user._certName, &keyBuffer, &keyBufferSize);
+		//_cryptoAPI.ExportSessionKeyForUser(SettingsManagerContainer::Inner()->ReadSettings().GetCertificate(), user._certName, &keyBuffer, &keyBufferSize);
 
 		client.Send((char*)keyBuffer, keyBufferSize);
 

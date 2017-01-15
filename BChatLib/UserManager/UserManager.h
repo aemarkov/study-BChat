@@ -14,9 +14,10 @@ public:
 	virtual void Update(string key, User user) override;
 	virtual void LoadFromFile() override;
 	virtual void SaveToFile() override;
+	virtual map<string, User> GetAllUsers() override;
 
 private:
 	 map<string, User>		_users;
-	 string					filename = "users.txt";
+	 string					_filename = "users.txt";
 };
 

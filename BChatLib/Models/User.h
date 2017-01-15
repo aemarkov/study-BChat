@@ -6,13 +6,13 @@ using namespace std;
 class User
 {
 public:
-	User(uint32_t id,
+	User(string ip,
 		string name,
 		string certName);
 	User();
 	~User();
-
-	uint32_t	_id;
+	
+	string		_ip;
 	string		_name;
 	string		_certName;
 };

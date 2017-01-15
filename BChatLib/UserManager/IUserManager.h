@@ -11,5 +11,6 @@ public:
 	virtual void Update(string key, User user) = 0;
 	virtual void LoadFromFile() = 0;
 	virtual void SaveToFile() = 0;
+	virtual map<string, User> GetAllUsers() = 0;
 };
 

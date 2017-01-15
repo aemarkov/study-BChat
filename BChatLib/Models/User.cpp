@@ -1,8 +1,8 @@
 #include "User.h"
 
-User::User(uint32_t id, string name, string certName)
+User::User(string ip, string name, string certName)
 {
-	_id = id;
+	_ip = ip;
 	_name = name;
 	_certName = certName;
 }
