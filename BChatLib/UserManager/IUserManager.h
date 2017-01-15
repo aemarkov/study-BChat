@@ -12,5 +12,6 @@ public:
 	virtual void LoadFromFile() = 0;
 	virtual void SaveToFile() = 0;
 	virtual map<string, User> GetAllUsers() = 0;
+	virtual void ReloadUsers() = 0;
 };
 

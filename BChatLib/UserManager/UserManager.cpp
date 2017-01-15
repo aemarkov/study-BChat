@@ -118,3 +118,9 @@ map<string, User> UserManager::GetAllUsers()
 	return _users;
 }
 
+void UserManager::ReloadUsers()
+{
+	SaveToFile();
+	LoadFromFile();
+}
+

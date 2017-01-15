@@ -15,7 +15,7 @@ public:
 	virtual void LoadFromFile() override;
 	virtual void SaveToFile() override;
 	virtual map<string, User> GetAllUsers() override;
-
+	virtual void ReloadUsers() override;
 private:
 	 map<string, User>		_users;
 	 string					_filename = "users.txt";

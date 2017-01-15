@@ -25,13 +25,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QListWidget" name="listWidget">
-     <item>
-      <property name="text">
-       <string>User1</string>
-      </property>
-     </item>
-    </widget>
+    <widget class="QListWidget" name="lstUsers"/>
    </item>
    <item>
     <widget class="QPushButton" name="btnJoinChat">
@@ -43,7 +37,7 @@
    <item>
     <widget class="QPushButton" name="btnEdit">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="text">
       <string>Редактировать</string>
@@ -53,7 +47,7 @@
    <item>
     <widget class="QPushButton" name="btnAdd">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="text">
       <string>Добавить</string>
@@ -63,7 +57,7 @@
    <item>
     <widget class="QPushButton" name="btnDelete">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="text">
       <string>Удалить</string>
