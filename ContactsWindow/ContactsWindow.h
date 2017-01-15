@@ -33,6 +33,6 @@ public slots:
 	void SessionCreated();
 
 	void RemoveUser();
-	/*void UpdateUser(int);
-	void AddUser(int);*/
+	/*void UpdateUser(int);*/
+	void AddUser();
 };

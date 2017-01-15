@@ -13,6 +13,7 @@ ContactsWindow::ContactsWindow(QWidget *parent)
 	connect(&_sessionManager, SIGNAL(SessionCreated()), this, SLOT(SessionCreated()));
 
 	connect(ui.btnDelete, SIGNAL(clicked()), this, SLOT(RemoveUser()));
+	connect(ui.btnAdd, SIGNAL(clicked()), this, SLOT(AddUser()));
 	//connect(&_sessionManager, SIGNAL(UserConnected()), this, SLOT(Host_UserConnected()));
 	refreshUsersList();
 }
@@ -71,6 +72,24 @@ void ContactsWindow::RemoveUser()
 
 	// Удалить пользователя
 	_um.Remove(userName);
+
+	// Перезагрузить пользователей - сохранить и загрузить
+	_um.ReloadUsers();
+
+	// Обновить список пользователей
+	refreshUsersList();
+}
+
+void ContactsWindow::AddUser()
+{
+	// Получить имя пользователя - ключ
+	string userName = ui.txtUserName->text().toStdString();
+	string ip = ui.txtIP->text().toStdString();
+	string cert = ui.txtCert->text().toStdString();
+
+	// Добавить пользователя
+	User user = User(ip, userName, cert);
+	_um.Add(userName, user);
 
 	// Перезагрузить пользователей - сохранить и загрузить
 	_um.ReloadUsers();
