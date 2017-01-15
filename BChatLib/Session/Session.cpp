@@ -8,6 +8,9 @@ Session::Session() :
 	_frameConverter(QImage::Format_RGB444),
 	_multiplexor(BUFFERS_SIZE)
 {
+	auto settings = SettingsManagerContainer::Inner()->ReadSettings();
+	_cryptoAPI.Init(settings.GetContainer());
+	_crypter = new CryptoApiAdapter(_cryptoAPI);
 }
 
 
@@ -35,8 +38,6 @@ void Session::JoinChat(uint32_t userId)
 		auto settings = SettingsManagerContainer::Inner()->ReadSettings();
 		_port = settings.GetPort();
 
-		//Создаем объект cryptoApi
-		_cryptoAPI.Init(settings.GetContainer());
 
 		//Настройки куда подключаться должны определять у каждого конкретного пользователя,
 		//получиться от сервера итп, но здесь 1 пользолватель
@@ -97,8 +98,7 @@ void Session::CreateChat()
 	auto settings = SettingsManagerContainer::Inner()->ReadSettings();
 	_port = settings.GetPort();
 
-	//Создаем объект cryptoApi и генерируем сеансовый ключ
-	_cryptoAPI.Init(settings.GetContainer());
+	//генерируем сеансовый ключ
 	_cryptoAPI.CreateSessionKey();
 	
 	SetupPipeline();
@@ -196,12 +196,12 @@ void Session::AddUser(uint32_t userId, TcpClient tcpClient)
 
 
 	//Зашифровка - сеть
-	//connect(&_crypter, SIGNAL(EncryptSignal(uint8_t*, quint32)), client, SLOT(SendSlot(uint8_t*, quint32)));
-	connect(&_multiplexor, SIGNAL(OutputData(quint8*, quint32)), client, SLOT(SendSlot(quint8*, quint32)), Qt::DirectConnection);
+	connect(_crypter, SIGNAL(EncryptSignal(quint8*, quint32)), client, SLOT(SendSlot(quint8*, quint32)), Qt::DirectConnection);
+	//connect(&_multiplexor, SIGNAL(OutputData(quint8*, quint32)), client, SLOT(SendSlot(quint8*, quint32)), Qt::DirectConnection);
 
 	//Сесть - расшифровка
-	//connect(client, SIGNAL(RecvSignal(quint8*, quint32)), &_crypter, SLOT(DecryptSlot(quint8*, quint32)), Qt::DirectConnection);
-	connect(client, SIGNAL(RecvSignal(quint8*, quint32)), &_multiplexor, SLOT(InputData(quint8*, quint32)));// , Qt::DirectConnection);
+	connect(client, SIGNAL(RecvSignal(quint8*, quint32)), _crypter, SLOT(DecryptSlot(quint8*, quint32)), Qt::DirectConnection);
+	//connect(client, SIGNAL(RecvSignal(quint8*, quint32)), &_multiplexor, SLOT(InputData(quint8*, quint32)));// , Qt::DirectConnection);
 
 
 
@@ -237,13 +237,15 @@ void Session::SetupPipeline()
 	connect(&_messageConverter, SIGNAL(DataOutput(const Containers::ChatMessageContainer*)), &_multiplexor, SLOT(InputChatContainer(const Containers::ChatMessageContainer*)));
 
 	//Данные из мультиплексора - шифрование
-	//connect(&_multiplexor, SIGNAL(OutputData(uint8_t*, uint32_t)), &_crypter, SLOT(EncryptSlot(uint8_t*, uint32_t)));
+	connect(&_multiplexor, SIGNAL(OutputData(quint8*, quint32)), _crypter, SLOT(EncryptSlot(quint8*, quint32)));
 
+	
 
+	//connect(_crypter, SIGNAL(EncryptSignal(quint8*, quint32)), _crypter, SLOT(DecryptSlot(quint8*, quint32)));
 
 
 	//Расшифрование - мультипелксор
-	//connect(&_crypter, SIGNAL(DecryptSignal(uint8_t*, uint32_t)), &_multiplexor, SLOT(InputData(uint8_t*, uint32_t)));
+	connect(_crypter, SIGNAL(DecryptSignal(quint8*, quint32)), &_multiplexor, SLOT(InputData(quint8*, quint32)));
 
 	//Мультипексор - контейнер кадра
 	connect(&_multiplexor, SIGNAL(OutputFrame(const Containers::VideoFrameContainer *)), &_containerToQImageConverter, SLOT(DataInput(const Containers::VideoFrameContainer *)));// , Qt::DirectConnection);

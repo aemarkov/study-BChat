@@ -17,6 +17,8 @@ public:
 
 	Exception() {}
 	Exception(ExceptionString message);
+	Exception(uint32_t errorCode) :Exception(QString("Error occured, error code: %1").arg(errorCode)) {}
+	Exception(ExceptionString message, uint32_t errorCode) :Exception(QString("%1, error code: %2").arg(message).arg(errorCode)) {}
 };
 
 class NotImplementedException:public Exception
@@ -32,9 +34,9 @@ public:
 	uint32_t ErrorCode; //==DWORD
 
 	NetworkException() :Exception(){}
-	NetworkException(uint32_t errorCode) :Exception(QString("Network error occured, error code: %1").arg(errorCode)){}
+	NetworkException(uint32_t errorCode) :Exception(errorCode){}
 	NetworkException(ExceptionString message) :Exception(message) {}
-	NetworkException(ExceptionString message, uint32_t errorCode) :Exception(QString("%1, error code: %2").arg(message).arg(errorCode)) {}
+	NetworkException(ExceptionString message, uint32_t errorCode) :Exception(message, errorCode) {}
 };
 
 #endif

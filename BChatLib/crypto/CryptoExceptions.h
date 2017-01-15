@@ -16,7 +16,9 @@ namespace Crypto
 	public:
 
 		CryptoException() :Exception() {}
+		CryptoException(uint32_t errorCode) :Exception(errorCode) {}
 		CryptoException(ExceptionString message) :Exception(message) {}
+		CryptoException(ExceptionString message, uint32_t errorCode) :Exception(message, errorCode) {}
 	};
 }
 

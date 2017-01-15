@@ -37,7 +37,7 @@
    <item>
     <widget class="QLabel" name="label_5">
      <property name="text">
-      <string>Мой сертификат:</string>
+      <string>Сертификат собеседника:</string>
      </property>
     </widget>
    </item>

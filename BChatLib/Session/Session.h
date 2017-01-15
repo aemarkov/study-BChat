@@ -20,6 +20,7 @@
 #include "Network/TcpListener.h"
 #include "NetworkAdapter/NetworkProcessingThread.h"
 
+#include "CryptoAdapter/CryptoApiAdapter.h"
 #include "CryptoAdapter/ICrypt.h"
 #include "crypto/cryptoapi.h"
 
