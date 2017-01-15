@@ -33,7 +33,7 @@ void NetworkProcessingThread::Stop()
 }
 
 
-void NetworkProcessingThread::SendSlot(uint8_t* data, uint32_t size)
+void NetworkProcessingThread::SendSlot(quint8* data, quint32 size)
 {
 	try
 	{
@@ -59,7 +59,7 @@ void NetworkProcessingThread::run()
 			_tcpClient.Recv(_buffer, &actualLength, _bufferSize);
 
 			// »спустить сигнал о том, что данные, дескать, прин€ты
-			emit RecvSignal(_buffer, actualLength);
+			emit RecvSignal((quint8*)_buffer, (quint32)actualLength);
 		}
 		catch (NetworkException ex)
 		{

@@ -39,14 +39,14 @@ namespace Containers
 		/*
 		 * \brief Получение данных в байтовом виде
 		 */
-		void InputData(uint8_t*, uint32_t);
+		void InputData(quint8*, quint32);
 
 	signals:
 
 		/*!
 		 * \brief Передача сформированного массива байт дальше
 		 */
-		void OutputData(uint8_t*, uint32_t);
+		void OutputData(quint8*, quint32);
 
 		/*!
 		 * \brief Передача полученного кадра

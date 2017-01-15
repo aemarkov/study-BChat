@@ -53,7 +53,7 @@ void SimpleContainerMultiplexor::InputContainer(const Containers::BaseContainer*
 
 
 //Получение данных в байтовом виде
-void SimpleContainerMultiplexor::InputData(uint8_t * buffer, uint32_t size)
+void SimpleContainerMultiplexor::InputData(quint8 * buffer, quint32 size)
 {
 	try
 	{

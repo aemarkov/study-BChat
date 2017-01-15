@@ -153,14 +153,8 @@
     <ClCompile Include="CryptoAdapter\CryptoApiAdapter.cpp">
       <Filter>CryptoAdapter</Filter>
     </ClCompile>
-    <ClCompile Include="CryptoAdapter\ICrypt.cpp">
-      <Filter>CryptoAdapter</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_ICrypt.cpp">
       <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="NetworkAdapter\INetwork.cpp">
-      <Filter>NetworkAdapter</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_INetwork.cpp">
       <Filter>Generated Files\Debug</Filter>

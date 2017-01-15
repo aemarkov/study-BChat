@@ -13,12 +13,12 @@ namespace Crypto
 
 		public slots :
 
-		virtual void EncryptSlot(uint8_t*, uint32_t) = 0;
-		virtual void DecryptSlot(uint8_t*, uint32_t) = 0;
+		virtual void EncryptSlot(quint8*, quint32) = 0;
+		virtual void DecryptSlot(quint8*, quint32) = 0;
 
 	signals:
-		void DecryptSignal(uint8_t*, uint32_t);
-		void EncryptSignal(uint8_t*, uint32_t);
+		void DecryptSignal(quint8*, quint32);
+		void EncryptSignal(quint8*, quint32);
 	};
 
 }

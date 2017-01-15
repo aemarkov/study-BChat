@@ -17,7 +17,7 @@ public:
 	void run();
 
 public slots :
-	virtual void SendSlot(uint8_t*, uint32_t) override;
+	virtual void SendSlot(quint8*, quint32) override;
 
 
 private:

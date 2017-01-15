@@ -191,12 +191,12 @@ void Session::AddUser(uint32_t userId, TcpClient tcpClient)
 
 
 	//Зашифровка - сеть
-	//connect(&_crypter, SIGNAL(EncryptSignal(uint8_t*, uint32_t)), client, SLOT(SendSlot(uint8_t*, uint32_t)));
-	connect(&_multiplexor, SIGNAL(OutputData(uint8_t*, uint32_t)), client, SLOT(SendSlot(uint8_t*, uint32_t)), Qt::DirectConnection);
+	//connect(&_crypter, SIGNAL(EncryptSignal(uint8_t*, quint32)), client, SLOT(SendSlot(uint8_t*, quint32)));
+	connect(&_multiplexor, SIGNAL(OutputData(quint8*, quint32)), client, SLOT(SendSlot(quint8*, quint32)), Qt::DirectConnection);
 
 	//Сесть - расшифровка
-	//connect(client, SIGNAL(RecvSignal(uint8_t*, uint32_t)), &_crypter, SLOT(DecryptSlot(uint8_t*, uint32_t)), Qt::DirectConnection);
-	connect(client, SIGNAL(RecvSignal(uint8_t*, uint32_t)), &_multiplexor, SLOT(InputData(uint8_t*, uint32_t)));// , Qt::DirectConnection);
+	//connect(client, SIGNAL(RecvSignal(quint8*, quint32)), &_crypter, SLOT(DecryptSlot(quint8*, quint32)), Qt::DirectConnection);
+	connect(client, SIGNAL(RecvSignal(quint8*, quint32)), &_multiplexor, SLOT(InputData(quint8*, quint32)));// , Qt::DirectConnection);
 
 
 

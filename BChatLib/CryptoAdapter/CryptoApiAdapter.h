@@ -12,8 +12,8 @@ namespace Crypto
 		CryptoApiAdapter(CryptoAPI & cryptoApi);
 		~CryptoApiAdapter();
 
-		virtual void DecryptSlot(uint8_t * key, uint32_t keySize) override;
-		virtual void EncryptSlot(uint8_t *key, uint32_t keySize) override;
+		virtual void DecryptSlot(quint8 * key, quint32 keySize) override;
+		virtual void EncryptSlot(quint8 *key, quint32 keySize) override;
 
 	private:
 		CryptoAPI & _cryptoAPI;

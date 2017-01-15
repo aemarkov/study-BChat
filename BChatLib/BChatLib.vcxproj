@@ -80,7 +80,6 @@
     <ClCompile Include="Containers\SimpleContainerMultiplexor.cpp" />
     <ClCompile Include="Containers\VideoFrameContainer.cpp" />
     <ClCompile Include="CryptoAdapter\CryptoApiAdapter.cpp" />
-    <ClCompile Include="CryptoAdapter\ICrypt.cpp" />
     <ClCompile Include="crypto\cryptoapi.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_CameraFrameGrabber.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -143,7 +142,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Models\User.cpp" />
-    <ClCompile Include="NetworkAdapter\INetwork.cpp" />
     <ClCompile Include="NetworkAdapter\NetworkProcessingThread.cpp" />
     <ClCompile Include="Network\Network.cpp" />
     <ClCompile Include="Network\TcpClient.cpp" />
