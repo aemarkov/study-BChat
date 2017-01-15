@@ -59,9 +59,21 @@ void Crypto::CryptoAPI::Init(std::string containerName)
 //Генерирует сессионный ключ
 bool CryptoAPI::CreateSessionKey()
 {	
+	/*HCRYPTPROV prov;
+
+	CryptAcquireContextA(
+		&prov,
+		NULL,	//Имя контейнера
+		NULL,					//Не указываем провайдера?
+		PROV_GOST_2012_256,
+		CRYPT_VERIFYCONTEXT
+	);*/
+
 	_sessionKeyMutex.lock();
 	bool result =  CryptGenKey(*_hCryptProv, CALG_G28147, CRYPT_EXPORTABLE, &*_hSessionKey);
 	_sessionKeyMutex.unlock();
+
+	//CryptReleaseContext(prov, 0);
 
 	return 0;
 }
@@ -263,152 +275,6 @@ void CryptoAPI::ExportSessionKeyForUser(std::string myCertSubjectString, std::st
 
 	CryptReleaseContext(hProvSender, 0);
 
-	/*BYTE data[] = "fuck you, CryptoPRO!";
-	DWORD dataSize = sizeof(data);
-	DWORD dataLen = dataSize;
-	Encrypt(data, dataSize);
-
-	CryptDestroyKey(*_hSessionKey);
-
-	///////////////////////////////////////////////////////////////////////////////////
-
-	hPersonalStoreHandle = CertOpenSystemStoreA(0, "MY");
-	hOthersStoreHandle = CertOpenSystemStoreA(0, "AddressBook");
-	if (!hPersonalStoreHandle)
-	{
-	}
-
-	//--------------------------------------------------------------------
-	// Получение контекста сертифика, в названии которого содержится "Responder", 
-	// находящегося в хранилище сертификатов "MY".
-
-	pCertResponder = CertFindCertificateInStore(
-		hPersonalStoreHandle,
-		X509_ASN_ENCODING | PKCS_7_ASN_ENCODING,
-		0,
-		CERT_FIND_SUBJECT_STR,
-		"Responder",
-		NULL);
-
-	if (!pCertResponder)
-	{
-	}
-
-	//--------------------------------------------------------------------
-	// Получение дескриптора CSP, включая доступ к связанному с ним ключевому
-	// контейнеру для контекста сертификата pCertResponder.
-
-	if (!CryptAcquireCertificatePrivateKey(
-		pCertResponder,
-		0,
-		NULL,
-		&hProvResponder,
-		&dwKeySpecResponder,
-		NULL))
-	{
-	}
-
-	//--------------------------------------------------------------------
-	// Поиск сертифика, в названии которого содержится "Sender", 
-	// находящегося в хранилище сертификатов "MY".
-
-	pCertSender = CertFindCertificateInStore(
-		hOthersStoreHandle,
-		X509_ASN_ENCODING | PKCS_7_ASN_ENCODING,
-		0,
-		CERT_FIND_SUBJECT_STR,
-		"Sender",
-		NULL);
-
-	if (!pCertSender)
-	{
-	}
-	//--------------------------------------------------------------------
-	// Получение дескриптора открытого ключа отправителя.
-
-	if (!CryptImportPublicKeyInfoEx(
-		hProvResponder,
-		X509_ASN_ENCODING | PKCS_7_ASN_ENCODING,
-		&(pCertSender->pCertInfo->SubjectPublicKeyInfo),
-		0,
-		0,
-		NULL,
-		&hSenderKey))
-	{
-	}
-
-	//--------------------------------------------------------------------
-	// Определение размера BLOBа открытого ключа и распределение памяти.
-
-	if (!CryptExportKey(
-		hSenderKey,
-		0,
-		PUBLICKEYBLOB,
-		0,
-		NULL,
-		&dwBlobLenSender))
-	{
-	}
-
-	pbKeyBlobSender = (BYTE*)malloc(dwBlobLenSender);
-
-	//--------------------------------------------------------------------
-	// Экспортирование открытого ключа отправителя в BLOB открытого ключа.
-
-	if (!CryptExportKey(
-		hSenderKey,
-		0,
-		PUBLICKEYBLOB,
-		0,
-		pbKeyBlobSender,
-		&dwBlobLenSender))
-	{
-	}
-
-	//--------------------------------------------------------------------
-	// Получение дескриптора закрытого ключа получателя.
-
-	if (!CryptGetUserKey(
-		hProvResponder,
-		dwKeySpecResponder,
-		&hResponderKey))
-	{
-	}
-
-	//--------------------------------------------------------------------
-	// Получение ключа согласования импортом открытого ключа отправителя из BLOBа 
-	// на закрытом ключе получателя.
-
-	if (!CryptImportKey(
-		hProvResponder,
-		pbKeyBlobSender,
-		dwBlobLenSender,
-		hResponderKey,
-		0,
-		&hAgreeKey))
-	{
-	}
-
-	// Получение сессионного ключа импортом зашифрованного сессионного ключа 
-	// на ключе Agree.
-
-
-	//HCRYPTKEY hSessionKey2;
-
-	if (!CryptImportKey(
-		hProvResponder,
-		pbKeyBlobSimple,
-		dwBlobLenSimple,
-		hAgreeKey,
-		0,
-		&*_hSessionKey))
-	{
-	}
-
-
-	Decrypt(data, dataSize);*/
-
-
 	_sessionKeyMutex.unlock();	
 }
 
@@ -555,15 +421,13 @@ void CryptoAPI::ImportSessionKey(uint8_t* key, uint32_t keySize, std::string myC
 	// Получение сессионного ключа импортом зашифрованного сессионного ключа 
 	// на ключе Agree.
 
-	HCRYPTKEY hSessionKey2;
-
 	if (!CryptImportKey(
 		hProvResponder,
 		pbKeyBlobSimple,
 		dwBlobLenSimple,
 		hAgreeKey,
 		0,
-		&hSessionKey2))
+		&*_hSessionKey2))
 	{
 	}
 
@@ -589,14 +453,13 @@ void CryptoAPI::Encrypt(uint8_t* data, uint32_t size)
 {
 	DWORD dataLen = size;
 
-	//_sessionKeyMutex.lock();
+	_sessionKeyMutex.lock();
 
 	if (!CryptSetKeyParam(*_hSessionKey, KP_IV, (const BYTE*)_keyParams, 0))
 	{
 		DWORD error = GetLastError();
 		Util::Logger::Instance()->Write(QString("Can't set key params. Error: %1").arg(error, 0, 16));
 		//throw  CryptoException(QString("Can't set key params. Error: %1").arg(error, 0, 16));
-		//throw CryptoException("Can't set key params");
 	}
 
 	if (!CryptEncrypt(*_hSessionKey, NULL, true, NULL, data, &dataLen, size))
@@ -604,10 +467,9 @@ void CryptoAPI::Encrypt(uint8_t* data, uint32_t size)
 		DWORD error = GetLastError();
 		Util::Logger::Instance()->Write(QString("Can't encrypt data. Error: %1").arg(error, 0, 16));
 		//throw  CryptoException(QString("Can't encrypt data. Error: %1").arg(error, 0, 16));
-		//throw CryptoException("Can't encrypt data");
 	}
 
-	//_sessionKeyMutex.unlock();
+	_sessionKeyMutex.unlock();
 }
 
 //Расшифровывает данные с использованием сессионного ключа
@@ -616,29 +478,25 @@ void CryptoAPI::Decrypt(uint8_t* data, uint32_t size)
 {
 	DWORD dataLen = size;
 
-	//_sessionKeyMutex.lock();
+	_sessionKeyMutex.lock();
 
-	HCRYPTKEY wtf = *_hSessionKey;
-
-	if (!CryptSetKeyParam(*_hSessionKey, KP_IV, (const BYTE*)_keyParams, 0))
+	if (!CryptSetKeyParam(*_hSessionKey2, KP_IV, (const BYTE*)_keyParams, 0))
 	{
 		DWORD error = GetLastError();
 		Util::Logger::Instance()->Write(QString("Can't set key params. Error: %1").arg(error, 0, 16));
 		//throw  CryptoException(QString("Can't set key params. Error: %1").arg(error,0,16));
-		//throw CryptoException("Can't set key params");
 	}
 
-	if (!CryptDecrypt(*_hSessionKey, NULL, true, NULL, data, &dataLen))
+	if (!CryptDecrypt(*_hSessionKey2, NULL, true, NULL, data, &dataLen))
 	{
 		DWORD error = GetLastError();
 		Util::Logger::Instance()->Write(QString("Can't decrypt data. Error: %1").arg(error, 0, 16));
 		//throw  CryptoException(QString("Can't decrypt data. Error: %1").arg(error, 0, 16));
-		//throw CryptoException("Can't decrypt data.");
 	}
 
 	
 
-	//_sessionKeyMutex.unlock();
+	_sessionKeyMutex.unlock();
 }
 
 
