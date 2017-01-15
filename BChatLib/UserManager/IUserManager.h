@@ -8,10 +8,10 @@ public:
 	virtual void Clear() = 0;
 	virtual void Add(string key, User user) = 0;
 	virtual void Remove(string key) = 0;
-	virtual void Update(string key, User user) = 0;
+	virtual void Update(string key, string newKey, User user) = 0;
 	virtual void LoadFromFile() = 0;
 	virtual void SaveToFile() = 0;
-	virtual map<string, User> GetAllUsers() = 0;
-	virtual void ReloadUsers() = 0;
+	virtual map<string, User> GetAllUsers() = 0;	
+	virtual User GetUser(string key) = 0;
 };
 

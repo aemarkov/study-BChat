@@ -10,24 +10,36 @@ UserManager::~UserManager()
 {
 }
 
+void UserManager::refreshUsers()
+{
+	SaveToFile();
+	LoadFromFile();
+}
+
 void UserManager::Clear()
 {
 	_users.clear();
+	refreshUsers();
 }
 
 void UserManager::Add(string key, User user)
 {
 	_users.insert(pair<string, User>(key, user));
+	refreshUsers();
 }
 
 void UserManager::Remove(string key)
 {
 	_users.erase(key);
+	refreshUsers();
 }
 
-void UserManager::Update(string key, User user)
+void UserManager::Update(string key, string newKey, User user)
 {
-	_users[key] = user;
+	Remove(key);
+	refreshUsers();
+	Add(newKey, user);
+	refreshUsers();
 }
 
 void UserManager::LoadFromFile()
@@ -118,9 +130,7 @@ map<string, User> UserManager::GetAllUsers()
 	return _users;
 }
 
-void UserManager::ReloadUsers()
+User UserManager::GetUser(string key)
 {
-	SaveToFile();
-	LoadFromFile();
+	return _users[key];
 }
-

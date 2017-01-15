@@ -10,6 +10,8 @@
 #include "ChatWindow\ChatWindow.h"
 #include "UserManager\UserManager.h"
 
+#include <QModelIndex>
+
 class ContactsWindow : public QWidget
 {
 	Q_OBJECT
@@ -33,6 +35,7 @@ public slots:
 	void SessionCreated();
 
 	void RemoveUser();
-	/*void UpdateUser(int);*/
+	void UpdateUser();
 	void AddUser();
+	void GetUserData(const QModelIndex &index);
 };
