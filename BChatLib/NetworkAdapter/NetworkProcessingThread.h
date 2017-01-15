@@ -10,15 +10,22 @@ class NetworkProcessingThread : public INetwork
 	Q_OBJECT
 
 public:
-	NetworkProcessingThread(TcpClient);
+	NetworkProcessingThread(TcpClient client, uint32_t bufferSize, int clientIndex);
 	~NetworkProcessingThread();
 
+	virtual void Stop() override;
 	void run();
 
 public slots :
-	virtual void SendSlot(uint8_t*, uint32_t) override;
+	virtual void SendSlot(quint8*, quint32) override;
 
 
 private:
 	TcpClient _tcpClient;
+	int _clientIndex;
+
+	//Выделенный буфер, куда будут приниматься сообщения
+	//Чтобы избежать постоянных аллокций
+	uint8_t* _buffer;
+	uint32_t _bufferSize;
 };

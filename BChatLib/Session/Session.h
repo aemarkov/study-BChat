@@ -3,8 +3,8 @@
 #include <qobject.h>
 #include <qimage>
 #include <qvideoframe.h>
-#include <map>
-
+#include <vector>
+#include <string>
 #include "SessionUser.h"
 
 
@@ -16,8 +16,16 @@
 #include "Containers/SimpleContainerMultiplexor.h"
 #include "UserManager/UserManagerContainer.h"
 
-#include "NetworkAdapter\INetwork.h"
-#include "CryptoAdapter\ICrypt.h"
+#include "NetworkAdapter/INetwork.h"
+#include "Network/TcpListener.h"
+#include "NetworkAdapter/NetworkProcessingThread.h"
+
+#include "CryptoAdapter/ICrypt.h"
+#include "crypto/cryptoapi.h"
+
+#include "util/DialogHelper/DialogHelper.h"
+
+#include "chat/QStringToContainerConverter.h"
 
 //class SimpleSessionManager;
 
@@ -28,44 +36,96 @@
 
 //class SimpleSessionManager;
 
-class Session: public QObject
+using namespace Crypto;
+
+class Session: public QThread
 {
 	Q_OBJECT
 
 public:
 
-	Session(ICrypt& crypter);
-	void UserConnected(uint32_t userId, INetwork * client);
+	Session();
+	~Session();
+
+	/*!
+	* \brief создание чата - запуск TcpListener, генерация сессионного ключа
+	ожидает подключения пользователя, после осуществляет обмен сессионными
+	ключами, создает цепочку объектов для передачи видео и создает форму чата
+	*/
+	void CreateChat();
+
+	/*
+	* \breif подключение - просто подключение по заданному IP, обмен ключами
+	подключение к серверу, после осуществляет обмен сессионными
+	ключами, создает цепочку объектов для передачи видео и создает форму чата
+	*/
+	void JoinChat(uint32_t userId);
+
+	//Отправить сообщение в чат
+	void SendChatMessage(QString message);
+
+	//Ожидание подключений в отдельном потоке
+	void run();
 
 public slots:
 
+	//Получен кадр с вебкамеры
 	void MyFrameInput(const QVideoFrame&);
-	void __OtherFrameOutput(QImage&);
+	void MyMessageInput(const QString);
+
+	//Проблемы с подключением у одного из клиентов
+	void ConnectionProblem(int, int);
 
 signals:
 
 	//Чтобы пробросить слот на сигнал для внутреннего использования
 	void __MyFameInput(const QVideoFrame&);
+	void __MyMessageInput(const QString);
 
 	void UserConnected(int);
 	void UserDisconnected(int);
 
-	//Видео от другого пользователя
-	void OtherFrameOutput(QImage&);
 
 	//Видео с моей камеры
 	void MyFrameOutput(QImage&);
 
+	//Видео от другого пользователя
+	void OtherFrameOutput(QImage&);
+	
+	//Сообщение
+	void MessageOutput(const Containers::ChatMessageContainer*);
 
 
 private:
-	std::map<uint32_t, SessionUser> _users;
+	//Подключенные пользователи
+	std::vector<SessionUser> _users;
+	int _userCnt = 0;
+	int _myId = 0;
 
+	//Части конвейера
 	Webcam::FrameConverter _frameConverter;
 	Webcam::QImageToContainerConverter _qimageToContainerConverter;
 	Webcam::ContainerToQImageConverter _containerToQImageConverter;
+	QStringToContainerConverter _messageConverter;
 
 	Containers::SimpleContainerMultiplexor _multiplexor;
 
-	ICrypt& _crypter;
+	//Крипто-апи
+	CryptoAPI _cryptoAPI;
+	ICrypt* _crypter;
+
+	//Сеть
+	int _port;
+	static const uint32_t BUFFERS_SIZE;
+	//static const uint32_t VIDEO_FRAME_CONTAINER_BUFFER_SIZE;
+	//static const uint32_t CHAT_MESSAGE_CONTAINER_BUFFER_SIZE;
+
+	//Добавляет пользователя
+	void AddUser(uint32_t userId, TcpClient  client);
+
+
+
+
+	//Настраивает конвейер
+	void SetupPipeline();
 };

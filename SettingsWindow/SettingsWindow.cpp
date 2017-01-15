@@ -21,7 +21,7 @@ SettingsWindow::SettingsWindow(QWidget *parent)
 	}
 	catch (Exception ex)
 	{
-		DialogHelper::ShowDialog(ex.Message.c_str());
+		DialogHelper::ShowDialog(ex.Message);
 	}
 }
 

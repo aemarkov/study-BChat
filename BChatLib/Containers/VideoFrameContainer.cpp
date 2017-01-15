@@ -5,28 +5,16 @@ using namespace Containers;
 
 Containers::VideoFrameContainer::VideoFrameContainer()
 {
-	_frameBuffer = nullptr;
-	_bufferSize = 0;
+	_buffer = new uint8_t[_bufferSize];
 }
 
 Containers::VideoFrameContainer::~VideoFrameContainer()
 {
-	if (_frameBuffer != nullptr)
-		delete[] _frameBuffer;
+	if (_buffer != nullptr)
+		delete[] _buffer;
 }
 
 ////////////////////////////////////////// ÑÅÒÒÅÐÛ ////////////////////////////////////////////////
-
-bool Containers::VideoFrameContainer::IsBuffer() const
-{
-	return _frameBuffer != nullptr;
-}
-
-void Containers::VideoFrameContainer::CreateBuffer(const uint32_t size)
-{
-	_bufferSize = size;
-	_frameBuffer = new uint8_t[size];
-}
 
 void Containers::VideoFrameContainer::SetBuffer(const uint8_t * buffer, uint32_t size)
 {
@@ -36,24 +24,19 @@ void Containers::VideoFrameContainer::SetBuffer(const uint8_t * buffer, uint32_t
 		return;
 	}
 
-	if (_frameBuffer == nullptr)
+	if (size > _bufferSize)
 	{
-		_frameBuffer = new uint8_t[size];
-		_bufferSize = size;
-	}
-
-	if (size != _bufferSize)
-	{
-		Logger::Instance()->WriteException("VideFrameContainer: Buffer has invalid size");
+		Logger::Instance()->WriteException(QString("Video frame container buffer size is %1, but input data size is %2").arg(_bufferSize).arg(size));
 		return;
 	}
 
-	memcpy(_frameBuffer, buffer, size);
+	_realDataSize = size;
+	memcpy(_buffer, buffer, size);
 }
 
 uint8_t * Containers::VideoFrameContainer::GetBuffer() const
 {
-	return _frameBuffer;
+	return _buffer;
 }
 
 void Containers::VideoFrameContainer::SetWidth(const uint32_t width)
@@ -90,15 +73,14 @@ QImage::Format Containers::VideoFrameContainer::GetFormat() const
 //////////////////////////////////////// ÑÅÐÈÀËÈÇÀÖÈß /////////////////////////////////////////////
 
 
+ContainersType Containers::VideoFrameContainer::GetType() const
+{
+	return _containerType;
+}
+
 uint32_t VideoFrameContainer::GetSize() const
 {
-	if (_frameBuffer == nullptr)
-	{
-		Logger::Instance()->WriteException("VideFrameContainer: Buffer is not initialized");
-		return 0;
-	}
-
-	return _bufferSize + sizeof(_width) + sizeof(_height) + sizeof(_format) + sizeof(_bufferSize);
+	return _realDataSize + sizeof(_width) + sizeof(_height) + sizeof(_format) + sizeof(_realDataSize) + sizeof (_containerType);
 }
 
 void VideoFrameContainer::Serialize(uint8_t * buffer) const
@@ -109,12 +91,8 @@ void VideoFrameContainer::Serialize(uint8_t * buffer) const
 		return;
 	}
 
-	if (_frameBuffer == nullptr)
-	{
-		Logger::Instance()->WriteException("VideFrameContainer: Buffer is not initialized");
-		return;
-	}
-
+	memcpy(buffer, &_containerType, sizeof(_containerType));
+	buffer += sizeof(_containerType);
 
 	memcpy(buffer, &_width, sizeof(_width));
 	buffer += sizeof(_width);
@@ -125,10 +103,10 @@ void VideoFrameContainer::Serialize(uint8_t * buffer) const
 	memcpy(buffer, &_format, sizeof(_format));
 	buffer += sizeof(_format);
 
-	memcpy(buffer, &_bufferSize, sizeof(_bufferSize));
-	buffer += sizeof(_bufferSize);
+	memcpy(buffer, &_realDataSize, sizeof(_realDataSize));
+	buffer += sizeof(_realDataSize);
 
-	memcpy(buffer, _frameBuffer, _bufferSize);
+	memcpy(buffer, _buffer, _realDataSize);
 }
 
 void Containers::VideoFrameContainer::Deserialize(const uint8_t * buffer)
@@ -151,19 +129,12 @@ void Containers::VideoFrameContainer::Deserialize(const uint8_t * buffer)
 	buffer += sizeof(_format);
 
 	memcpy(&size, buffer, sizeof(size));
+	buffer += sizeof(size);
 
-	if (_frameBuffer == nullptr)
-	{
-		_frameBuffer = new uint8_t[size];
-		_bufferSize = size;
-	}
+	if(size>_bufferSize)
+		throw new Exception(QString("Video frame container buffer size is %1, but input data size is %2").arg(_bufferSize).arg(size));
 
-	if (size != _bufferSize)
-	{
-		Logger::Instance()->WriteException("VideFrameContainer: Buffer has invalid size");
-		return;
-	}
-
-	memcpy(_frameBuffer, buffer, _bufferSize);
+	_realDataSize = size;
+	memcpy(_buffer, buffer, size);
 }
 

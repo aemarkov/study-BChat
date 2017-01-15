@@ -3,6 +3,7 @@
 #include <qobject.h>
 #include "BaseContainer.h"
 #include "VideoFrameContainer.h"
+#include "ChatMessageContainer.h"
 
 namespace Containers
 {
@@ -19,6 +20,8 @@ namespace Containers
 		Q_OBJECT
 
 	public:
+		SimpleContainerMultiplexor(uint32_t bufferSize);
+		~SimpleContainerMultiplexor();
 
 	public slots:
 
@@ -29,24 +32,31 @@ namespace Containers
 		 * ¬ообще-то надо родител€ принимать BaseContainer, но слоты-сигналы Qt
 		 * не коннект€тс€
 		 */
-		void InputContainer(const Containers::VideoFrameContainer*);
-		
+		void InputVideoContainer(const Containers::VideoFrameContainer*);
+		void InputChatContainer(const Containers::ChatMessageContainer*);
+	
+
 		/*
 		 * \brief ѕолучение данных в байтовом виде
 		 */
-		void InputData(uint8_t*, uint32_t);
+		void InputData(quint8*, quint32);
 
 	signals:
 
 		/*!
 		 * \brief ѕередача сформированного массива байт дальше
 		 */
-		void OutputData(uint8_t*, uint32_t);
+		void OutputData(quint8*, quint32);
 
 		/*!
 		 * \brief ѕередача полученного кадра
 		 */
 		void OutputFrame(const Containers::VideoFrameContainer*);
+
+		/*!
+		 * \brief ѕередача полученного сообщени€ в чат
+		 */
+		void OutputMessage(const Containers::ChatMessageContainer*);
 	
 	private:
 		
@@ -54,7 +64,13 @@ namespace Containers
 		const uint8_t _header[_headerSize] = { 0x74, 0x75, 0x15, 0x37, 0xAA, 0xBB };
 
 		//»х может быть под каждого пользовател€ массив
-		VideoFrameContainer container;
+		VideoFrameContainer _videoFrameContainer;
+		ChatMessageContainer _chatMessageContainer;
+
+		uint8_t* _sendBuffer;
+		uint32_t _bufferSize;
+
+		void InputContainer(const Containers::BaseContainer*);
 
 	};
 }

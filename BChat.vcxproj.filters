@@ -48,9 +48,6 @@
     <Filter Include="Forms">
       <UniqueIdentifier>{5865c1c2-8ddc-4075-acc2-a6f565ae5e52}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Forms\MainWindow">
-      <UniqueIdentifier>{18d72744-a697-48c7-ba8e-4b63da8ca5f8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Forms\ChatWindow">
       <UniqueIdentifier>{70e2724e-d4a3-41a2-8778-9d24cf4798d3}</UniqueIdentifier>
     </Filter>
@@ -64,12 +61,6 @@
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Debug\moc_mainwindow.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="mainwindow.cpp">
-      <Filter>Forms\MainWindow</Filter>
     </ClCompile>
     <ClCompile Include="mainwindow.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -110,6 +101,9 @@
     <ClCompile Include="Release\moc_ContactsWindow.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="mainwindow.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_mainwindow.h">
@@ -143,9 +137,6 @@
   <ItemGroup>
     <CustomBuild Include="mainwindow.ui">
       <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="mainwindow.h">
-      <Filter>Forms\MainWindow</Filter>
     </CustomBuild>
     <CustomBuild Include="ChatWindow\ChatWindow.h">
       <Filter>Forms\ChatWindow</Filter>

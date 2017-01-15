@@ -2,26 +2,48 @@
 
 using namespace Containers;
 
+SimpleContainerMultiplexor::SimpleContainerMultiplexor(uint32_t bufferSize)
+{
+	_bufferSize = bufferSize;
+	_sendBuffer = new uint8_t[bufferSize];
+}
+
+SimpleContainerMultiplexor::~SimpleContainerMultiplexor()
+{
+	delete[] _sendBuffer;
+}
+
+void Containers::SimpleContainerMultiplexor::InputVideoContainer(const Containers::VideoFrameContainer * container)
+{
+	InputContainer(container);
+}
+
+
+void Containers::SimpleContainerMultiplexor::InputChatContainer(const Containers::ChatMessageContainer * container)
+{
+	InputContainer(container);
+}
+
+
 //ѕолучение данных от какого-то источника
-void SimpleContainerMultiplexor::InputContainer(const Containers::VideoFrameContainer* container)
+void SimpleContainerMultiplexor::InputContainer(const Containers::BaseContainer* container)
 {
 	try
 	{
 		uint32_t size = _headerSize; // +sizeof(userId)
 		size += container->GetSize();
 
-		uint8_t * buffer = new uint8_t[size];
-		uint8_t * buffer0 = buffer;
+		uint8_t * buffer0 = _sendBuffer;
 
-		memcpy(buffer, _header, _headerSize);
-		buffer += _headerSize;
+		memcpy(buffer0, _header, _headerSize);
+		buffer0 += _headerSize;
 
 		//memcpy(buffer, &userId, sizeof(userId));
 		//buffer += sizeof(userId);
 
-		container->Serialize(buffer);
+		container->Serialize(buffer0);
 
-		emit OutputData(buffer0, size);
+		emit OutputData(_sendBuffer, size);
 	}
 	catch (Exception ex)
 	{
@@ -29,13 +51,12 @@ void SimpleContainerMultiplexor::InputContainer(const Containers::VideoFrameCont
 	}
 }
 
+
 //ѕолучение данных в байтовом виде
-void SimpleContainerMultiplexor::InputData(uint8_t * buffer, uint32_t size)
+void SimpleContainerMultiplexor::InputData(quint8 * buffer, quint32 size)
 {
 	try
 	{
-		//uint32_t userId;
-		uint8_t* buffer0 = buffer;
 
 		if (buffer == nullptr)
 		{
@@ -49,7 +70,6 @@ void SimpleContainerMultiplexor::InputData(uint8_t * buffer, uint32_t size)
 		{
 			//throw new Exception("Input data is invalid, maybe Session Key is invalid");
 			Logger::Instance()->WriteException("Input data is invalid, maybe Session Key is invalid");
-			delete[] buffer0;
 			return;
 		}
 
@@ -59,18 +79,24 @@ void SimpleContainerMultiplexor::InputData(uint8_t * buffer, uint32_t size)
 		//memcpy(&userId, buffer, sizeof(userId));
 		//buffer += sizeof(userId);
 
-		//TODO: определить тип контейнера...
+		//определить тип контейнера...
+		ContainersType type;
+		memcpy(&type, buffer, sizeof(type));
+		buffer += sizeof(type);
 
 		//„итаем кадр
-		container.Deserialize(buffer);
-		emit OutputFrame(&container);
-
-		//¬от предполагаем, что это - последнее звено в цепочке, а 
-		//контейнеры копируют данные себе, а не просто ссылаютс€
-		delete[] buffer0;
+		if (type == VIDEO_FRAME_CONTAINER)
+		{
+			_videoFrameContainer.Deserialize(buffer);
+			emit OutputFrame(&_videoFrameContainer);
+		}
+		else if (type == CHAT_MESSAGE_CONTAINER)
+		{
+			_chatMessageContainer.Deserialize(buffer);
+			emit OutputMessage(&_chatMessageContainer);
+		}
 	}
 	catch (Exception ex)
 	{
-		//TODO: ѕоказать диалоговое окно
 	}
 }

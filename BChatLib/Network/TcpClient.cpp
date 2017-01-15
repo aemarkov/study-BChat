@@ -18,115 +18,103 @@ void TcpClient::Close()
 	closesocket(_socket);
 }
 
-//Устанавливает таймаут сокета
-/*void TcpClient::setOptions(SOCKET sock)
-{
-	DWORD timeout = 1000;
-
-	int result = setsockopt(sock,
-		SOL_SOCKET,
-		SO_RCVTIMEO,
-		(const char *)&timeout,
-		sizeof(timeout));
-
-	 result = setsockopt(sock,
-		SOL_SOCKET,
-		SO_SNDTIMEO,
-		(const char *)&timeout,
-		sizeof(timeout));
-}
-
-void TcpClient::flushSocket()
-{
-	char buffer[2048];
-	int actualLength = 0;
-
-	do
-	{
-		if (SOCKET_ERROR == (actualLength = recv(_socket, buffer, 2048, 0)))
-			return;
-		if (actualLength != 2048)
-			return;
-
-	} while (true);
-}*/
 
 SOCKET TcpClient::GetSocket()
 {
 	return _socket;
 }
 
-int TcpClient::Recv(char** message, int* msgLength)
+/*!
+* \brief Получить сообщение и его длину
+*
+*  Этот метод использует существующий буфер, вместо аллокации нового
+*
+* \param[in] message - указаетль на буфер, куда будет записаны данные
+* \param[out] msgLength - указатель на переменную, куда будет записана длина принятых данных
+* \param[un] bufferSize - размер буфера
+*/
+int TcpClient::Recv(uint8_t* message, uint32_t* msgLength, uint32_t bufferSize)
 {
-	int messageLength = 0;
-	int actual_len = 0;
+	int recvResult = recv(_socket, (char*)message, bufferSize, 0);
 
-	/*if (SOCKET_ERROR == (actual_len = recv(_socket, (char*)&messageLength, sizeof(int), 0)))
-	{
-		return WSAGetLastError();
-	}*/
+	//Произошла ошибка
+	if (recvResult == SOCKET_ERROR)
+		throw NetworkException("TCPClient: Error receiving message", WSAGetLastError());
 
-	messageLength = bufferSize;
+	*msgLength = recvResult;
+
+	return 0;
+}
+
+/*!
+* \brief Получить сообщение и его длину
+*
+*  Этот метод ВЫДЕЛЯЕТ НОВЫЙ БУФЕР
+*
+* \param[in] message - указаетль на буфер, куда будет записаны данные
+* \param[out] msgLength - указатель на переменную, куда будет записана длина принятых данных
+*/
+int TcpClient::RecvAlloc(uint8_t ** message, uint32_t * msgLength)
+{
+	//int recvResult;
+	uint32_t messageLength;
+
+	if (recv(_socket, (char*)&messageLength, sizeof(messageLength), 0) != sizeof(messageLength))
+		throw NetworkException("TCPClient: Error receiving message length", WSAGetLastError());
+		
 
 	try
 	{
-		*message = new char[messageLength];
+		*message = new uint8_t[messageLength];
 	}
 	catch (std::bad_alloc& ba)
 	{
-		Util::Logger::Instance()->WriteException(QString("Error allocating %1 bytes").arg(messageLength));
-		return -1;
+		throw new Exception(QString("TCPClient: Error allocating %1 bytes").arg(messageLength));
 	}
 
-	if (SOCKET_ERROR == (actual_len = recv(_socket, *message, messageLength, 0)))
+	//Принимаем сообщение
+	if (recv(_socket, (char*)*message, messageLength, 0) != messageLength)
 	{
-		return WSAGetLastError();				
-	}		
-	*msgLength = actual_len;
+		delete[] * message;
+		throw NetworkException("TCPClient: Error receiving message length", WSAGetLastError());
+	}
+		
 
-	qDebug() << "actual length: " << actual_len;
-
-	return 0;
+	*msgLength = messageLength;
 }
 
-
-int TcpClient::SimpleRecv(char * message, int length)
+//Ппринимает данные заданной длинны
+int TcpClient::SimpleRecv(uint8_t * message, uint32_t length)
 {
-	int actual_len = 0;
-	if (SOCKET_ERROR == (actual_len = recv(_socket, message, length, 0)))
-		return WSAGetLastError();
+	int actual_len ;
+	if (SOCKET_ERROR == (actual_len = recv(_socket, (char*)message, length, 0)))
+		throw NetworkException("TCPClient: Error receiving message", WSAGetLastError());
 	
 	return 0;
 }
 
-int TcpClient::Send(char* message, int messageLength)
+//Отравляет сообщение
+int TcpClient::Send(uint8_t* message, uint32_t messageLength)
 {
-	if (messageLength > bufferSize)
-	{
-		Util::Logger::Instance()->WriteException(QString("Message length is bigger then max length"));
-		return -1;
-	}
-	
-	/*if (SOCKET_ERROR == (send(_socket, (char*)&messageLength, sizeof(int), 0)))
-	{
-		return WSAGetLastError();
-	}*/
-	if (SOCKET_ERROR == (send(_socket, message, messageLength, 0)))
-	{
-		return WSAGetLastError();
-	}
-	return 0;
-}
+	int sendResut = send(_socket, (char*)message, messageLength, 0);
 
-int TcpClient::SimpleSend(char * message, int messageLength)
-{
-	if (SOCKET_ERROR == (send(_socket, message, messageLength, 0)))
-	{
-		return WSAGetLastError();
-	}
+	if (sendResut == SOCKET_ERROR || sendResut!=messageLength)
+		throw NetworkException("TCPClient: Error sending message", WSAGetLastError());
 
 	return 0;
 }
+
+//Отправляет сообщение вместе с его длиной
+int TcpClient::SendWithLength(uint8_t * message, uint32_t messageLength)
+{
+	if (send(_socket, (char*)&messageLength, sizeof(messageLength), 0) != sizeof(messageLength))
+		throw NetworkException("TCPClient: Error sending message length", WSAGetLastError());
+
+
+	if (send(_socket, (char*)message, messageLength, 0) != messageLength)
+		throw NetworkException("TCPClient: Error sending message", WSAGetLastError());
+}
+
 
 int TcpClient::Connect(char* ip, int port)
 {	
@@ -149,9 +137,7 @@ int TcpClient::Connect(char* ip, int port)
 
 	// Дальше выполняем соединение:
 	if (SOCKET_ERROR == (connect(_socket, (sockaddr *)&s_address, sizeof(s_address))))
-	{
-		// Error...
-		return WSAGetLastError();		
-	}
+		throw NetworkException("TCPClient: Error connecting to server", WSAGetLastError());
+
 	return 0;
 }

@@ -9,9 +9,10 @@ class INetwork : public QThread
 public:
 
 public slots :
-	virtual void SendSlot(uint8_t*, uint32_t) = 0;
+	virtual void SendSlot(quint8*, quint32) = 0;
+	virtual void Stop() = 0;
 
 signals:
-	void RecvSignal(uint8_t*, uint32_t);	
-	void ConnectionProblem(int errorCode);
+	void RecvSignal(quint8*, quint32);	
+	void ConnectionProblem(int, int);
 };

@@ -2,6 +2,7 @@
 #define __BASECONTAINER_H__
 
 #include <stdint.h>
+#include "ContainerTypes.h"
 
 namespace Containers
 {
@@ -19,6 +20,11 @@ namespace Containers
 	public:
 
 		/*!
+		 * \brief Возвращает тип объекта
+		 */
+		virtual ContainersType GetType() const = 0;
+
+		/*!
 		 * \brief Возвращает необходимый размер для сериализации
 		 */
 		virtual uint32_t GetSize() const = 0;
@@ -34,6 +40,8 @@ namespace Containers
 		 * \brief Десериализует буфер в себя (уже существующий объект)
 		 */
 		virtual void Deserialize(const uint8_t* buffer) = 0;
+
+
 	};
 
 }
