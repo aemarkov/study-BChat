@@ -92,6 +92,8 @@ namespace Crypto
 		//Криптографические объекты
 		HCRYPTPROV_SimpleDeleter _hCryptProv;										//Дескриптор криптопровайдера
 		HCRYPTKEY_SimpleDeleter _hSessionKey;										//Дескриптор сессионного ключа
+		//HCRYPTKEY _hSessionKey;
+
 		BYTE _keyParams[64 / 8];													//Магические параметры ключа, без которых расшифровывается не то, что было
 
 		DWORD _dwCertEncodingType = PKCS_7_ASN_ENCODING | X509_ASN_ENCODING;		//Типы обрабатываемых сертификатов

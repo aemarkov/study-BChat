@@ -59,12 +59,11 @@ void Crypto::CryptoAPI::Init(std::string containerName)
 //Генерирует сессионный ключ
 bool CryptoAPI::CreateSessionKey()
 {	
-
 	_sessionKeyMutex.lock();
 	bool result =  CryptGenKey(*_hCryptProv, CALG_G28147, CRYPT_EXPORTABLE, &*_hSessionKey);
 	_sessionKeyMutex.unlock();
 
-	return result;
+	return 0;
 }
 
 //Экспортирует сессионный ключ и шифрует открытым ключом
@@ -72,18 +71,24 @@ bool CryptoAPI::CreateSessionKey()
 void CryptoAPI::ExportSessionKeyForUser(std::string myCertSubjectString, std::string responderCertSubjectString, uint8_t** publicKeyBlob, uint32_t* blobSize)
 {
 	HCRYPTPROV hProvSender;
+	HCRYPTPROV hProvResponder;
 
 	PCCERT_CONTEXT pCertSender;
 	PCCERT_CONTEXT pCertResponder;
+
 	
 	HCRYPTKEY hSenderKey;
 	HCRYPTKEY hResponderKey;
 	HCRYPTKEY hAgreeKey;
 
 	DWORD dwKeySpecSender;
+	DWORD dwKeySpecResponder;
 
 	DWORD dwBlobLenResponder;
 	BYTE* pbKeyBlobResponder;
+
+	DWORD dwBlobLenSender;
+	BYTE* pbKeyBlobSender;
 
 	DWORD dwBlobLenSimple;
 	BYTE* pbKeyBlobSimple;
@@ -211,6 +216,9 @@ void CryptoAPI::ExportSessionKeyForUser(std::string myCertSubjectString, std::st
 	}
 
 	//--------------------------------------------------------------------
+
+
+	//--------------------------------------------------------------------
 	//11. Определение размера BLOBа сессионного ключа и распределение памяти.
 
 	if (!CryptExportKey(
@@ -254,6 +262,152 @@ void CryptoAPI::ExportSessionKeyForUser(std::string myCertSubjectString, std::st
 	CertCloseStore(hOthersStoreHandle, 0);
 
 	CryptReleaseContext(hProvSender, 0);
+
+	/*BYTE data[] = "fuck you, CryptoPRO!";
+	DWORD dataSize = sizeof(data);
+	DWORD dataLen = dataSize;
+	Encrypt(data, dataSize);
+
+	CryptDestroyKey(*_hSessionKey);
+
+	///////////////////////////////////////////////////////////////////////////////////
+
+	hPersonalStoreHandle = CertOpenSystemStoreA(0, "MY");
+	hOthersStoreHandle = CertOpenSystemStoreA(0, "AddressBook");
+	if (!hPersonalStoreHandle)
+	{
+	}
+
+	//--------------------------------------------------------------------
+	// Получение контекста сертифика, в названии которого содержится "Responder", 
+	// находящегося в хранилище сертификатов "MY".
+
+	pCertResponder = CertFindCertificateInStore(
+		hPersonalStoreHandle,
+		X509_ASN_ENCODING | PKCS_7_ASN_ENCODING,
+		0,
+		CERT_FIND_SUBJECT_STR,
+		"Responder",
+		NULL);
+
+	if (!pCertResponder)
+	{
+	}
+
+	//--------------------------------------------------------------------
+	// Получение дескриптора CSP, включая доступ к связанному с ним ключевому
+	// контейнеру для контекста сертификата pCertResponder.
+
+	if (!CryptAcquireCertificatePrivateKey(
+		pCertResponder,
+		0,
+		NULL,
+		&hProvResponder,
+		&dwKeySpecResponder,
+		NULL))
+	{
+	}
+
+	//--------------------------------------------------------------------
+	// Поиск сертифика, в названии которого содержится "Sender", 
+	// находящегося в хранилище сертификатов "MY".
+
+	pCertSender = CertFindCertificateInStore(
+		hOthersStoreHandle,
+		X509_ASN_ENCODING | PKCS_7_ASN_ENCODING,
+		0,
+		CERT_FIND_SUBJECT_STR,
+		"Sender",
+		NULL);
+
+	if (!pCertSender)
+	{
+	}
+	//--------------------------------------------------------------------
+	// Получение дескриптора открытого ключа отправителя.
+
+	if (!CryptImportPublicKeyInfoEx(
+		hProvResponder,
+		X509_ASN_ENCODING | PKCS_7_ASN_ENCODING,
+		&(pCertSender->pCertInfo->SubjectPublicKeyInfo),
+		0,
+		0,
+		NULL,
+		&hSenderKey))
+	{
+	}
+
+	//--------------------------------------------------------------------
+	// Определение размера BLOBа открытого ключа и распределение памяти.
+
+	if (!CryptExportKey(
+		hSenderKey,
+		0,
+		PUBLICKEYBLOB,
+		0,
+		NULL,
+		&dwBlobLenSender))
+	{
+	}
+
+	pbKeyBlobSender = (BYTE*)malloc(dwBlobLenSender);
+
+	//--------------------------------------------------------------------
+	// Экспортирование открытого ключа отправителя в BLOB открытого ключа.
+
+	if (!CryptExportKey(
+		hSenderKey,
+		0,
+		PUBLICKEYBLOB,
+		0,
+		pbKeyBlobSender,
+		&dwBlobLenSender))
+	{
+	}
+
+	//--------------------------------------------------------------------
+	// Получение дескриптора закрытого ключа получателя.
+
+	if (!CryptGetUserKey(
+		hProvResponder,
+		dwKeySpecResponder,
+		&hResponderKey))
+	{
+	}
+
+	//--------------------------------------------------------------------
+	// Получение ключа согласования импортом открытого ключа отправителя из BLOBа 
+	// на закрытом ключе получателя.
+
+	if (!CryptImportKey(
+		hProvResponder,
+		pbKeyBlobSender,
+		dwBlobLenSender,
+		hResponderKey,
+		0,
+		&hAgreeKey))
+	{
+	}
+
+	// Получение сессионного ключа импортом зашифрованного сессионного ключа 
+	// на ключе Agree.
+
+
+	//HCRYPTKEY hSessionKey2;
+
+	if (!CryptImportKey(
+		hProvResponder,
+		pbKeyBlobSimple,
+		dwBlobLenSimple,
+		hAgreeKey,
+		0,
+		&*_hSessionKey))
+	{
+	}
+
+
+	Decrypt(data, dataSize);*/
+
 
 	_sessionKeyMutex.unlock();	
 }
@@ -435,7 +589,7 @@ void CryptoAPI::Encrypt(uint8_t* data, uint32_t size)
 {
 	DWORD dataLen = size;
 
-	_sessionKeyMutex.lock();
+	//_sessionKeyMutex.lock();
 
 	if (!CryptSetKeyParam(*_hSessionKey, KP_IV, (const BYTE*)_keyParams, 0))
 	{
@@ -453,7 +607,7 @@ void CryptoAPI::Encrypt(uint8_t* data, uint32_t size)
 		//throw CryptoException("Can't encrypt data");
 	}
 
-	_sessionKeyMutex.unlock();
+	//_sessionKeyMutex.unlock();
 }
 
 //Расшифровывает данные с использованием сессионного ключа
@@ -462,7 +616,7 @@ void CryptoAPI::Decrypt(uint8_t* data, uint32_t size)
 {
 	DWORD dataLen = size;
 
-	_sessionKeyMutex.lock();
+	//_sessionKeyMutex.lock();
 
 	HCRYPTKEY wtf = *_hSessionKey;
 
@@ -484,7 +638,7 @@ void CryptoAPI::Decrypt(uint8_t* data, uint32_t size)
 
 	
 
-	_sessionKeyMutex.unlock();
+	//_sessionKeyMutex.unlock();
 }
 
 
