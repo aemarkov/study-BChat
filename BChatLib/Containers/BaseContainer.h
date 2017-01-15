@@ -2,6 +2,7 @@
 #define __BASECONTAINER_H__
 
 #include <stdint.h>
+#include "ContainerTypes.h"
 
 namespace Containers
 {
@@ -17,6 +18,11 @@ namespace Containers
 	class BaseContainer
 	{
 	public:
+
+		/*!
+		 * \brief Возвращает тип объекта
+		 */
+		virtual ContainersType GetType() const = 0;
 
 		/*!
 		 * \brief Возвращает необходимый размер для сериализации

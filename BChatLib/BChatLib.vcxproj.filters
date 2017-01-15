@@ -332,6 +332,12 @@
     <ClInclude Include="Session\SessionUser.h">
       <Filter>Session</Filter>
     </ClInclude>
+    <ClInclude Include="ContainerTypes.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Containers\ChatMessageContainer.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bchatlib_global.h">

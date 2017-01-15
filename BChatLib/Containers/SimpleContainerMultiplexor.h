@@ -31,8 +31,10 @@ namespace Containers
 		 * ¬ообще-то надо родител€ принимать BaseContainer, но слоты-сигналы Qt
 		 * не коннект€тс€
 		 */
-		void InputContainer(const Containers::VideoFrameContainer*);
-		
+		void InputVideoContainer(const Containers::VideoFrameContainer*);
+		void InputChatContainer(const Containers::VideoFrameContainer*);
+	
+
 		/*
 		 * \brief ѕолучение данных в байтовом виде
 		 */
@@ -56,10 +58,12 @@ namespace Containers
 		const uint8_t _header[_headerSize] = { 0x74, 0x75, 0x15, 0x37, 0xAA, 0xBB };
 
 		//»х может быть под каждого пользовател€ массив
-		VideoFrameContainer container;
+		VideoFrameContainer _videoFrameContainer;
 
 		uint8_t* _sendBuffer;
 		uint32_t _bufferSize;
+
+		void InputContainer(const Containers::BaseContainer*);
 
 	};
 }

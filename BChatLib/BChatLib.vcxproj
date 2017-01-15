@@ -169,6 +169,8 @@
     <ClInclude Include="bchatlib_global.h" />
     <ClInclude Include="common\Exceptions.h" />
     <ClInclude Include="Containers\BaseContainer.h" />
+    <ClInclude Include="Containers\ChatMessageContainer.h" />
+    <ClInclude Include="ContainerTypes.h" />
     <ClInclude Include="Models\User.h" />
     <CustomBuild Include="Containers\SimpleContainerMultiplexor.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

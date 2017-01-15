@@ -106,6 +106,8 @@ private:
 	//Сеть
 	int _port;
 	static const uint32_t BUFFERS_SIZE;
+	//static const uint32_t VIDEO_FRAME_CONTAINER_BUFFER_SIZE;
+	//static const uint32_t CHAT_MESSAGE_CONTAINER_BUFFER_SIZE;
 
 	//Добавляет пользователя
 	void AddUser(uint32_t userId, TcpClient  client);

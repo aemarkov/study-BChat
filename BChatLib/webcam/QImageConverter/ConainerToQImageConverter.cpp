@@ -6,10 +6,10 @@ void ContainerToQImageConverter::DataInput(const Containers::VideoFrameContainer
 {
 	QImage frame(container->GetWidth(), container->GetHeight(), container->GetFormat());
 
-	int frameSize = frame.byteCount();
+	uint32_t frameSize = frame.byteCount();
 
 	uint8_t* frameBuffer = frame.bits();
-	memcpy(frameBuffer, container->GetBuffer(), container->GetSize());
+	memcpy(frameBuffer, container->GetBuffer(), frameSize);
 
 	emit FrameOutput(frame);
 }

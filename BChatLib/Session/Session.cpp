@@ -1,6 +1,8 @@
 #include "Session.h"
 
 const uint32_t Session::BUFFERS_SIZE = 1000000;
+//const uint32_t Session::VIDEO_FRAME_CONTAINER_BUFFER_SIZE = 1000000; //
+//const uint32_t Session::CHAT_MESSAGE_CONTAINER_BUFFER_SIZE = 1000000;
 
 Session::Session() :
 	_frameConverter(QImage::Format_RGB444),
@@ -220,7 +222,7 @@ void Session::SetupPipeline()
 	connect(&_frameConverter, SIGNAL(FrameOutput(QImage&)), &_qimageToContainerConverter, SLOT(FrameInput(QImage&)));
 
 	//Контейнер кадра - мультиплекстор
-	connect(&_qimageToContainerConverter, SIGNAL(DataOutput(const Containers::VideoFrameContainer *)), &_multiplexor, SLOT(InputContainer(const Containers::VideoFrameContainer*)));
+	connect(&_qimageToContainerConverter, SIGNAL(DataOutput(const Containers::VideoFrameContainer *)), &_multiplexor, SLOT(InputVideoContainer(const Containers::VideoFrameContainer*)));
 
 	//Данные из мультиплексора - шифрование
 	//connect(&_multiplexor, SIGNAL(OutputData(uint8_t*, uint32_t)), &_crypter, SLOT(EncryptSlot(uint8_t*, uint32_t)));

@@ -13,9 +13,20 @@ SimpleContainerMultiplexor::~SimpleContainerMultiplexor()
 	delete[] _sendBuffer;
 }
 
+void Containers::SimpleContainerMultiplexor::InputVideoContainer(const Containers::VideoFrameContainer * container)
+{
+	InputContainer(container);
+}
+
+
+void Containers::SimpleContainerMultiplexor::InputChatContainer(const Containers::VideoFrameContainer * container)
+{
+	InputContainer(container);
+}
+
 
 //ѕолучение данных от какого-то источника
-void SimpleContainerMultiplexor::InputContainer(const Containers::VideoFrameContainer* container)
+void SimpleContainerMultiplexor::InputContainer(const Containers::BaseContainer* container)
 {
 	try
 	{
@@ -71,8 +82,8 @@ void SimpleContainerMultiplexor::InputData(uint8_t * buffer, uint32_t size)
 		//TODO: определить тип контейнера...
 
 		//„итаем кадр
-		container.Deserialize(buffer);
-		emit OutputFrame(&container);
+		_videoFrameContainer.Deserialize(buffer);
+		emit OutputFrame(&_videoFrameContainer);
 	}
 	catch (Exception ex)
 	{
