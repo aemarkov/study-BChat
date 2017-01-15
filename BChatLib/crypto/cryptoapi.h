@@ -92,7 +92,7 @@ namespace Crypto
 		//Криптографические объекты
 		HCRYPTPROV_SimpleDeleter _hCryptProv;										//Дескриптор криптопровайдера
 		HCRYPTKEY_SimpleDeleter _hSessionKey;										//Дескриптор сессионного ключа
-		HCRYPTKEY_SimpleDeleter _hSessionKey2;										//Дескриптор сессионного ключа
+		//HCRYPTKEY_SimpleDeleter _hSessionKey2;										//Дескриптор сессионного ключа
 
 		BYTE _keyParams[64 / 8];													//Магические параметры ключа, без которых расшифровывается не то, что было
 
