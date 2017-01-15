@@ -79,11 +79,22 @@ void SimpleContainerMultiplexor::InputData(quint8 * buffer, quint32 size)
 		//memcpy(&userId, buffer, sizeof(userId));
 		//buffer += sizeof(userId);
 
-		//TODO: определить тип контейнера...
+		//определить тип контейнера...
+		ContainersType type;
+		memcpy(&type, buffer, sizeof(type));
+		buffer += sizeof(type);
 
 		//Читаем кадр
-		_videoFrameContainer.Deserialize(buffer);
-		emit OutputFrame(&_videoFrameContainer);
+		if (type == VIDEO_FRAME_CONTAINER)
+		{
+			_videoFrameContainer.Deserialize(buffer);
+			emit OutputFrame(&_videoFrameContainer);
+		}
+		else if (type == CHAT_MESSAGE_CONTAINER)
+		{
+			_chatMessageContainer.Deserialize(buffer);
+			emit OutputMessage(&_chatMessageContainer);
+		}
 	}
 	catch (Exception ex)
 	{

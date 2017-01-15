@@ -85,6 +85,12 @@ void Session::JoinChat(uint32_t userId)
 	}
 }
 
+//Отправить сообщение в чат
+void Session::SendChatMessage(QString message)
+{
+	_messageConverter.MessageInput(message);
+}
+
 //Создание чата
 void Session::CreateChat()
 {
@@ -150,16 +156,15 @@ void Session::run()
 
 //////////////////////////////////////// СЛОТЫ ////////////////////////////////////////////////////
 
-//Получен кадр с вебкамеры
-void Session::__OtherFrameOutput(QImage & frame)
-{
-	emit OtherFrameOutput(frame);
-}
-
 
 void Session::MyFrameInput(const QVideoFrame & frame)
 {
 	emit __MyFameInput(frame);
+}
+
+void Session::MyMessageInput(const QString string)
+{
+	emit __MyMessageInput(string);
 }
 
 //Проблемы с соединеннием одного из клиентов
@@ -216,6 +221,8 @@ void Session::SetupPipeline()
 {
 	//Вспомогательный, проброс слота в сигнал
 	connect(this, SIGNAL(__MyFameInput(QVideoFrame)), &_frameConverter, SLOT(FrameInput(QVideoFrame)));
+	connect(this, SIGNAL(__MyMessageInput(QString)), &_messageConverter, SLOT(MessageInput(QString)));
+
 
 	//Выход конвертера на отображение своей камеры
 	connect(&_frameConverter, SIGNAL(FrameOutput(QImage&)), this, SIGNAL(MyFrameOutput(QImage&)));
@@ -225,6 +232,9 @@ void Session::SetupPipeline()
 
 	//Контейнер кадра - мультиплекстор
 	connect(&_qimageToContainerConverter, SIGNAL(DataOutput(const Containers::VideoFrameContainer *)), &_multiplexor, SLOT(InputVideoContainer(const Containers::VideoFrameContainer*)));
+
+	//Контейнер сообщения - мультиплексор
+	connect(&_messageConverter, SIGNAL(DataOutput(const Containers::ChatMessageContainer*)), &_multiplexor, SLOT(InputChatContainer(const Containers::ChatMessageContainer*)));
 
 	//Данные из мультиплексора - шифрование
 	//connect(&_multiplexor, SIGNAL(OutputData(uint8_t*, uint32_t)), &_crypter, SLOT(EncryptSlot(uint8_t*, uint32_t)));
@@ -238,6 +248,9 @@ void Session::SetupPipeline()
 	//Мультипексор - контейнер кадра
 	connect(&_multiplexor, SIGNAL(OutputFrame(const Containers::VideoFrameContainer *)), &_containerToQImageConverter, SLOT(DataInput(const Containers::VideoFrameContainer *)));// , Qt::DirectConnection);
 
-																																												 //Контейнер кадра - кадр, вывод
-	connect(&_containerToQImageConverter, SIGNAL(FrameOutput(QImage&)), this, SLOT(__OtherFrameOutput(QImage&)));// , Qt::DirectConnection);
+	//Контейнер кадра - кадр, вывод
+	connect(&_containerToQImageConverter, SIGNAL(FrameOutput(QImage&)), this, SIGNAL(OtherFrameOutput(QImage&)));// , Qt::DirectConnection);
+
+	//Мультиплексор - сообщение
+	connect(&_multiplexor, SIGNAL(OutputMessage(const Containers::ChatMessageContainer*)), this, SIGNAL(MessageOutput(const Containers::ChatMessageContainer*)));
 }

@@ -1,4 +1,5 @@
 #include "ChatMessageContainer.h"
+#include "ChatMessageContainer.h"
 
 using namespace Containers;
 
@@ -11,19 +12,27 @@ void Containers::ChatMessageContainer::SetMessage(QString message)
 	_message = message;
 }
 
+QString Containers::ChatMessageContainer::Get_Message() const
+{
+	return _message;
+}
+
 ContainersType Containers::ChatMessageContainer::GetType() const
 {
-	return CHAT_MESSAGE_CONTAINER;
+	return _containerType;
 }
 
 uint32_t Containers::ChatMessageContainer::GetSize() const
 {
-	return _message.length() * sizeof(QChar) + sizeof(uint32_t);
+	return _message.length() * sizeof(QChar) + sizeof(uint32_t) + sizeof(_containerType);
 }
 
 void Containers::ChatMessageContainer::Serialize(uint8_t * buffer) const
 {
 	uint32_t size = _message.length();
+
+	memcpy(buffer, &_containerType, sizeof(_containerType));
+	buffer += sizeof(_containerType);
 
 	memcpy(buffer, &size, sizeof(size));
 	buffer += sizeof(size);

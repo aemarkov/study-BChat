@@ -100,6 +100,9 @@
     <Filter Include="UserManager">
       <UniqueIdentifier>{89fbb9cf-2d93-4345-acec-b70a3d51afe2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="chat">
+      <UniqueIdentifier>{5724aebb-bc00-48f4-8f08-aee4a518287c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BChatLib.cpp">
@@ -170,9 +173,6 @@
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_NetworkProcessingThread.cpp">
       <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_ICrypt.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Containers\VideoFrameContainer.cpp">
       <Filter>Containers</Filter>
@@ -245,6 +245,15 @@
     </ClCompile>
     <ClCompile Include="Containers\ChatMessageContainer.cpp">
       <Filter>Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_QStringToContainerConverter.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_QStringToContainerConverter.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="chat\QStringToContainerConverter.cpp">
+      <Filter>chat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -374,6 +383,9 @@
     </CustomBuild>
     <CustomBuild Include="Session\Session.h">
       <Filter>Session</Filter>
+    </CustomBuild>
+    <CustomBuild Include="chat\QStringToContainerConverter.h">
+      <Filter>chat</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

@@ -75,12 +75,12 @@ QImage::Format Containers::VideoFrameContainer::GetFormat() const
 
 ContainersType Containers::VideoFrameContainer::GetType() const
 {
-	return VIDEO_FRAME_CONTAINER;
+	return _containerType;
 }
 
 uint32_t VideoFrameContainer::GetSize() const
 {
-	return _realDataSize + sizeof(_width) + sizeof(_height) + sizeof(_format) + sizeof(_realDataSize);
+	return _realDataSize + sizeof(_width) + sizeof(_height) + sizeof(_format) + sizeof(_realDataSize) + sizeof (_containerType);
 }
 
 void VideoFrameContainer::Serialize(uint8_t * buffer) const
@@ -90,6 +90,9 @@ void VideoFrameContainer::Serialize(uint8_t * buffer) const
 		Logger::Instance()->WriteException("VideFrameContainer: Buffer is null");
 		return;
 	}
+
+	memcpy(buffer, &_containerType, sizeof(_containerType));
+	buffer += sizeof(_containerType);
 
 	memcpy(buffer, &_width, sizeof(_width));
 	buffer += sizeof(_width);

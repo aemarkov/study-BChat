@@ -36,6 +36,7 @@ namespace Containers
 
 	private:
 
+		static const ContainersType _containerType = VIDEO_FRAME_CONTAINER;
 		uint8_t* _buffer;
 		static const uint32_t _bufferSize = 1000000;
 		uint32_t _realDataSize;

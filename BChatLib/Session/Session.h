@@ -25,6 +25,8 @@
 
 #include "util/DialogHelper/DialogHelper.h"
 
+#include "chat/QStringToContainerConverter.h"
+
 //class SimpleSessionManager;
 
 /*!
@@ -59,6 +61,9 @@ public:
 	*/
 	void JoinChat(uint32_t userId);
 
+	//Отправить сообщение в чат
+	void SendChatMessage(QString message);
+
 	//Ожидание подключений в отдельном потоке
 	void run();
 
@@ -66,7 +71,7 @@ public slots:
 
 	//Получен кадр с вебкамеры
 	void MyFrameInput(const QVideoFrame&);
-	void __OtherFrameOutput(QImage&);
+	void MyMessageInput(const QString);
 
 	//Проблемы с подключением у одного из клиентов
 	void ConnectionProblem(int, int);
@@ -75,16 +80,20 @@ signals:
 
 	//Чтобы пробросить слот на сигнал для внутреннего использования
 	void __MyFameInput(const QVideoFrame&);
+	void __MyMessageInput(const QString);
 
 	void UserConnected(int);
 	void UserDisconnected(int);
 
-	//Видео от другого пользователя
-	void OtherFrameOutput(QImage&);
 
 	//Видео с моей камеры
 	void MyFrameOutput(QImage&);
 
+	//Видео от другого пользователя
+	void OtherFrameOutput(QImage&);
+	
+	//Сообщение
+	void MessageOutput(const Containers::ChatMessageContainer*);
 
 
 private:
@@ -97,6 +106,8 @@ private:
 	Webcam::FrameConverter _frameConverter;
 	Webcam::QImageToContainerConverter _qimageToContainerConverter;
 	Webcam::ContainerToQImageConverter _containerToQImageConverter;
+	QStringToContainerConverter _messageConverter;
+
 	Containers::SimpleContainerMultiplexor _multiplexor;
 
 	//Крипто-апи

@@ -12,6 +12,7 @@
 #include "Session/Session.h"
 #include "webcam/CameraFrameGrabber/CameraFrameGrabber.h"
 #include "Containers/VideoFrameContainer.h"
+#include "Containers/ChatMessageContainer.h"
 
 class ChatWindow : public QMainWindow
 {
@@ -32,6 +33,12 @@ public:
 
 	//Событие выбора камеры в пункте меню
 	void CameraSelected(QAction *action);
+
+	//Событие нажатия на кнопку отправки сообщения
+	void BtnSendMessage_clicked();
+
+	//Получено сообщение
+	void MessageInput(const Containers::ChatMessageContainer*);
 
 	void UserConnected(int);
 	void UserDisconnected(int);

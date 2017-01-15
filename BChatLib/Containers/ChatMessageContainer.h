@@ -13,6 +13,7 @@ namespace Containers
 		ChatMessageContainer();
 
 		void SetMessage(QString message);
+		QString Get_Message() const;
 
 		virtual ContainersType GetType() const override;
 		virtual uint32_t GetSize() const override;
@@ -20,6 +21,7 @@ namespace Containers
 		virtual void Deserialize(const uint8_t* buffer) override;
 
 	private:
+		static const ContainersType _containerType = CHAT_MESSAGE_CONTAINER;
 		QString _message;
 	};
 }
