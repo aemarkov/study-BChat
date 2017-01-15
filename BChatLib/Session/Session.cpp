@@ -195,8 +195,10 @@ void Session::AddUser(uint32_t userId, TcpClient tcpClient)
 	connect(&_multiplexor, SIGNAL(OutputData(uint8_t*, uint32_t)), client, SLOT(SendSlot(uint8_t*, uint32_t)), Qt::DirectConnection);
 
 	//Сесть - расшифровка
-	//connect(client, SIGNAL(RecvSignal(uint8_t*, uint32_t)), &_crypter, SLOT(DecryptSlot(uint8_t*, uint32_t)));
-	connect(client, SIGNAL(RecvSignal(uint8_t*, uint32_t)), &_multiplexor, SLOT(InputData(uint8_t*, uint32_t)), Qt::DirectConnection);
+	//connect(client, SIGNAL(RecvSignal(uint8_t*, uint32_t)), &_crypter, SLOT(DecryptSlot(uint8_t*, uint32_t)), Qt::DirectConnection);
+	connect(client, SIGNAL(RecvSignal(uint8_t*, uint32_t)), &_multiplexor, SLOT(InputData(uint8_t*, uint32_t)));// , Qt::DirectConnection);
+
+
 
 	//Отключение
 	connect(client, SIGNAL(ConnectionProblem(int, int)), this, SLOT(ConnectionProblem(int, int)));

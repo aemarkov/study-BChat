@@ -13,8 +13,8 @@ ChatWindow::ChatWindow(Session* session):
 	_session(session),
 	camera(0)
 {
-	qRegisterMetaType<QCameraInfo>();
-	qRegisterMetaType<Containers::VideoFrameContainer>();
+	int a = qRegisterMetaType<QCameraInfo>();
+	a = qRegisterMetaType<Containers::VideoFrameContainer>();
 
 	ui.setupUi(this);
 

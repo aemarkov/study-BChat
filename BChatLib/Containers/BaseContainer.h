@@ -40,6 +40,8 @@ namespace Containers
 		 * \brief Десериализует буфер в себя (уже существующий объект)
 		 */
 		virtual void Deserialize(const uint8_t* buffer) = 0;
+
+
 	};
 
 }

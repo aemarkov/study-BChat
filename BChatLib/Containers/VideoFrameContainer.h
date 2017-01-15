@@ -36,7 +36,7 @@ namespace Containers
 
 	private:
 
-		uint8_t* _frameBuffer;
+		uint8_t* _buffer;
 		static const uint32_t _bufferSize = 1000000;
 		uint32_t _realDataSize;
 

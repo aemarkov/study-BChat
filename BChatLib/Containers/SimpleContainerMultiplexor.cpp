@@ -19,7 +19,7 @@ void Containers::SimpleContainerMultiplexor::InputVideoContainer(const Container
 }
 
 
-void Containers::SimpleContainerMultiplexor::InputChatContainer(const Containers::VideoFrameContainer * container)
+void Containers::SimpleContainerMultiplexor::InputChatContainer(const Containers::ChatMessageContainer * container)
 {
 	InputContainer(container);
 }

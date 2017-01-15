@@ -3,6 +3,7 @@
 #include <qobject.h>
 #include "BaseContainer.h"
 #include "VideoFrameContainer.h"
+#include "ChatMessageContainer.h"
 
 namespace Containers
 {
@@ -32,7 +33,7 @@ namespace Containers
 		 * не коннектятся
 		 */
 		void InputVideoContainer(const Containers::VideoFrameContainer*);
-		void InputChatContainer(const Containers::VideoFrameContainer*);
+		void InputChatContainer(const Containers::ChatMessageContainer*);
 	
 
 		/*
@@ -51,6 +52,11 @@ namespace Containers
 		 * \brief Передача полученного кадра
 		 */
 		void OutputFrame(const Containers::VideoFrameContainer*);
+
+		/*!
+		 * \brief Передача полученного сообщения в чат
+		 */
+		void OutputMessage(const Containers::ChatMessageContainer*);
 	
 	private:
 		
@@ -59,6 +65,7 @@ namespace Containers
 
 		//Их может быть под каждого пользователя массив
 		VideoFrameContainer _videoFrameContainer;
+		ChatMessageContainer _chatMessageContainer;
 
 		uint8_t* _sendBuffer;
 		uint32_t _bufferSize;

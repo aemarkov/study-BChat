@@ -5,13 +5,13 @@ using namespace Containers;
 
 Containers::VideoFrameContainer::VideoFrameContainer()
 {
-	_frameBuffer = new uint8_t[_bufferSize];
+	_buffer = new uint8_t[_bufferSize];
 }
 
 Containers::VideoFrameContainer::~VideoFrameContainer()
 {
-	if (_frameBuffer != nullptr)
-		delete[] _frameBuffer;
+	if (_buffer != nullptr)
+		delete[] _buffer;
 }
 
 ////////////////////////////////////////// яеррепш ////////////////////////////////////////////////
@@ -31,12 +31,12 @@ void Containers::VideoFrameContainer::SetBuffer(const uint8_t * buffer, uint32_t
 	}
 
 	_realDataSize = size;
-	memcpy(_frameBuffer, buffer, size);
+	memcpy(_buffer, buffer, size);
 }
 
 uint8_t * Containers::VideoFrameContainer::GetBuffer() const
 {
-	return _frameBuffer;
+	return _buffer;
 }
 
 void Containers::VideoFrameContainer::SetWidth(const uint32_t width)
@@ -103,7 +103,7 @@ void VideoFrameContainer::Serialize(uint8_t * buffer) const
 	memcpy(buffer, &_realDataSize, sizeof(_realDataSize));
 	buffer += sizeof(_realDataSize);
 
-	memcpy(buffer, _frameBuffer, _realDataSize);
+	memcpy(buffer, _buffer, _realDataSize);
 }
 
 void Containers::VideoFrameContainer::Deserialize(const uint8_t * buffer)
@@ -132,6 +132,6 @@ void Containers::VideoFrameContainer::Deserialize(const uint8_t * buffer)
 		throw new Exception(QString("Video frame container buffer size is %1, but input data size is %2").arg(_bufferSize).arg(size));
 
 	_realDataSize = size;
-	memcpy(_frameBuffer, buffer, size);
+	memcpy(_buffer, buffer, size);
 }
 

@@ -249,6 +249,9 @@
     <ClCompile Include="common\Exception.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="Containers\ChatMessageContainer.cpp">
+      <Filter>Containers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BChatLib.h">
