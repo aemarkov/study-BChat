@@ -28,6 +28,8 @@
 
 #include "chat/QStringToContainerConverter.h"
 
+#include <fstream>
+
 //class SimpleSessionManager;
 
 /*!

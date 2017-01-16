@@ -5,7 +5,7 @@
 UserManager::UserManager()
 {
 	User user;
-	user._certName = SettingsManagerContainer::Inner()->ReadSettings().GetCertificate();
+	user._certName = SettingsManagerContainer::Inner()->ReadSettings().GetInterlocutorCertificate();
 	user._name = "User1";
 	user._id = 1;
 

@@ -4,24 +4,14 @@ using namespace Crypto;
 
 Crypto::CryptoAPI::CryptoAPI():_sessionKeyMutex()
 {
+	memset(_keyParams, 0, 64 / 8);
 }
 
-CryptoAPI::CryptoAPI(std::string containerName):CryptoAPI()
-{
-	Init(containerName);
-}
 
 
 CryptoAPI::~CryptoAPI()
 {
 
-}
-
-void Crypto::CryptoAPI::Init(std::string containerName)
-{
-	//Обнуляем параметры. Они должны быть одинаковые при шифровании и расшифровке
-	//Размер - BlockSizeBits/8. Для ГОСТ-8147 размер блока наверное 64 бит
-	memset(_keyParams, 0, 64 / 8);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

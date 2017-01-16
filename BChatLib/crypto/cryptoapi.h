@@ -41,10 +41,8 @@ namespace Crypto
 	{
 	public:
 		CryptoAPI();
-		CryptoAPI(std::string containerName);
 		~CryptoAPI();
 
-		void Init(std::string containerName);
 
 		/*!
 		 * \brief Генерирует сессионный ключ

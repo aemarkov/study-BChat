@@ -9,7 +9,6 @@ Session::Session() :
 	_multiplexor(BUFFERS_SIZE)
 {
 	auto settings = SettingsManagerContainer::Inner()->ReadSettings();
-	_cryptoAPI.Init(settings.GetContainer());
 	_crypter = new CryptoApiAdapter(_cryptoAPI);
 }
 
@@ -69,7 +68,10 @@ void Session::JoinChat(uint32_t userId)
 			return;
 		}
 
-		_cryptoAPI.ImportSessionKey(keyBuffer, keyBufferSize, settings.GetCertificate(), settings.GetInterlocutorCertificate());
+		auto myCert = settings.GetCertificate();
+		auto userCert = settings.GetInterlocutorCertificate();
+
+		_cryptoAPI.ImportSessionKey(keyBuffer, keyBufferSize, myCert, userCert);
 
 		delete[] keyBuffer;
 
@@ -132,14 +134,16 @@ void Session::run()
 
 			//Получаем пользователя по этому Id (на самом деле нет, это стандартный пользователь)
 			auto user = UserManagerContainer::Inner()->GetUser(userId);
+			auto myCert = SettingsManagerContainer::Inner()->ReadSettings().GetCertificate();
+			auto userCert = user._certName;
 
 			//Обмен ключами
 			uint8_t* keyBuffer;
 			uint32_t keyBufferSize;
 
-			_cryptoAPI.ExportSessionKeyForUser(SettingsManagerContainer::Inner()->ReadSettings().GetCertificate(), user._certName, &keyBuffer, &keyBufferSize);
+			_cryptoAPI.ExportSessionKeyForUser(myCert, userCert, &keyBuffer, &keyBufferSize);
 
-			client.SendWithLength((uint8_t*)keyBuffer, keyBufferSize);
+			client.SendWithLength(keyBuffer, keyBufferSize);
 
 			delete[] keyBuffer;
 

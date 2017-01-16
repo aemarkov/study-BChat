@@ -19,7 +19,7 @@ namespace MyUnitTests
 		//Создаение объекта - успех
 		TEST_METHOD(Create_CryptoAPI_correct)
 		{
-			Crypto::CryptoAPI api(ContainerName);
+			Crypto::CryptoAPI api();
 			//Не скрашилось - хорошо
 		}
 
@@ -28,7 +28,7 @@ namespace MyUnitTests
 		{
 			try
 			{
-				Crypto::CryptoAPI api("TestCertContainer123");
+				Crypto::CryptoAPI api();
 				Assert::Fail(); //Должно кинуть исключение, если не кинуло - ошибка
 			}
 			catch (CryptoException ex)
@@ -40,7 +40,7 @@ namespace MyUnitTests
 		//Создание сессионного ключа
 		TEST_METHOD(Create_sessionKey)
 		{
-			Crypto::CryptoAPI api(ContainerName);
+			Crypto::CryptoAPI api();
 			api.CreateSessionKey();
 			//Не упало
 		}
@@ -48,7 +48,7 @@ namespace MyUnitTests
 		//Экспорт сессионного ключа - успех
 		TEST_METHOD(Export_sessionkey_Correct)
 		{
-			Crypto::CryptoAPI api(ContainerName);
+			Crypto::CryptoAPI api();
 			api.CreateSessionKey();
 
 			uint8_t* buffer;
@@ -60,7 +60,7 @@ namespace MyUnitTests
 		//Экспорт сессионного ключа - сертификат пользователя не найден
 		TEST_METHOD(Export_sessionkey_Certificate_not_found)
 		{
-			Crypto::CryptoAPI api(ContainerName);
+			Crypto::CryptoAPI api();
 			api.CreateSessionKey();
 
 			try
@@ -80,7 +80,7 @@ namespace MyUnitTests
 		//Шифрование - расшифровка
 		TEST_METHOD(Export_import_sessionkey)
 		{
-			Crypto::CryptoAPI api(ContainerName);
+			Crypto::CryptoAPI api();
 			api.CreateSessionKey();
 
 			uint8_t* buffer;
@@ -103,7 +103,7 @@ namespace MyUnitTests
 
 			memcpy(data2, data, dataSize);
 
-			Crypto::CryptoAPI api(ContainerName);
+			Crypto::CryptoAPI api();
 			api.CreateSessionKey();
 
 			api.Encrypt(data, dataSize);
@@ -121,7 +121,7 @@ namespace MyUnitTests
 		{
 			uint8_t* buffer;
 			uint32_t size;
-			Crypto::CryptoAPI api(ContainerName);
+			Crypto::CryptoAPI api();
 
 
 			api.ExportMyCertificate(Cert1Name, &buffer, &size);
@@ -131,7 +131,7 @@ namespace MyUnitTests
 		{
 			uint8_t* buffer;
 			uint32_t size;
-			Crypto::CryptoAPI api(ContainerName);
+			Crypto::CryptoAPI api();
 
 			try
 			{
