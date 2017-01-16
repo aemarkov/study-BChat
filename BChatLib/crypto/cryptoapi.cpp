@@ -23,8 +23,8 @@ bool CryptoAPI::CreateSessionKey()
 	//Получаем провайдер
 	if (!CryptAcquireContextA(
 		&*_hCryptProv,
-		NULL,	//Имя контейнера
-		NULL,					//Не указываем провайдера?
+		"TestCertContainer",
+		NULL,
 		PROV_GOST_2012_256,
 		CRYPT_VERIFYCONTEXT
 	))
@@ -45,7 +45,7 @@ bool CryptoAPI::CreateSessionKey()
 		*/
 
 		//throw CryptoException(QString("Cryptographic context with container \"%1\" couldn't be accured").arg(containerName));
-		throw CryptoException("Cryptographic context with container \"%1\" couldn't be accured");
+		throw CryptoException(QString("Cryptographic context with container \"%1\" couldn't be accured").arg(""));
 	}
 
 	//Генерируем ключ
@@ -354,6 +354,31 @@ void CryptoAPI::CreateAgreeKey(std::string myCertSubjectString, std::string othe
 		throw CryptoException("Can't get own private key");
 	}
 
+	DWORD dwUserNameLen;
+	BYTE* name;
+
+	if (!CryptGetProvParam(
+		*hProv,
+		PP_CONTAINER,             // Получение имени ключевого контейнера
+		NULL,		          // Указатель на имя ключевого контейнера
+		&dwUserNameLen,           // Длина имени
+		0))
+	{
+		
+	}
+
+	name = new BYTE[dwUserNameLen];
+
+	if (!CryptGetProvParam(
+		*hProv,
+		PP_CONTAINER,             // Получение имени ключевого контейнера
+		name,		          // Указатель на имя ключевого контейнера
+		&dwUserNameLen,           // Длина имени
+		0))
+	{
+
+	}
+
 	//Получаем ключ согласования
 	if (!CryptImportKey(
 		*hProv,
@@ -363,8 +388,9 @@ void CryptoAPI::CreateAgreeKey(std::string myCertSubjectString, std::string othe
 		0,
 		hAgreeKey))
 	{
+		DWORD error = GetLastError();
 		delete[] pbKeyBlobResponder;
-		throw CryptoException("Can't get agree key");
+		throw CryptoException("Can't get agree key", error);
 	}
 
 
