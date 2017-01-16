@@ -82,108 +82,16 @@ bool CryptoAPI::CreateSessionKey()
 //соответствующего пользователя
 void CryptoAPI::ExportSessionKeyForUser(std::string myCertSubjectString, std::string responderCertSubjectString, uint8_t** publicKeyBlob, uint32_t* blobSize)
 {
-	HCRYPTPROV hProvSender;
-	HCRYPTPROV hProvResponder;
-
-	PCCERT_CONTEXT pCertSender;
-	PCCERT_CONTEXT pCertResponder;
-
-	
-	HCRYPTKEY hSenderKey;
-	HCRYPTKEY hResponderKey;
-	HCRYPTKEY hAgreeKey;
-
-	DWORD dwKeySpecSender;
-	DWORD dwKeySpecResponder;
-
-	DWORD dwBlobLenResponder;
-	BYTE* pbKeyBlobResponder;
-
-	DWORD dwBlobLenSender;
-	BYTE* pbKeyBlobSender;
-
 	DWORD dwBlobLenSimple;
 	BYTE* pbKeyBlobSimple;
+	HCRYPTKEY hAgreeKey;
+	HCRYPTPROV hProvSender;
+	
 
 	_sessionKeyMutex.lock();
 
-	//--------------------------------------------------------------------
-	//2. Получение контекста сертифика, в названии которого содержится "Sender", 
-	// находящегося в хранилище сертификатов "MY".
-
-	pCertSender = FindCertificate(CERT_PERSONAL_STORE, myCertSubjectString);
-	if (!pCertSender)
-	{
-	}
-
-	//--------------------------------------------------------------------
-	//3. Получение дескриптора CSP, включая доступ к связанному с ним ключевому
-	// контейнеру для контекста сертификата pCertSender.
-
-	if (!CryptAcquireCertificatePrivateKey(
-		pCertSender,
-		0,
-		NULL,
-		&hProvSender,
-		&dwKeySpecSender,
-		NULL))
-	{
-	}
-
-	//--------------------------------------------------------------------
-	//4. Поиск сертифика, в названии которого содержится "Responder", 
-	// находящегося в хранилище сертификатов "MY".
-
-	pCertResponder = FindCertificate(CERT_OTHERS_STORE, responderCertSubjectString);
-
-	if (!pCertResponder)
-	{
-	}
-
-	//--------------------------------------------------------------------
-	//5. Получение дескриптора открытого ключа получателя.
-
-	if (!CryptImportPublicKeyInfoEx(
-		hProvSender,
-		X509_ASN_ENCODING | PKCS_7_ASN_ENCODING,
-		&(pCertResponder->pCertInfo->SubjectPublicKeyInfo),
-		0,
-		0,
-		NULL,
-		&hResponderKey))
-	{
-	}
-
-	//--------------------------------------------------------------------
-	//7. Экспортирование открытого ключа получателя в BLOB открытого ключа.
-
-	if (!ExportKey(hResponderKey, 0, PUBLICKEYBLOB, &pbKeyBlobResponder, &dwBlobLenResponder))
-	{
-	}
-
-	//--------------------------------------------------------------------
-	//8. Получение дескриптора закрытого ключа отправителя.
-
-	if (!CryptGetUserKey(
-		hProvSender,
-		dwKeySpecSender,
-		&hSenderKey))
-	{
-	}
-
-	//--------------------------------------------------------------------
-	//9. Получение ключа согласования импортом открытого ключа получателя из BLOBа 
-	// на закрытом ключе отправителя.
-
-	if (CryptImportKey(
-		hProvSender,
-		pbKeyBlobResponder,
-		dwBlobLenResponder,
-		hSenderKey,
-		0,
-		&hAgreeKey))
-	{
-	}
+	//Получение ключа согласования
+	CreateAgreeKey(myCertSubjectString, responderCertSubjectString, &hProvSender, &hAgreeKey);
 
 	//--------------------------------------------------------------------
 	//12. Шифрование сессионного ключа на ключе Agree.
@@ -194,16 +102,8 @@ void CryptoAPI::ExportSessionKeyForUser(std::string myCertSubjectString, std::st
 	*publicKeyBlob = pbKeyBlobSimple;
 	*blobSize = dwBlobLenSimple;
 
-
-	CryptDestroyKey(hSenderKey);
-	CryptDestroyKey(hResponderKey);
-	CryptDestroyKey(hAgreeKey);
-
-	CertFreeCertificateContext(pCertSender);
-	CertFreeCertificateContext(pCertResponder);
-
-
 	CryptReleaseContext(hProvSender, 0);
+	CryptDestroyKey(hAgreeKey);
 
 	_sessionKeyMutex.unlock();	
 }
@@ -213,100 +113,17 @@ void CryptoAPI::ExportSessionKeyForUser(std::string myCertSubjectString, std::st
 void CryptoAPI::ImportSessionKey(uint8_t* key, uint32_t keySize, std::string myCertSubjectString, std::string senderCertSubjectString)
 {
 	HCRYPTPROV hProvResponder;
-
-	PCCERT_CONTEXT pCertSender;
-	PCCERT_CONTEXT pCertResponder;
-
-	HCRYPTKEY hSenderKey;
-	HCRYPTKEY hResponderKey;
-	HCRYPTKEY hAgreeKey;
-
-	DWORD dwKeySpecResponder;
-
-	DWORD dwBlobLenSender;
-	BYTE* pbKeyBlobSender;
-
 	DWORD dwBlobLenSimple = keySize;
 	BYTE* pbKeyBlobSimple = key;
+	HCRYPTKEY hAgreeKey;
+
+
 
 	_sessionKeyMutex.lock();
 
-	//--------------------------------------------------------------------
-	// Получение контекста сертифика, в названии которого содержится "Responder", 
-	// находящегося в хранилище сертификатов "MY".
-
-	pCertResponder = FindCertificate(CERT_PERSONAL_STORE, myCertSubjectString.c_str());
-	if (!pCertResponder)
-	{
-	}
-
-	//--------------------------------------------------------------------
-	// Получение дескриптора CSP, включая доступ к связанному с ним ключевому
-	// контейнеру для контекста сертификата pCertResponder.
-
-	if (!CryptAcquireCertificatePrivateKey(
-		pCertResponder,
-		0,
-		NULL,
-		&hProvResponder,
-		&dwKeySpecResponder,
-		NULL))
-	{
-	}
-
-	//--------------------------------------------------------------------
-	// Поиск сертифика, в названии которого содержится "Sender", 
-	// находящегося в хранилище сертификатов "MY".
-
-	pCertSender = FindCertificate(CERT_OTHERS_STORE, senderCertSubjectString.c_str());
-
-	if (!pCertSender)
-	{
-	}
-	//--------------------------------------------------------------------
-	// Получение дескриптора открытого ключа отправителя.
-
-	if (!CryptImportPublicKeyInfoEx(
-		hProvResponder,
-		X509_ASN_ENCODING | PKCS_7_ASN_ENCODING,
-		&(pCertSender->pCertInfo->SubjectPublicKeyInfo),
-		0,
-		0,
-		NULL,
-		&hSenderKey))
-	{
-	}
-
-	//--------------------------------------------------------------------
-	// Экспортирование открытого ключа отправителя в BLOB открытого ключа.
-
-	if(!ExportKey(hSenderKey,0,PUBLICKEYBLOB,&pbKeyBlobSender, &dwBlobLenSender))
-	{ }
-
-	//--------------------------------------------------------------------
-	// Получение дескриптора закрытого ключа получателя.
-
-	if (!CryptGetUserKey(
-		hProvResponder,
-		dwKeySpecResponder,
-		&hResponderKey))
-	{
-	}
-
-	//--------------------------------------------------------------------
-	// Получение ключа согласования импортом открытого ключа отправителя из BLOBа 
-	// на закрытом ключе получателя.
-
-	if (!CryptImportKey(
-		hProvResponder,
-		pbKeyBlobSender,
-		dwBlobLenSender,
-		hResponderKey,
-		0,
-		&hAgreeKey))
-	{
-	}
-
+	//Получение ключа согласования
+	CreateAgreeKey(myCertSubjectString, senderCertSubjectString, &hProvResponder, &hAgreeKey);
+	
 	// Получение сессионного ключа импортом зашифрованного сессионного ключа 
 	// на ключе Agree.
 
@@ -511,94 +328,108 @@ bool CryptoAPI::ExportKey(HCRYPTKEY keyToExport, HCRYPTKEY keyToEncode, DWORD bl
 void CryptoAPI::CreateAgreeKey(std::string myCertSubjectString, std::string otherCertSubjectString, HCRYPTPROV* hProv, HCRYPTKEY* hAgreeKey)
 {
 	
+	HCRYPTPROV hProvResponder;
+
+	PCCERT_CONTEXT pCertSender;
+	PCCERT_CONTEXT pCertResponder;
+
+
+	HCRYPTKEY hSenderKey;
+	HCRYPTKEY hResponderKey;
 
 	DWORD dwKeySpecSender;
+	DWORD dwKeySpecResponder;
 
-	//Получаем свой сертификт
-	PCCERT_CONTEXT_SimpleDeleter hMyCert;
+	DWORD dwBlobLenResponder;
+	BYTE* pbKeyBlobResponder;
 
-	*hMyCert = FindCertificate(CERT_PERSONAL_STORE, myCertSubjectString);
+	DWORD dwBlobLenSender;
+	BYTE* pbKeyBlobSender;
+	
 
-	// Получение дескриптора CSP, включая доступ к связанному с ним ключевому
+	//--------------------------------------------------------------------
+	//2. Получение контекста сертифика, в названии которого содержится "Sender", 
+	// находящегося в хранилище сертификатов "MY".
+
+	pCertSender = FindCertificate(CERT_PERSONAL_STORE, myCertSubjectString);
+	if (!pCertSender)
+	{
+	}
+
+	//--------------------------------------------------------------------
+	//3. Получение дескриптора CSP, включая доступ к связанному с ним ключевому
 	// контейнеру для контекста сертификата pCertSender.
+
 	if (!CryptAcquireCertificatePrivateKey(
-		*hMyCert,
+		pCertSender,
 		0,
 		NULL,
 		hProv,
 		&dwKeySpecSender,
-		NULL
-	))
+		NULL))
 	{
-		throw CryptoException("Can't accuire certificate private key");
 	}
 
-	//Ищем сертификат другой стороны (если мы передаем - получателя, если мы принимаем - отправителя)
-	PCCERT_CONTEXT_SimpleDeleter hResponderCert;
+	//--------------------------------------------------------------------
+	//4. Поиск сертифика, в названии которого содержится "Responder", 
+	// находящегося в хранилище сертификатов "MY".
 
-	*hResponderCert = FindCertificate(CERT_OTHERS_STORE, otherCertSubjectString);
+	pCertResponder = FindCertificate(CERT_OTHERS_STORE, otherCertSubjectString);
 
-	//Получаем публичный ключ другой стороны
-	HCRYPTKEY_SimpleDeleter hPublicKey;
+	if (!pCertResponder)
+	{
+	}
+
+	//--------------------------------------------------------------------
+	//5. Получение дескриптора открытого ключа получателя.
 
 	if (!CryptImportPublicKeyInfoEx(
 		*hProv,
-		_dwCertEncodingType,
-		&(*hResponderCert)->pCertInfo->SubjectPublicKeyInfo,
+		X509_ASN_ENCODING | PKCS_7_ASN_ENCODING,
+		&(pCertResponder->pCertInfo->SubjectPublicKeyInfo),
 		0,
 		0,
 		NULL,
-		&*hPublicKey))
+		&hResponderKey))
 	{
-		throw CryptoException("Can't import public key from certificate");
 	}
 
-	//Экспортируем публичный ключ другой стороны
-	DWORD dwPublicKeyBlobLen;
-	BYTE* publicKeyBlob;
+	//--------------------------------------------------------------------
+	//7. Экспортирование открытого ключа получателя в BLOB открытого ключа.
 
-	if (!ExportKey(
-		*hPublicKey,
-		NULL,
-		PUBLICKEYBLOB,
-		&publicKeyBlob,
-		&dwPublicKeyBlobLen
-	))
+	if (!ExportKey(hResponderKey, 0, PUBLICKEYBLOB, &pbKeyBlobResponder, &dwBlobLenResponder))
 	{
-		throw CryptoException("Can't export other's public key");
 	}
 
-
-
-	//Получение дескриптора своего закрытого ключа
-	HCRYPTKEY_SimpleDeleter hMyPrivateKey;
+	//--------------------------------------------------------------------
+	//8. Получение дескриптора закрытого ключа отправителя.
 
 	if (!CryptGetUserKey(
 		*hProv,
 		dwKeySpecSender,
-		&*hMyPrivateKey
-	))
+		&hSenderKey))
 	{
-		throw CryptoException("Can't get own private key");
 	}
 
+	//--------------------------------------------------------------------
+	//9. Получение ключа согласования импортом открытого ключа получателя из BLOBа 
+	// на закрытом ключе отправителя.
 
-
-	//Получаем ключ согласования
-	if (!CryptImportKey(
+	if (CryptImportKey(
 		*hProv,
-		publicKeyBlob,
-		dwPublicKeyBlobLen,
-		*hMyPrivateKey,
+		pbKeyBlobResponder,
+		dwBlobLenResponder,
+		hSenderKey,
 		0,
-		hAgreeKey
-	))
+		hAgreeKey))
 	{
-		delete[] publicKeyBlob;
-		throw CryptoException("Can't get agree key");
 	}
 
-	delete[] publicKeyBlob;
+	CryptDestroyKey(hSenderKey);
+	CryptDestroyKey(hResponderKey);
+
+	CertFreeCertificateContext(pCertSender);
+	CertFreeCertificateContext(pCertResponder);
 }
 
 
