@@ -19,7 +19,17 @@ CryptoAPI::~CryptoAPI()
 
 void Crypto::CryptoAPI::Init(std::string containerName)
 {
+	//Обнуляем параметры. Они должны быть одинаковые при шифровании и расшифровке
+	//Размер - BlockSizeBits/8. Для ГОСТ-8147 размер блока наверное 64 бит
+	memset(_keyParams, 0, 64 / 8);
+}
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+//Генерирует сессионный ключ
+bool CryptoAPI::CreateSessionKey()
+{	
 	//Получаем провайдер
 	if (!CryptAcquireContextA(
 		&*_hCryptProv,
@@ -48,32 +58,10 @@ void Crypto::CryptoAPI::Init(std::string containerName)
 		throw CryptoException("Cryptographic context with container \"%1\" couldn't be accured");
 	}
 
-	//Обнуляем параметры. Они должны быть одинаковые при шифровании и расшифровке
-	//Размер - BlockSizeBits/8. Для ГОСТ-8147 размер блока наверное 64 бит
-	memset(_keyParams, 0, 64 / 8);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-//Генерирует сессионный ключ
-bool CryptoAPI::CreateSessionKey()
-{	
-	/*HCRYPTPROV prov;
-
-	CryptAcquireContextA(
-		&prov,
-		NULL,	//Имя контейнера
-		NULL,					//Не указываем провайдера?
-		PROV_GOST_2012_256,
-		CRYPT_VERIFYCONTEXT
-	);*/
-
+	//Генерируем ключ
 	_sessionKeyMutex.lock();
 	bool result =  CryptGenKey(*_hCryptProv, CALG_G28147, CRYPT_EXPORTABLE, &*_hSessionKey);
 	_sessionKeyMutex.unlock();
-
-	//CryptReleaseContext(prov, 0);
 
 	return 0;
 }
@@ -82,26 +70,20 @@ bool CryptoAPI::CreateSessionKey()
 //соответствующего пользователя
 void CryptoAPI::ExportSessionKeyForUser(std::string myCertSubjectString, std::string responderCertSubjectString, uint8_t** publicKeyBlob, uint32_t* blobSize)
 {
-	//DWORD dwBlobLenSimple;
-	//BYTE* pbKeyBlobSimple;
-	HCRYPTKEY hAgreeKey;
-	HCRYPTPROV hProvSender;
+	HCRYPTKEY_SimpleDeleter hAgreeKey;
+	HCRYPTPROV_SimpleDeleter hProvSender;
 	
-
 	_sessionKeyMutex.lock();
 
 	//Получение ключа согласования
-	CreateAgreeKey(myCertSubjectString, responderCertSubjectString, &hProvSender, &hAgreeKey);
+	CreateAgreeKey(myCertSubjectString, responderCertSubjectString, &*hProvSender, &*hAgreeKey);
 
 	//Шифрование сессионного ключа на ключе Agree.
-	if (!ExportKey(*_hSessionKey, hAgreeKey, SIMPLEBLOB, publicKeyBlob, (DWORD*)blobSize))
+	if (!ExportKey(*_hSessionKey, *hAgreeKey, SIMPLEBLOB, publicKeyBlob, (DWORD*)blobSize))
 	{
 		DWORD error = GetLastError();
 		throw CryptoException("Can't export session key", error);
 	}
-
-	CryptReleaseContext(hProvSender, 0);
-	CryptDestroyKey(hAgreeKey);
 
 	_sessionKeyMutex.unlock();	
 }
@@ -110,23 +92,20 @@ void CryptoAPI::ExportSessionKeyForUser(std::string myCertSubjectString, std::st
 //(нашим) открытым ключом
 void CryptoAPI::ImportSessionKey(uint8_t* key, uint32_t keySize, std::string myCertSubjectString, std::string senderCertSubjectString)
 {
-	HCRYPTPROV hProvResponder;
-	HCRYPTKEY hAgreeKey;
-
-
+	HCRYPTKEY_SimpleDeleter hAgreeKey;
 
 	_sessionKeyMutex.lock();
 
 	//Получение ключа согласования
-	CreateAgreeKey(myCertSubjectString, senderCertSubjectString, &hProvResponder, &hAgreeKey);
+	CreateAgreeKey(myCertSubjectString, senderCertSubjectString, &*_hCryptProv, &*hAgreeKey);
 	
 	// Получение сессионного ключа импортом зашифрованного сессионного ключа 
 	// на ключе Agree.
 	if (!CryptImportKey(
-		hProvResponder,
+		*_hCryptProv,
 		key,
 		keySize,
-		hAgreeKey,
+		*hAgreeKey,
 		0,
 		&*_hSessionKey))
 	{
@@ -326,30 +305,25 @@ void CryptoAPI::CreateAgreeKey(std::string myCertSubjectString, std::string othe
 	
 	HCRYPTPROV hProvResponder;
 
-	PCCERT_CONTEXT pCertSender;
-	PCCERT_CONTEXT pCertResponder;
+	PCCERT_CONTEXT_SimpleDeleter pCertSender;
+	PCCERT_CONTEXT_SimpleDeleter pCertResponder;
 
-
-	HCRYPTKEY hSenderKey;
-	HCRYPTKEY hResponderKey;
+	HCRYPTKEY_SimpleDeleter hSenderKey;
+	HCRYPTKEY_SimpleDeleter hResponderKey;
 
 	DWORD dwKeySpecSender;
-	DWORD dwKeySpecResponder;
 
 	DWORD dwBlobLenResponder;
 	BYTE* pbKeyBlobResponder;
-
-	DWORD dwBlobLenSender;
-	BYTE* pbKeyBlobSender;
 	
 
 	//Получаем свой сертификт
-	pCertSender = FindCertificate(CERT_PERSONAL_STORE, myCertSubjectString);
+	*pCertSender = FindCertificate(CERT_PERSONAL_STORE, myCertSubjectString);
 
 	// Получение дескриптора CSP, включая доступ к связанному с ним ключевому
 	// контейнеру для контекста сертификата pCertSender.
 	if (!CryptAcquireCertificatePrivateKey(
-		pCertSender,
+		*pCertSender,
 		0,
 		NULL,
 		hProv,
@@ -360,23 +334,23 @@ void CryptoAPI::CreateAgreeKey(std::string myCertSubjectString, std::string othe
 	}
 
 	//Ищем сертификат другой стороны (если мы передаем - получателя, если мы принимаем - отправителя)
-	pCertResponder = FindCertificate(CERT_OTHERS_STORE, otherCertSubjectString);
+	*pCertResponder = FindCertificate(CERT_OTHERS_STORE, otherCertSubjectString);
 
 	//Получаем публичный ключ другой стороны
 	if (!CryptImportPublicKeyInfoEx(
 		*hProv,
 		X509_ASN_ENCODING | PKCS_7_ASN_ENCODING,
-		&(pCertResponder->pCertInfo->SubjectPublicKeyInfo),
+		&((*pCertResponder)->pCertInfo->SubjectPublicKeyInfo),
 		0,
 		0,
 		NULL,
-		&hResponderKey))
+		&*hResponderKey))
 	{
 		throw CryptoException("Can't import public key from certificate");
 	}
 
 	//Экспортируем публичный ключ другой стороны
-	if (!ExportKey(hResponderKey, 0, PUBLICKEYBLOB, &pbKeyBlobResponder, &dwBlobLenResponder))
+	if (!ExportKey(*hResponderKey, 0, PUBLICKEYBLOB, &pbKeyBlobResponder, &dwBlobLenResponder))
 	{
 		throw CryptoException("Can't export other's public key");
 	}
@@ -385,7 +359,7 @@ void CryptoAPI::CreateAgreeKey(std::string myCertSubjectString, std::string othe
 	if (!CryptGetUserKey(
 		*hProv,
 		dwKeySpecSender,
-		&hSenderKey))
+		&*hSenderKey))
 	{
 		throw CryptoException("Can't get own private key");
 	}
@@ -395,7 +369,7 @@ void CryptoAPI::CreateAgreeKey(std::string myCertSubjectString, std::string othe
 		*hProv,
 		pbKeyBlobResponder,
 		dwBlobLenResponder,
-		hSenderKey,
+		*hSenderKey,
 		0,
 		hAgreeKey))
 	{
@@ -403,11 +377,6 @@ void CryptoAPI::CreateAgreeKey(std::string myCertSubjectString, std::string othe
 		throw CryptoException("Can't get agree key");
 	}
 
-	CryptDestroyKey(hSenderKey);
-	CryptDestroyKey(hResponderKey);
-
-	CertFreeCertificateContext(pCertSender);
-	CertFreeCertificateContext(pCertResponder);
 
 	delete[] pbKeyBlobResponder;
 }
